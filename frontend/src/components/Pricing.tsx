@@ -38,7 +38,7 @@ export default function Pricing() {
         {/* Free plan */}
         <div className="rounded-2xl bg-white border border-neutral-200 p-8">
           <p className="font-heading text-[32px] uppercase">Free Plan</p>
-          <p className="text-[16px] leading-[24px] text-[#667085]">For getting every sale on record</p>
+          <p className="text-[14px] leading-[20px] text-[#667085]">For getting every sale on record</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦0<span className="text-[24px] text-[#667085]">/month</span>
           </p>
@@ -73,7 +73,7 @@ export default function Pricing() {
             Most owners pick this
           </span>
           <p className="font-heading text-[32px] uppercase">Business Plan</p>
-          <p className="text-[16px] leading-[24px]">For knowing exactly where you stand</p>
+          <p className="text-[14px] leading-[20px]">For knowing exactly where you stand</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             <span className="mr-2 text-[24px] text-white/40 line-through">₦5,000</span>
             ₦2,500<span className="text-[24px] text-white/80">/month</span>

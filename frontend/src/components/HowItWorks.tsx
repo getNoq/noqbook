@@ -11,6 +11,7 @@ const STEPS: Step[] = [
   { label: 'Share', icon: '/images/Share.svg' },
   { label: 'Reminder', icon: '/images/Reminder.svg' },
   { label: 'Report', icon: '/images/Report.svg' },
+  { label: 'Repeat', icon: '/images/Repeat.svg' },
 ]
 
 export default function HowItWorks() {
@@ -36,7 +37,7 @@ export default function HowItWorks() {
           in, what went out, and who still owes you.
         </p>
 
-        <div className="mt-14 grid grid-cols-3 gap-y-10 sm:grid-cols-5 sm:gap-y-0">
+        <div className="mt-14 grid grid-cols-3 gap-y-10 sm:grid-cols-6 sm:gap-y-0">
           {STEPS.map(({ label, icon }) => (
             <div key={label} className="flex flex-col items-center gap-3">
               <div className="flex h-14 w-14 items-center justify-center rounded-xl">

@@ -4,7 +4,7 @@ const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
 
 export default function Hero() {
   return (
-    <section id="home" className="px-5 pt-6 md:px-8">
+    <section id="home" className="px-5 pt-4 md:px-8">
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[24px] bg-neutral-900 text-white">
         {/* Background image — replace with your own asset later */}
         <div

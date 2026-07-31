@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-black/5 px-5 py-3 md:px-8">
+    <footer className="border-t border-black/5 px-5 py-5 md:px-8 md:py-3">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 sm:flex-row">
         <a href="#home" className="flex items-center gap-2 tracking-tight">
           <img src="/images/NOQ-ONE-LOGOMARK-B.png" alt="NOQ logomark" height={44} width={44} />

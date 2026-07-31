@@ -32,7 +32,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#get-started"
-            className="font-heading rounded-full bg-ink px-5 py-2 text-[20px] tracking-[5%] text-white transition-colors hover:bg-neutral-800"
+            className="font-heading rounded-full bg-ink px-6 py-3 text-[18px] tracking-[5%] text-white transition-colors hover:bg-neutral-800"
           >
             Get Started - Free
           </a>
@@ -60,7 +60,7 @@ export default function Navbar() {
           </ul>
           <a
             href="#get-started"
-            className="font-heading mt-5 block rounded-full bg-ink px-5 py-2 text-center text-[20px] text-white"
+            className="font-heading mt-5 block rounded-full bg-ink px-6 py-3 text-center text-[18px] tracking-[5%] text-white"
             onClick={() => setOpen(false)}
           >
             Get Started - Free

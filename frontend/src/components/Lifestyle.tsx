@@ -74,10 +74,10 @@ export default function Lifestyle() {
               <button
                 key={item.label}
                 onClick={() => setActive(index)}
-                className={`flex items-center gap-2 rounded-[16px] border px-6 py-4 text-[16px] font-medium transition-colors ${
+                className={`flex items-center gap-2 rounded-[16px] border px-4 py-3 md:px-6 md:py-4 text-[14px] md:text-[16px] font-medium transition-colors ${
                   isActive
                     ? 'border-ink bg-ink text-white'
-                    : 'border-neutral-300 text-neutral-700 hover:border-ink'
+                    : 'border-neutral-300 bg-white text-neutral-700 hover:border-ink'
                 }`}
               >
                 <Icon size={24} />
@@ -94,7 +94,7 @@ export default function Lifestyle() {
           alt={audience.headline}
           className="h-80 w-full object-cover md:h-[420px]"
         />
-        <div className="absolute bottom-6 right-6 max-w-xs rounded-[16px] bg-black/60 p-5 text-white backdrop-blur">
+        <div className="absolute bottom-6 right-4 md:right-6 max-w-xs rounded-[16px] bg-black/60 p-5 text-white backdrop-blur">
           <p className="text-[18px] font-semibold text-white">
             {audience.headline}
           </p>
