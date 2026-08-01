@@ -6,9 +6,9 @@ interface Step {
 }
 
 const STEPS: Step[] = [
-  { label: 'Log', icon: '/images/Log.svg' },
+  { label: 'Record', icon: '/images/Log.svg' },
   { label: 'Receipt', icon: '/images/Receipt.svg' },
-  { label: 'Share', icon: '/images/Share.svg' },
+  { label: 'Relay', icon: '/images/Share.svg' },
   { label: 'Reminder', icon: '/images/Reminder.svg' },
   { label: 'Report', icon: '/images/Report.svg' },
   { label: 'Repeat', icon: '/images/Repeat.svg' },

@@ -6,7 +6,7 @@ export default function FinalCta() {
           YOUR NOTEBOOK HAS SERVED YOU WELL.
           <div className="inline-block rounded-[12px] h-[50px] md:h-[80px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}> 
             <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
-              GIVE IT BACKUP.
+              GIVE IT A BACKUP.
             </span> 
           </div>
         </h1>

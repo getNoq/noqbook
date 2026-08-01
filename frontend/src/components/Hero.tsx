@@ -26,14 +26,14 @@ export default function Hero() {
             </div>
           </h1>
 
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-row items-center gap-4 sm:flex-row">
             <a
               href="#get-started"
-              className="font-heading rounded-full bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
+              className="font-heading rounded-full bg-yolk px-5 py-2 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
-              Log Your First Sale - Free
+             Get Started
             </a>
-            <button className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[20px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
+            <button className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
