@@ -16,7 +16,7 @@ const STEPS: Step[] = [
 
 export default function HowItWorks() {
   return (
-    <section className="px-5 py-20 md:px-8">
+    <section className="px-5 py-12 md:py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         {/* <h2 className="text-3xl font-black leading-tight md:text-4xl">
           YOU DON'T NEED A CALCULATOR.
