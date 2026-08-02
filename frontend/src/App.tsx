@@ -8,8 +8,10 @@ import DailyGlance from './components/DailyGlance'
 import Pricing from './components/Pricing'
 import FinalCta from './components/FinalCta'
 import Footer from './components/Footer'
+import GuestInvoiceFlow from './components/GuestInvoiceFlow'
+import { Route, Routes } from 'react-router-dom'
 
-function App() {
+function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -28,4 +30,11 @@ function App() {
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/start" element={<GuestInvoiceFlow />} />
+    </Routes>
+  )
+}
