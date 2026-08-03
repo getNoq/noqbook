@@ -18,11 +18,6 @@ export default function HowItWorks() {
   return (
     <section className="px-5 py-12 md:py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
-        {/* <h2 className="text-3xl font-black leading-tight md:text-4xl">
-          YOU DON'T NEED A CALCULATOR.
-          <br />
-          <span className="bg-yolk px-2">YOU NEED A RECORD.</span>
-        </h2> */}
         <h1 className="font-heading flex flex-col items-center max-w-3xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
           YOU DON'T NEED A CALCULATOR.
           <br />

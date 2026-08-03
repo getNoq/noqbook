@@ -26,23 +26,26 @@ export default function Hero() {
               </span>
             </div>
           </h1>
+          <p className="text-[18px] md:text-[18px] leading-[28px] md:leading-[28px] mx-auto mt-5 max-w-[678px] text-white">
+            Track every sale, expense, and payment in one place, so you always know where your money is.
+          </p>
 
-          <div className="mt-8 flex flex-row items-center gap-4 sm:flex-row">
+          <div className="mt-6 flex flex-row items-center gap-4 sm:flex-row">
             <Link
               to="/start"
               className="font-heading rounded-full bg-yolk px-5 py-2 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
              Log your first sale - free
             </Link>
-            <Link to="/start" className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
+            {/* <Link to="/start" className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
               Demo
-            </Link>
+            </Link> */}
           </div>
 
-          <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[16px] text-white">
+          {/* <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[16px] text-white">
             {CHECKS.map((item) => (
               <li key={item} className="flex items-center gap-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +55,7 @@ export default function Hero() {
                 {item}
               </li>
             ))}
-          </ul>
+          </ul> */}
 
           {/* Product/phone mock preview */}
           {/* <div className="mt-12 w-full max-w-sm rounded-2xl border border-white/10 bg-neutral-800/90 p-4 text-left shadow-2xl backdrop-blur">
@@ -88,7 +91,10 @@ export default function Hero() {
               <span className="rounded bg-green-500/20 px-2 py-0.5 text-xs text-green-300">100%</span>
             </div>
           </div> */}
-          <div className="mt-12">
+          <div className="mt-8 block md:hidden">
+            <img src="/images/hero-asset-12.svg" alt="" />
+          </div>
+          <div className="mt-12 hidden md:block">
             <img src="/images/hero-asset-1.svg" alt="" />
           </div>
         </div>
