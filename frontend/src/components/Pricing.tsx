@@ -14,6 +14,7 @@ const BUSINESS_FEATURES = [
   'Automatic payment reminders',
   'Customer history - who bought what, when',
   'Up to 3 individual users',
+  'AI insights and recommendations'
 ]
 
 export default function Pricing() {
@@ -59,12 +60,12 @@ export default function Pricing() {
             ))}
           </ul>
 
-          <a
+          {/* <a
             href="#get-started"
             className="mt-8 block rounded-full tracking-[2%] bg-ink px-5 py-3 text-center text-[20px] font-heading text-white transition-colors hover:bg-neutral-800"
           >
             It's Free - Get Started
-          </a>
+          </a> */}
         </div>
 
         {/* Business plan */}
@@ -95,12 +96,12 @@ export default function Pricing() {
             ))}
           </ul>
 
-          <a
+          {/* <a
             href="#get-started"
             className="mt-8 block rounded-full tracking-[2%] bg-yolk px-5 py-3 text-center text-[20px] font-heading text-ink transition-transform hover:scale-[1.02]"
           >
             Upgrade to Business Plan
-          </a>
+          </a> */}
         </div>
       </div>
     </section>

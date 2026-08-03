@@ -1,4 +1,5 @@
-import { Link, Play } from 'lucide-react'
+import { Play } from 'lucide-react'
+import { Link } from 'react-router-dom';
 
 const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
 
@@ -27,19 +28,18 @@ export default function Hero() {
           </h1>
 
           <div className="mt-8 flex flex-row items-center gap-4 sm:flex-row">
-            <a
-              href="/start"
+            <Link
+              to="/start"
               className="font-heading rounded-full bg-yolk px-5 py-2 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
-             Get Started
-            </a>
-            <Link to="/start">Log your first sale — free</Link>
-            <button className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
+             Log your first sale - free
+            </Link>
+            <Link to="/start" className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
               Demo
-            </button>
+            </Link>
           </div>
 
           <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[16px] text-white">

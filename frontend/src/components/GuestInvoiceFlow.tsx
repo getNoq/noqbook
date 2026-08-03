@@ -225,7 +225,7 @@ async function uploadInvoiceAndGetLink(invoice: Invoice): Promise<string> {
 
   await new Promise((r) => setTimeout(r, 700));
   const fakeId = invoice.businessName.slice(0, 3).toLowerCase() + Date.now().toString().slice(-5);
-  return `https://owobook.com/i/${fakeId}`;
+  return `https://noqbook.com/i/${fakeId}`;
 }
 
 // ---------- Component ----------
@@ -498,11 +498,44 @@ export default function GuestInvoiceFlow() {
             <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Items</label>
             <div className="flex flex-col gap-3 mb-3">
               {items.map((it) => (
-                <div key={it.id} className="flex gap-2 items-center">
-                  <input value={it.description} onChange={(e) => updateItem(it.id, "description", e.target.value)} placeholder="Item or service" className="flex-1 rounded-xl px-3 py-2.5 text-sm outline-none" style={inputStyle(false)} />
-                  <input type="number" min={1} value={it.qty} onChange={(e) => updateItem(it.id, "qty", Number(e.target.value))} className="w-16 rounded-xl px-2 py-2.5 text-sm outline-none text-center" style={inputStyle(false)} />
-                  <input type="number" min={0} value={it.unitPrice} onChange={(e) => updateItem(it.id, "unitPrice", Number(e.target.value))} placeholder="Price" className="w-28 rounded-xl px-3 py-2.5 text-sm outline-none" style={inputStyle(false)} />
-                  <button onClick={() => removeItem(it.id)} className="p-2 rounded-lg" style={{ color: BRAND.red }} aria-label="Remove item"><Trash2 size={16} /></button>
+                <div key={it.id} className="flex flex-wrap md:flex-nowrap gap-2 items-center w-full">
+                  {/* Description: Full width on mobile, flexible on desktop */}
+                  <input 
+                    value={it.description} 
+                    onChange={(e) => updateItem(it.id, "description", e.target.value)} 
+                    placeholder="Item or service" 
+                    className="w-full md:flex-1 rounded-xl px-3 py-2.5 text-sm outline-none" 
+                    style={inputStyle(false)} 
+                  />
+
+                  {/* Row 2 Container for Mobile: Holds Qty, Price, and Delete button */}
+                  <div className="flex flex-1 items-center gap-2 w-full md:w-auto">
+                    <input 
+                      type="number" 
+                      min={1} 
+                      value={it.qty} 
+                      onChange={(e) => updateItem(it.id, "qty", Number(e.target.value))} 
+                      className="w-16 rounded-xl px-2 py-2.5 text-sm outline-none text-center" 
+                      style={inputStyle(false)} 
+                    />
+                    <input 
+                      type="number" 
+                      min={0} 
+                      value={it.unitPrice} 
+                      onChange={(e) => updateItem(it.id, "unitPrice", Number(e.target.value))} 
+                      placeholder="Price" 
+                      className="flex-1 md:w-28 rounded-xl px-3 py-2.5 text-sm outline-none" 
+                      style={inputStyle(false)} 
+                    />
+                    <button 
+                      onClick={() => removeItem(it.id)} 
+                      className="p-2 rounded-lg shrink-0" 
+                      style={{ color: BRAND.red }} 
+                      aria-label="Remove item"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
