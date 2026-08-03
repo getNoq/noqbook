@@ -1,7 +1,7 @@
-import { Play } from 'lucide-react'
+// import { Play } from 'lucide-react'
 import { Link } from 'react-router-dom';
 
-const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
+// const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
 
 export default function Hero() {
   return (
