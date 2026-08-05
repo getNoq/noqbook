@@ -179,7 +179,7 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const width = 600;
   const padX = 56;
   const topPad = 60;
-  const bottomPad = 56;
+  // const bottomPad = 56;
 
   const businessNameH = 50;
   const gapNameToDate = 30;
@@ -225,7 +225,7 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const gapTotalToStamp = 44;
   const stampH = 40;
   const gapStampToFooter = 38;
-  const footerH = 22;
+  // const footerH = 22;
 
   const lineHeight = 30;
   const rowSpacing = 20;
