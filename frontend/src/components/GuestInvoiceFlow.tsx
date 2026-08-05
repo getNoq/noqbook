@@ -82,7 +82,13 @@ const emptyItem = (): InvoiceItem => ({
   unitPrice: 0,
 });
 
-const formatNaira = (n: number): string => "₦" + Number(n || 0).toLocaleString("en-NG");
+const formatNaira = (
+  n: number,
+  currency: "symbol" | "code" = "symbol"
+): string => {
+  const amount = Number(n || 0).toLocaleString("en-NG");
+  return currency === "code" ? `NGN ${amount}` : `₦${amount}`;
+};
 const docLabel = (status: InvoiceStatus): string => (status === "paid" ? "Receipt" : "Invoice");
 
 function loadInvoicesFromStorage(): Invoice[] {
@@ -124,10 +130,61 @@ function normalizeNGPhone(raw: string): PhoneCheck {
   };
 }
 
-/** Draws the receipt/invoice onto a canvas and returns a PNG Blob. No image library needed. */
 async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
-  const width = 640, lineHeight = 34, headerH = 150, footerH = 160;
-  const height = headerH + invoice.items.length * lineHeight + footerH;
+  // Custom web fonts aren't guaranteed to be ready just because they're linked
+  // in index.html -- canvas will silently fall back to a system font if the
+  // face hasn't finished loading. Explicitly wait for the exact families/weights
+  // used below before drawing anything.
+  try {
+    await Promise.all([
+      document.fonts.load('400 44px "Bebas Neue"'),
+      document.fonts.load('400 20px "Inter"'),
+      document.fonts.load('500 20px "Inter"'),
+      document.fonts.load('600 26px "Inter"'),
+      document.fonts.load('700 30px "Inter"'),
+    ]);
+  } catch {
+    // fonts failed to load (offline, not linked, etc.) -- proceed with
+    // whatever the browser falls back to rather than blocking the export
+  }
+
+  // ---- Layout constants: canvas height and the drawing cursor are both
+  // built from these same numbers, so they can never drift out of sync
+  // the way the old fixed-footerH guess did. ----
+  const width = 600;
+  const padX = 56;
+  const topPad = 60;
+  const bottomPad = 56;
+
+  const businessNameH = 50;
+  const gapNameToDate = 30;
+  const dateH = 22;
+  const gapDateToIntro = 24;
+  const introH = 24;
+  const gapIntroToDivider = 34;
+
+  const gapDividerToCustomer = 48;
+  const customerH = 30;
+  const gapCustomerToItems = 34;
+
+  const itemRowH = 56;
+  const itemsH = invoice.items.length * itemRowH;
+
+  const gapItemsToDivider2 = 24;
+  const gapDivider2ToTotal = 58;
+  const totalH = 44;
+  const gapTotalToStamp = 44;
+  const stampH = 40;
+  const gapStampToFooter = 38;
+  const footerH = 22;
+
+  const height =
+    topPad +
+    businessNameH + gapNameToDate + dateH + gapDateToIntro + introH + gapIntroToDivider +
+    gapDividerToCustomer + customerH + gapCustomerToItems +
+    itemsH +
+    gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH + gapStampToFooter + footerH +
+    bottomPad;
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -138,74 +195,95 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillStyle = "#FFFFFF";
   ctx.fillRect(0, 0, width, height);
 
+  let y = topPad;
+
+  // Business name -- Bebas Neue, a condensed display face designed for
+  // uppercase, so the source string is upper-cased for it to read correctly.
   ctx.fillStyle = BRAND.ink;
   ctx.textAlign = "center";
-  ctx.font = "600 26px Georgia, serif";
-  ctx.fillText(invoice.businessName, width / 2, 52);
+  ctx.font = '400 56px "Bebas Neue", Georgia, serif';
+  ctx.fillText(invoice.businessName.toUpperCase(), width / 2, y + businessNameH - 14);
+  y += businessNameH + gapNameToDate;
 
-  ctx.font = "500 13px Arial, sans-serif";
+  // New: a plain-language line explaining what this document is, worded
+  // from the doc's own status so it never says the wrong thing.
+  ctx.font = '400 24px "Inter", Arial, sans-serif';
+  ctx.fillStyle = "rgba(34,29,23,0.5)";
+  ctx.fillText(`Here's your ${docLabel(invoice.status).toLowerCase()} for this purchase`, width / 2, y);
+  y += introH + gapIntroToDivider;
+
+  ctx.font = '500 20px "Inter", Arial, sans-serif';
   ctx.fillStyle = "rgba(34,29,23,0.55)";
-  ctx.fillText(`${docLabel(invoice.status)} · ${invoice.createdAt}`, width / 2, 76);
+  ctx.fillText(`${docLabel(invoice.status)} · ${invoice.createdAt}`, width / 2, y);
+  y += dateH + gapDateToIntro;
 
   ctx.strokeStyle = "rgba(34,29,23,0.15)";
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
-  ctx.moveTo(40, headerH - 20);
-  ctx.lineTo(width - 40, headerH - 20);
+  ctx.moveTo(padX, y);
+  ctx.lineTo(width - padX, y);
   ctx.stroke();
   ctx.setLineDash([]);
+  y += gapDividerToCustomer;
 
   ctx.textAlign = "left";
-  ctx.font = "600 15px Arial, sans-serif";
+  ctx.font = '600 24px "Inter", Arial, sans-serif';
   ctx.fillStyle = BRAND.ink;
-  ctx.fillText(`Customer: ${invoice.customerName}`, 40, headerH + 10);
+  ctx.fillText(`Customer: ${invoice.customerName}`, padX, y);
+  y += customerH + gapCustomerToItems;
 
-  let y = headerH + 46;
-  ctx.font = "14px Arial, sans-serif";
+  ctx.font = '400 22px "Inter", Arial, sans-serif';
   invoice.items.forEach((it) => {
     ctx.textAlign = "left";
     ctx.fillStyle = BRAND.ink;
-    ctx.fillText(`${it.qty} × ${it.description}`, 40, y);
+    ctx.fillText(`${it.qty} × ${it.description}`, padX, y);
     ctx.textAlign = "right";
-    ctx.fillText(formatNaira(it.qty * it.unitPrice), width - 40, y);
-    y += lineHeight;
+    ctx.fillText(formatNaira(it.qty * it.unitPrice), width - padX, y);
+    y += itemRowH;
   });
+  y += gapItemsToDivider2;
 
   ctx.strokeStyle = "rgba(34,29,23,0.15)";
+  ctx.setLineDash([4, 4]);
   ctx.beginPath();
-  ctx.moveTo(40, y);
-  ctx.lineTo(width - 40, y);
+  ctx.moveTo(padX, y);
+  ctx.lineTo(width - padX, y);
   ctx.stroke();
-  y += 40;
+  ctx.setLineDash([]);
+  y += gapDivider2ToTotal;
 
   ctx.textAlign = "left";
-  ctx.font = "700 16px Arial, sans-serif";
-  ctx.fillText("Total", 40, y);
+  ctx.font = '400 44px "Bebas Neue", Arial, sans-serif';
+  ctx.fillStyle = BRAND.ink;
+  ctx.fillText("Total", padX, y);
   ctx.textAlign = "right";
-  ctx.font = "700 24px Georgia, serif";
-  ctx.fillText(formatNaira(invoice.total), width - 40, y);
+  ctx.font = '400 48px "Bebas Neue", Georgia, serif';
+  ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
+  y += totalH + gapTotalToStamp;
 
-  y += 44;
   const paid = invoice.status === "paid";
   ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
   const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "OUTSTANDING";
-  ctx.font = "700 12px Arial, sans-serif";
-  const stampWidth = ctx.measureText(stampText).width + 28;
+  ctx.font = '700 18px "Inter", Arial, sans-serif';
+  const stampWidth = ctx.measureText(stampText).width + 40;
   ctx.beginPath();
-  ctx.roundRect(width / 2 - stampWidth / 2, y - 18, stampWidth, 28, 14);
+  ctx.roundRect(width / 2 - stampWidth / 2, y - stampH / 2 - 4, stampWidth, stampH, stampH / 2);
   ctx.fill();
   ctx.fillStyle = paid ? BRAND.green : BRAND.red;
   ctx.textAlign = "center";
-  ctx.fillText(stampText, width / 2, y);
+  ctx.fillText(stampText, width / 2, y + 2);
+  y += stampH / 2 + gapStampToFooter;
 
   ctx.fillStyle = "rgba(34,29,23,0.4)";
-  ctx.font = "12px Arial, sans-serif";
-  ctx.fillText("Created with OwoBook", width / 2, height - 24);
+  ctx.font = '400 20px "Inter", Arial, sans-serif';
+  ctx.textAlign = "center";
+  ctx.fillText("Powered by Yousual", width / 2, y);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("toBlob failed"))), "image/png");
   });
 }
+
 
 /**
  * STUB — replace with a real call to your Django API, which should
@@ -306,13 +384,13 @@ export default function GuestInvoiceFlow() {
 
   const invoiceText = (inv: Invoice): string => {
     const lines = inv.items.map((it) => `• ${it.description} — ${formatNaira(it.qty * it.unitPrice)}`).join("\n");
-    return `${docLabel(inv.status)} from ${inv.businessName}\nCustomer: ${inv.customerName}\n\n${lines}\n\nTotal: ${formatNaira(inv.total)}\nStatus: ${inv.status === "paid" ? "PAID" : "OUTSTANDING"}\n\nCreated with OwoBook`;
+    return `${docLabel(inv.status)} from ${inv.businessName}\nCustomer: ${inv.customerName}\n\n${lines}\n\nTotal: ${formatNaira(inv.total)}\nStatus: ${inv.status === "paid" ? "PAID" : "OUTSTANDING"}\n\nCreated with Yousual (https://yousual.com)`;
   };
 
   const reminderText = (inv: Invoice): string =>
     `Hi ${inv.customerName}, just a friendly reminder — ${formatNaira(inv.total)} for ${inv.items
       .map((i) => i.description)
-      .join(", ")} is still outstanding. Thank you!\n\n— ${inv.businessName}, via OwoBook`;
+      .join(", ")} is still outstanding. Thank you!\n\n— ${inv.businessName}, via Yousual`;
 
   const openWhatsApp = (text: string, phone: string) => {
     const encoded = encodeURIComponent(text);

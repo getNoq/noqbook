@@ -2,19 +2,22 @@
 
 const FREE_FEATURES = [
   'Access to basic features',
-  'Unlimited invoices, receipts & sales logs',
+  'Unlimited invoices & receipts',
+  'Unlimited sales logs',
   'Paid & unpaid tracking',
-  'WhatsApp & image sharing',
-  'Chat support',
+  'WhatsApp & PDF/image sharing',
 ]
 
 const BUSINESS_FEATURES = [
-  'Daily & monthly money reports',
+  'Business reports - daily, weekly & monthly',
   'Expense tracking with receipt photos',
+  'Profit & cash flow dashboard',
   'Automatic payment reminders',
   'Customer history - who bought what, when',
-  'Up to 3 individual users',
-  'AI insights and recommendations'
+  'AI business insights',
+  'Up to 3 team members',
+  'Export to Excel/PDF',
+  'Custom business profile & branded invoice links',
 ]
 
 export default function Pricing() {
@@ -48,7 +51,7 @@ export default function Pricing() {
             Features
           </p>
           <p className="text-[14px] leading-[24px] text-[#667085]">Everything in our <strong>free plan</strong> includes...</p>
-          <ul className="mt-4 space-y-3 text-[16px] text-[#667085]">
+          <ul className="mt-4 space-y-2 text-[15px] text-[#667085]">
             {FREE_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +79,7 @@ export default function Pricing() {
           <p className="font-heading text-[32px] uppercase">Business Plan</p>
           <p className="text-[14px] leading-[20px]">For knowing exactly where you stand</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
-            <span className="mr-2 text-[24px] text-white/40 line-through">₦5,000</span>
+            {/* <span className="mr-2 text-[24px] text-white/40 line-through">₦5,000</span> */}
             ₦2,500<span className="text-[24px] text-white/80">/month</span>
           </p>
 
@@ -84,7 +87,7 @@ export default function Pricing() {
             Features
           </p>
           <p className="text-[14px] leading-[24px] text-white">Everything in our <strong>free plan</strong> plus...</p>
-          <ul className="mt-4 space-y-3 text-[16px]">
+          <ul className="mt-4 space-y-2 text-[15px]">
             {BUSINESS_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

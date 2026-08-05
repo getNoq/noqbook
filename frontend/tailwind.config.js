@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         ink: '#171717',
-        yolk: '#FFD900',
+        yolk: '#D7FF1A',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

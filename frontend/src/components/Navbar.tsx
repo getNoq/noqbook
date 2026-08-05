@@ -13,10 +13,10 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-black/5">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2 md:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 md:px-8">
         <a href="#home" className="flex items-center gap-2 tracking-tight">
-          <img src="/images/NOQ-ONE-LOGOMARK-B.png" alt="NOQ logomark" height={44} width={44} />
-          <span className="font-heading text-[44px]">NOQ</span>
+          <img src="/images/yousual-logomark.svg" alt="NOQ logomark" height={56} width={160} />
+          {/* <span className="font-heading text-[44px]">NOQ</span> */}
         </a>
 
         <ul className="hidden items-center gap-8 text-[16px] font-medium text-[#667085] md:flex">
@@ -32,7 +32,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#get-started"
-            className="font-heading rounded-full bg-ink px-6 py-3 text-[18px] tracking-[5%] text-white transition-colors hover:bg-neutral-800"
+            className="font-heading rounded-full bg-ink px-6 py-3 text-[16px] tracking-[10%] text-white transition-colors hover:bg-neutral-800"
           >
             Get Started - Free
           </a>
