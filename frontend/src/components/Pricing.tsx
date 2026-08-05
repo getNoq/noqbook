@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 
 const FREE_FEATURES = [
@@ -21,6 +22,9 @@ const BUSINESS_FEATURES = [
 ]
 
 export default function Pricing() {
+
+const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+
   return (
     <section id="pricing" className="bg-neutral-50 px-5 py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
@@ -41,7 +45,7 @@ export default function Pricing() {
       <div className="mx-auto mt-14 grid max-w-4xl gap-6 sm:grid-cols-2">
         {/* Free plan */}
         <div className="rounded-2xl bg-white border border-neutral-200 p-8">
-          <p className="font-heading text-[32px] uppercase">Free Plan</p>
+          <p className="font-heading text-[32px] uppercase">Free</p>
           <p className="text-[14px] leading-[20px] text-[#667085]">For getting every sale on record</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦0<span className="text-[24px] text-[#667085]">/month</span>
@@ -76,11 +80,44 @@ export default function Pricing() {
           <span className="absolute -top-3 right-8 rounded-[8px] bg-yolk px-3 py-1 text-[18px] font-heading uppercase tracking-wide text-ink">
             Most owners pick this
           </span>
-          <p className="font-heading text-[32px] uppercase">Business Plan</p>
-          <p className="text-[14px] leading-[20px]">For knowing exactly where you stand</p>
+          <div className="flex items-center gap-4">
+            <p className="font-heading text-[32px] uppercase">Business</p>
+
+            <div className="flex rounded-full bg-white/10 p-1">
+              <button
+                onClick={() => setBilling("monthly")}
+                className={`rounded-full px-4 py-1 text-sm font-medium transition ${
+                  billing === "monthly"
+                    ? "bg-yolk text-ink"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                Monthly
+              </button>
+
+              <button
+                onClick={() => setBilling("annual")}
+                className={`rounded-full px-4 py-1 text-sm font-medium transition ${
+                  billing === "annual"
+                    ? "bg-yolk text-ink"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                Annual
+              </button>
+            </div>
+          </div>
+          <p className="text-[14px] leading-[24px]">
+            Everything you need to know where your money is -{" "}
+            {billing === "monthly"
+              ? "for less than ₦85/day, billed monthly."
+              : "and save ₦5,000 every year."}
+          </p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
-            {/* <span className="mr-2 text-[24px] text-white/40 line-through">₦5,000</span> */}
-            ₦2,500<span className="text-[24px] text-white/80">/month</span>
+            ₦{billing === "monthly" ? "2,500" : "25,000"}
+            <span className="text-[24px] text-white/80">
+              /{billing === "monthly" ? "month" : "year"}
+            </span>
           </p>
 
           <p className="mt-3 text-[14px] leading-[24px] font-semibold uppercase text-white">
