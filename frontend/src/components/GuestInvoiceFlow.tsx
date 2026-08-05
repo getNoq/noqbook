@@ -130,6 +130,31 @@ function normalizeNGPhone(raw: string): PhoneCheck {
   };
 }
 
+function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number
+): string[] {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let line = "";
+
+  for (const word of words) {
+    const test = line ? `${line} ${word}` : word;
+
+    if (ctx.measureText(test).width <= maxWidth) {
+      line = test;
+    } else {
+      if (line) lines.push(line);
+      line = word;
+    }
+  }
+
+  if (line) lines.push(line);
+
+  return lines;
+}
+
 async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   // Custom web fonts aren't guaranteed to be ready just because they're linked
   // in index.html -- canvas will silently fall back to a system font if the
@@ -167,8 +192,32 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const customerH = 30;
   const gapCustomerToItems = 34;
 
+  const measureCanvas = document.createElement("canvas");
+  const measureCtx = measureCanvas.getContext("2d")!;
+  measureCtx.font = '400 22px "Inter", Arial, sans-serif';
+
+  const priceColumnWidth = 130;
+  const columnGap = 24; // gap between description and price
+
+  const descriptionWidth =
+    width - padX * 2 - priceColumnWidth - columnGap;
+
+  const wrappedItems = invoice.items.map((item) => ({
+    ...item,
+    lines: wrapText(
+      measureCtx,
+      `${item.qty} × ${item.description}`,
+      descriptionWidth
+    ),
+  }));
+
   const itemRowH = 56;
-  const itemsH = invoice.items.length * itemRowH;
+  // const itemsH = invoice.items.length * itemRowH;
+
+  const itemsH = wrappedItems.reduce(
+    (sum, item) => sum + item.lines.length * itemRowH,
+    0
+  );
 
   const gapItemsToDivider2 = 24;
   const gapDivider2ToTotal = 58;
@@ -178,13 +227,18 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const gapStampToFooter = 38;
   const footerH = 22;
 
+  const lineHeight = 30;
+  const rowSpacing = 20;
+
   const height =
     topPad +
     businessNameH + gapNameToDate + dateH + gapDateToIntro + introH + gapIntroToDivider +
     gapDividerToCustomer + customerH + gapCustomerToItems +
     itemsH +
-    gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH + gapStampToFooter + footerH +
-    bottomPad;
+    gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH + gapStampToFooter;
+
+    // gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH + gapStampToFooter + footerH +
+    // bottomPad;
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -233,14 +287,23 @@ async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   y += customerH + gapCustomerToItems;
 
   ctx.font = '400 22px "Inter", Arial, sans-serif';
-  invoice.items.forEach((it) => {
-    ctx.textAlign = "left";
-    ctx.fillStyle = BRAND.ink;
-    ctx.fillText(`${it.qty} × ${it.description}`, padX, y);
-    ctx.textAlign = "right";
-    ctx.fillText(formatNaira(it.qty * it.unitPrice), width - padX, y);
-    y += itemRowH;
-  });
+  wrappedItems.forEach((it) => {
+  ctx.textAlign = "left";
+  ctx.fillStyle = BRAND.ink;
+
+  it.lines.forEach((line, index) => {
+  ctx.fillText(line, padX, y + index * lineHeight);
+});
+
+ctx.textAlign = "right";
+ctx.fillText(
+  formatNaira(it.qty * it.unitPrice),
+  width - padX,
+  y
+);
+
+  y += it.lines.length * lineHeight + rowSpacing;
+});
   y += gapItemsToDivider2;
 
   ctx.strokeStyle = "rgba(34,29,23,0.15)";
@@ -494,7 +557,7 @@ export default function GuestInvoiceFlow() {
   const inputStyle = (invalid: boolean) => ({ border: `1px solid ${invalid ? BRAND.red : BRAND.line}` });
 
   return (
-    <div style={{ background: BRAND.bg, minHeight: "100%", fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+    <div style={{ background: BRAND.bg, minHeight: "100vh", fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
       {/* Remove this block once Fraunces + Inter are linked in index.html */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap');
@@ -646,13 +709,13 @@ export default function GuestInvoiceFlow() {
                   {activeInvoice.status === "paid" ? `Paid ${activeInvoice.paidDate}` : `Issued ${activeInvoice.createdAt}`}
                 </div>
               </div>
-              <div className="flex justify-between text-sm mb-4">
+              <div className="flex justify-between text-sm mb-4 gap-4">
                 <span style={{ color: BRAND.inkSoft }}>Customer</span>
                 <span className="font-semibold">{activeInvoice.customerName}</span>
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 {activeInvoice.items.map((it) => (
-                  <div key={it.id} className="flex justify-between text-sm">
+                  <div key={it.id} className="flex justify-between text-sm gap-4">
                     <span>{it.qty} × {it.description}</span>
                     <span>{formatNaira(it.qty * it.unitPrice)}</span>
                   </div>
