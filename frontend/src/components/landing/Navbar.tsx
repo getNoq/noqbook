@@ -31,7 +31,7 @@ export default function Navbar() {
 
         <div className="hidden md:block">
           <a
-            href="#get-started"
+            href="/signup"
             className="font-heading rounded-full bg-ink px-6 py-3 text-[16px] tracking-[10%] text-white transition-colors hover:bg-neutral-800"
           >
             Get Started - Free

@@ -8,6 +8,7 @@ import DailyGlance from '../components/landing/DailyGlance'
 import Pricing from '../components/landing/Pricing'
 import FinalCta from '../components/landing/FinalCta'
 import Footer from '../components/landing/Footer'
+import Faq from '../components/landing/Faq'
 
 export default function LandingPage() {
   return (
@@ -20,10 +21,12 @@ export default function LandingPage() {
         <LogShareKnow />
         <Lifestyle />
         <DailyGlance />
+        <Faq />
         <Pricing />
         <FinalCta />
       </main>
       <Footer />
+      {/* <WhatsAppWidget /> */}
     </div>
   )
 }

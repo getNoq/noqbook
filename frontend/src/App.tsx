@@ -9,6 +9,7 @@ import LoginPage from './pages/auth/LoginPage'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
+import WhatsAppWidget from './components/landing/WhatsAppWidget'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           }
         />
       </Routes>
+      <WhatsAppWidget />
     </AuthProvider>
   )
 }

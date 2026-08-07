@@ -13,15 +13,17 @@ const STATS: Stat[] = [
 export default function DailyGlance() {
   return (
     <section className="px-5 py-20 md:px-8">
-      <div className="mx-auto max-w-[768px] text-center">
-        <span className="font-heading mark inline-block text-[20px] uppercase leading-[24px] tracking-wide">
-          Your Day, At A Glance
-        </span>
-        <h2 className="mt-2 text-[28px] font-semibold leading-[36px] md:text-[36px] md:leading-[44px] tracking-[-2%]">
-          One screen. The whole story.
-        </h2>
-        <p className="mx-auto text-[18px] leading-[28px] mt-3 max-w-[678px] text-[#667085]">
-          Every sale, every expense, every naira owed - in one place, not five.
+      <div className="mx-auto max-w-4xl text-center">
+        <h1 className="font-heading flex flex-wrap flex-row items-center justify-center gap-2 max-w-5xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
+          One screen.
+          <div className="inline-block rounded-[12px] h-[50px] md:h-[80px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}> 
+            <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
+              The whole story.
+            </span> 
+          </div>
+        </h1>
+        <p className="mx-auto mt-3 max-w-[678px] text-[#667085] text-[18px] leading-[28px]">
+          Your Day, At A Glance. Every sale, every expense, every naira owed - in one place, not five.
         </p>
       </div>
 

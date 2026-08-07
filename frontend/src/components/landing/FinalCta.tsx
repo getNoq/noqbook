@@ -14,7 +14,7 @@ export default function FinalCta() {
           Log your first sale in the time it takes to make change for a customer.
         </p>
         <a
-          href="#get-started"
+          href="/start"
           className="font-heading mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
         >
           Log Your First Sale - Free
