@@ -55,7 +55,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
             Features
           </p>
           <p className="text-[14px] leading-[24px] text-[#667085]">Everything in our <strong>free plan</strong> includes...</p>
-          <ul className="mt-4 space-y-2 text-[15px] text-[#667085]">
+          <ul className="mt-4 space-y-3 text-[15px] text-[#667085]">
             {FREE_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +124,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
             Features
           </p>
           <p className="text-[14px] leading-[24px] text-white">Everything in our <strong>free plan</strong> plus...</p>
-          <ul className="mt-4 space-y-2 text-[15px]">
+          <ul className="mt-4 space-y-3 text-[15px]">
             {BUSINESS_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

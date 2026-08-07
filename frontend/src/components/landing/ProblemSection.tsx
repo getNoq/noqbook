@@ -8,17 +8,17 @@ const PAIN_POINTS: PainPoint[] = [
   {
     quote: 'Customer said he already paid',
     description: "Without a record, it's your word against theirs - every single time.",
-    image: '/images/vector-2.svg'
+    image: '/images/customer-experience.png'
   },
   {
     quote: "I made plenty sales but I'm still broke",
     description: "Revenue and profit aren't the same thing if you're not tracking what goes out too.",
-    image: '/images/vector-2.svg'
+    image: '/images/financial.png'
   },
   {
     quote: 'Where did all my money go?',
     description: 'Cash, transfer, POS - money moves through three channels and nobody is adding it up.',
-    image: '/images/vector-2.svg'
+    image: '/images/debt.png'
   },
 ]
 
