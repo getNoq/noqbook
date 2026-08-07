@@ -61,7 +61,7 @@ export function InvoiceForm({
         value={businessName}
         onChange={(e) => onBusinessNameChange(e.target.value)}
         placeholder="e.g. Adunni Fashion House"
-        className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none"
+        className="w-full rounded-xl px-4 py-3 mb-5 text-[16px] md:text-sm outline-none"
         style={inputStyle(false)}
       />
 
@@ -74,7 +74,7 @@ export function InvoiceForm({
             value={customerName}
             onChange={(e) => onCustomerNameChange(e.target.value)}
             placeholder="e.g. Chidinma"
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(false)}
           />
         </div>
@@ -87,7 +87,7 @@ export function InvoiceForm({
             onChange={(e) => onCustomerPhoneChange(e.target.value)}
             placeholder="0803 123 4567"
             maxLength={17}
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)}
           />
         </div>
@@ -110,7 +110,7 @@ export function InvoiceForm({
               value={it.description}
               onChange={(e) => onUpdateItem(it.id, "description", e.target.value)}
               placeholder="Item or service"
-              className="w-full md:flex-1 rounded-xl px-3 py-2.5 text-sm outline-none"
+              className="w-full md:flex-1 rounded-xl px-3 py-2.5 text-[16px] md:text-sm outline-none"
               style={inputStyle(false)}
             />
             <div className="flex flex-1 items-center gap-2 w-full md:w-auto">
@@ -120,7 +120,7 @@ export function InvoiceForm({
                 value={it.qty || ""}
                 placeholder="Qty"
                 onChange={(e) => onUpdateItem(it.id, "qty", e.target.value === "" ? "" : Number(e.target.value))}
-                className="w-16 rounded-xl px-2 py-2.5 text-sm outline-none text-center"
+                className="w-16 rounded-xl px-2 py-2.5 text-[16px] md:text-sm outline-none text-center"
                 style={inputStyle(false)}
                 required
               />
@@ -131,7 +131,7 @@ export function InvoiceForm({
                 value={it.unitPrice || ""}
                 placeholder="Price"
                 onChange={(e) => onUpdateItem(it.id, "unitPrice", e.target.value === "" ? "" : Number(e.target.value))}
-                className="flex-1 md:w-28 rounded-xl px-3 py-2.5 text-sm outline-none"
+                className="flex-1 md:w-28 rounded-xl px-3 py-2.5 text-[16px] md:text-sm outline-none"
                 style={inputStyle(false)}
                 required
               />
@@ -190,7 +190,7 @@ export function InvoiceForm({
           <div className="text-[18px] font-heading uppercase tracking-wide mb-1.5" style={{ color: BRAND.inkSoft }}>
             Notes (optional)
           </div>
-          <div className="text-sm italic mb-1.5" style={{ color: BRAND.inkSoft }}>
+          <div className="text-sm mb-1.5" style={{ color: BRAND.inkSoft }}>
             "{NOTE_DEFAULTS[status]}"
           </div>
           <div className="text-xs" style={{ color: BRAND.inkSoft }}>

@@ -205,7 +205,7 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
             value={businessName}
             onChange={(e) => setBusinessName(e.target.value)}
             placeholder="e.g. Adunni Fashion House"
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!businessNameError)}
           />
           {touched && <FieldError message={businessNameError} />}
@@ -218,7 +218,7 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@business.com"
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!emailError)}
           />
           {touched && <FieldError message={emailError} />}
@@ -231,7 +231,7 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
             onChange={(e) => setPhone(e.target.value)}
             placeholder="0803 123 4567"
             maxLength={17}
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!phoneError)}
           />
           {touched && <FieldError message={phoneError} />}
@@ -321,7 +321,7 @@ export function LoginForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@business.com"
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!emailError)}
           />
           {touched && <FieldError message={emailError} />}
@@ -418,7 +418,7 @@ export function ForgotPasswordForm({ onGoToLogin }: { onGoToLogin?: () => void }
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@business.com"
-            className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!emailError)}
           />
           {touched && <FieldError message={emailError} />}
