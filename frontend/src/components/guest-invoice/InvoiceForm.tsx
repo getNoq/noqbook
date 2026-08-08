@@ -84,9 +84,10 @@ export function InvoiceForm({
           </label>
           <input
             value={customerPhone}
-            onChange={(e) => onCustomerPhoneChange(e.target.value)}
+            onChange={(e) => onCustomerPhoneChange(e.target.value.replace(/\D/g, "").slice(0, 11))}
             placeholder="0803 123 4567"
-            maxLength={17}
+            inputMode="numeric"
+            maxLength={11}
             className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)}
           />
@@ -95,7 +96,7 @@ export function InvoiceForm({
       <div className="mb-2 min-h-[18px]">
         {!phoneCheck.empty && !phoneCheck.valid && (
           <div className="text-xs mt-1.5" style={{ color: BRAND.red }}>
-            Enter a valid Nigerian number, e.g. 0803 123 4567 or +234 803 123 4567.
+            Enter a valid Nigerian number, e.g. 0803 123 4567.
           </div>
         )}
       </div>

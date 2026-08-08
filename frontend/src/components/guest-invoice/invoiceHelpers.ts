@@ -30,7 +30,7 @@ export const invoiceText = (inv: Invoice): string => {
   const lines = inv.items
     .map((it) => `• ${it.description} — ${formatNaira(Number(it.qty) * Number(it.unitPrice))}`)
     .join("\n");
-  return `${docLabel(inv.status)} ${inv.invoiceNumber} from ${inv.businessName}\nCustomer: ${inv.customerName}\n\n${lines}\n\nTotal: ${formatNaira(inv.total)}\nStatus: ${inv.status === "paid" ? "PAID" : "OUTSTANDING"}\n\nCreated with Yousual (https://yousual.com)`;
+  return `${docLabel(inv.status)} ${inv.invoiceNumber} from ${inv.businessName}\nCustomer: ${inv.customerName}\n\n${lines}\n\nTotal: ${formatNaira(inv.total)}\nStatus: ${inv.status === "paid" ? "PAID" : "OUTSTANDING"}\n\nPowered by Yousual (https://yousual.ng)`;
 };
 
 export const reminderText = (inv: Invoice): string =>

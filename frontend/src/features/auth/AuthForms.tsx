@@ -228,9 +228,9 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
           <FieldLabel>Phone number</FieldLabel>
           <input
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
             placeholder="0803 123 4567"
-            maxLength={17}
+            maxLength={11}
             className="w-full rounded-xl px-4 py-3 text-[16px] md:text-sm outline-none"
             style={inputStyle(touched && !!phoneError)}
           />

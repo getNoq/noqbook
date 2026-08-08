@@ -30,16 +30,24 @@ interface PhoneCheck {
   local: string | null; // normalized "0XXXXXXXXXX"
 }
 
-/** Accepts 0803..., +234803..., or 234803... and normalizes to local format. */
+// Valid Nigerian mobile prefixes (2 digits, after stripping the leading 0).
+const VALID_PREFIX_PATTERN = /^(70|80|81|90|91)\d{8}$/;
+
+/**
+ * Accepts local Nigerian format only: 11 digits starting with 0, or
+ * 10 digits with no leading 0. Must start with 70, 80, 81, 90, or 91.
+ */
 export function normalizeNGPhone(raw: string): PhoneCheck {
-  const cleaned = (raw || "").trim().replace(/[^\d+]/g, "");
+  const digitsOnly = (raw || "").replace(/\D/g, "");
+
   let rest: string | null = null;
+  if (digitsOnly.length === 11 && digitsOnly.startsWith("0")) {
+    rest = digitsOnly.slice(1);
+  } else if (digitsOnly.length === 10 && !digitsOnly.startsWith("0")) {
+    rest = digitsOnly;
+  }
 
-  if (cleaned.startsWith("+234")) rest = cleaned.slice(4);
-  else if (cleaned.startsWith("234") && cleaned.length === 13) rest = cleaned.slice(3);
-  else if (cleaned.startsWith("0") && cleaned.length === 11) rest = cleaned.slice(1);
-
-  const ok = !!rest && /^[7-9]\d{9}$/.test(rest);
+  const ok = !!rest && VALID_PREFIX_PATTERN.test(rest);
   return { valid: ok, local: ok ? "0" + rest : null };
 }
 
