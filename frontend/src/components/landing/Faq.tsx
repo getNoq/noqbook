@@ -1,9 +1,19 @@
 import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, Minus, ArrowRight } from "lucide-react";
+
+interface FaqLink {
+  label: string;
+  href: string;
+}
 
 interface FaqItem {
   question: string;
-  answer: string;
+  // One or more paragraphs — rendered as separate <p> tags.
+  answer: string[];
+  // Optional — only add where there's a clear next step. Not every
+  // answer needs one; overusing this turns the FAQ into a CTA wall.
+  link?: FaqLink;
 }
 
 // TODO: once your paid plans are finalized, add FAQs here for billing,
@@ -12,33 +22,54 @@ interface FaqItem {
 const FAQS: FaqItem[] = [
   {
     question: "Do I need to create an account to send an invoice?",
-    answer:
-      "No. Guest mode lets you fill out and share an invoice or receipt right away, no sign-up required. Your last 3 invoices are saved on that device automatically — create a free account any time to keep unlimited history and access it from any device.",
+    answer: [
+      "No. You can create and share an invoice or receipt instantly in guest mode — no sign-up required. Your 3 most recent invoices are saved on your device.",
+      "Create a free account whenever you're ready to keep your full history and access it across devices.",
+    ],
+    link: { label: "Try it without an account", href: "/start" },
   },
   {
     question: "What happens when I reach the guest mode limit?",
-    answer:
-      "Guest mode keeps your 3 most recent invoices on your device. Once you hit that limit, creating a new one replaces the oldest — nothing is lost if you've already shared or downloaded it, but it won't be recoverable from the app.",
+    answer: [
+      "Guest mode keeps your 3 most recent invoices on your device. When you create a new invoice after reaching the limit, your oldest guest invoice is replaced.",
+      "Any invoice you've already downloaded or shared is still yours, but it can no longer be recovered from Yousual.",
+    ],
+    link: { label: "Create a free account to keep your full history.", href: "/signup" },
   },
   {
     question: "What do I get with a free account?",
-    answer:
-      "A free account removes the 3-invoice cap, backs up your invoice history across devices, and unlocks custom notes and brand colors on every invoice you send — plus automatic payment reminders for outstanding invoices.",
+    answer: [
+      "A free account lets you keep your invoices and receipts beyond the guest limit, access your records across devices, and personalize your invoices with custom notes and brand colors.",
+      "You can upgrade to the Business Plan whenever you need more advanced tools for managing your business.",
+    ],
   },
   {
-    question: "Can I add my own notes or brand color to invoices?",
-    answer:
-      "Yes, with a free account. Guests can preview what a custom note or brand color looks like, but adding your own is one of the things that comes with signing up.",
+    question: "How is Yousual different from my bank app?",
+    answer: [
+      "Your bank shows you money moving through your bank account. Yousual helps you keep track of your business.",
+      "Record invoices, receipts, cash sales, expenses, outstanding payments, and customer records — even when a transaction never goes through your bank account. Think of your bank as where your money moves and Yousual as where you keep track of the business behind it.",
+    ],
   },
   {
     question: "How do I share an invoice with my customer?",
-    answer:
-      "Share it straight to WhatsApp as an image or a link, download it as a PNG, or copy it as plain text — whichever is easiest for you and your customer.",
+    answer: [
+      "Once your invoice is ready, you can share it directly through WhatsApp, download it as an image, or use the available sharing options on your device.",
+      "Your customer doesn't need a Yousual account to receive or view an invoice.",
+    ],
   },
   {
-    question: "Do you support Nigerian phone numbers and Naira?",
-    answer:
-      "Yes. Customer phone numbers are validated as Nigerian numbers, and every invoice total is formatted in Naira automatically.",
+    question: "Can I customize my invoices?",
+    answer: [
+      "Yes. Free accounts can choose from preset brand colors and add custom notes to their invoices. Business customers get more advanced branding options, such as greater customization for their business identity.",
+      "Guests can preview the customization experience before signing up.",
+    ],
+    link: { label: "Create a free account to personalize your invoices.", href: "/signup" },
+  },
+  {
+    question: "Do you support Nigerian businesses?",
+    answer: [
+      "Yes. Yousual is built with Nigerian businesses in mind. Invoices use Naira (₦) formatting, Nigerian phone numbers are supported, and the platform is designed around the way many Nigerian businesses already sell, receive payments, and communicate with customers.",
+    ],
   },
 ];
 
@@ -79,9 +110,26 @@ export default function Faq() {
                 </span>
               </button>
               {isOpen && (
-                <p className="text-neutral-500 text-[16px] leading-relaxed pb-5 pr-10">
-                  {item.answer}
-                </p>
+                <div className="pb-5 pr-10">
+                  {item.answer.map((paragraph, pIndex) => (
+                    <p
+                      key={pIndex}
+                      className={`text-neutral-500 text-[16px] leading-relaxed ${
+                        pIndex < item.answer.length - 1 ? "mb-3" : ""
+                      }`}
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                  {item.link && (
+                    <Link
+                      to={item.link.href}
+                      className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-ink underline underline-offset-2 hover:opacity-70"
+                    >
+                      {item.link.label} <ArrowRight size={14} />
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
           );
@@ -96,8 +144,8 @@ export default function Faq() {
         <p className="text-neutral-500 text-sm">
           Can't find the answer you're looking for? Chat with our friendly team.
         </p>
-        <a
-          href="#get-started"
+        
+        <a href="#get-started"
           className="font-heading mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
         >
           Get in touch

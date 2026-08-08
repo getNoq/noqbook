@@ -23,7 +23,7 @@ const FEATURES: Feature[] = [
   {
     title: 'Know where you stand',
     description:
-      "Mark it paid when the money lands. NoqBook keeps the running total, so you always know your number.",
+      "Mark it paid when the money lands. Yousual keeps the running total, so you always know your number.",
     bg: 'bg-[#D8F2DD]',
     image: '/images/feature-three.svg',
   },
@@ -42,7 +42,7 @@ export default function LogShareKnow() {
           </div>
         </h1>
         <p className="mx-auto mt-3 max-w-[678px] text-[#667085] text-[18px] leading-[28px]">
-          If you can send a WhatsApp message, you already know how to use NoqBook.
+          If you can send a WhatsApp message, you already know how to use Yousual.
         </p>
       </div>
 

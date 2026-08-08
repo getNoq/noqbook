@@ -17,7 +17,7 @@ const AUDIENCES: Audience[] = [
     headline: 'Professionals',
     description: 'For people balancing classes, projects, and long study sessions.',
     image:
-      'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1200&auto=format&fit=crop',
+      '/images/3234.jpg',
   },
   {
     label: 'Students',
@@ -25,7 +25,7 @@ const AUDIENCES: Audience[] = [
     headline: 'Students',
     description: 'For students juggling side hustles between lectures and deadlines.',
     image:
-      'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop',
+      '/images/44802.jpg',
   },
   {
     label: 'Remote Workers',
@@ -33,7 +33,7 @@ const AUDIENCES: Audience[] = [
     headline: 'Remote Workers',
     description: 'For freelancers who need to know what they billed and what got paid.',
     image:
-      'https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1200&auto=format&fit=crop',
+      'images/1661.jpg',
   },
   {
     label: 'Busy Parents',
@@ -41,7 +41,7 @@ const AUDIENCES: Audience[] = [
     headline: 'Busy Parents',
     description: 'For parents running a side business around school runs and nap times.',
     image:
-      'https://images.unsplash.com/photo-1543342384-1f1350e27861?q=80&w=1200&auto=format&fit=crop',
+      '/images/2149160257.jpg',
   },
 ]
 

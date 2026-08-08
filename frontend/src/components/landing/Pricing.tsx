@@ -2,19 +2,19 @@ import { useState } from "react";
 
 
 const FREE_FEATURES = [
-  'Access to basic features',
   'Unlimited invoices & receipts',
   'Unlimited sales logs',
   'Paid & unpaid tracking',
   'WhatsApp & PDF/image sharing',
+  'Basic invoice customization',
 ]
 
 const BUSINESS_FEATURES = [
-  'Business reports - daily, weekly & monthly',
-  'Expense tracking with receipt photos',
   'Profit & cash flow dashboard',
+  'Business reports - daily, weekly & monthly',
   'Automatic payment reminders',
   'Customer history - who bought what, when',
+  'Expense tracking with receipt photos',
   'AI business insights',
   'Up to 3 team members',
   'Export to Excel/PDF',
@@ -46,7 +46,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
         {/* Free plan */}
         <div className="rounded-2xl bg-white border border-neutral-200 p-8">
           <p className="font-heading text-[32px] uppercase">Free</p>
-          <p className="text-[14px] leading-[20px] text-[#667085]">For getting every sale on record</p>
+          <p className="text-[14px] leading-[20px] text-[#667085]">Get your business records organized.</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦0<span className="text-[24px] text-[#667085]">/month</span>
           </p>
@@ -54,7 +54,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
           <p className="mt-3 text-[14px] leading-[24px] font-semibold uppercase text-[#101828]">
             Features
           </p>
-          <p className="text-[14px] leading-[24px] text-[#667085]">Everything in our <strong>free plan</strong> includes...</p>
+          <p className="text-[14px] leading-[24px] text-[#667085]">Essential tools to create and track your sales.</p>
           <ul className="mt-4 space-y-3 text-[15px] text-[#667085]">
             {FREE_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
@@ -108,7 +108,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
             </div>
           </div>
           <p className="text-[14px] leading-[24px]">
-            Everything you need to know where your money is -{" "}
+            Know exactly where your business stands -{" "}
             {billing === "monthly"
               ? "for less than ₦85/day, billed monthly."
               : "and save ₦5,000 every year."}
@@ -123,7 +123,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
           <p className="mt-3 text-[14px] leading-[24px] font-semibold uppercase text-white">
             Features
           </p>
-          <p className="text-[14px] leading-[24px] text-white">Everything in our <strong>free plan</strong> plus...</p>
+          <p className="text-[14px] leading-[24px] text-white">Everything in Free, plus tools to understand and manage your business.</p>
           <ul className="mt-4 space-y-3 text-[15px]">
             {BUSINESS_FEATURES.map((feature) => (
               <li key={feature} className="flex items-start gap-2">
