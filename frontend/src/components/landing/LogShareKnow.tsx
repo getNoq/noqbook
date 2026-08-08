@@ -11,21 +11,21 @@ const FEATURES: Feature[] = [
     description:
       "Type the item, the amount, and the customer's name. Under a minute, even on a bad network day.",
     bg: 'bg-[#B8CAF4]',
-    image: '/images/feature-image.svg',
+    image: '/images/feature-one.svg',
   },
   {
     title: 'Send the receipt',
     description:
       "One tap sends it straight to WhatsApp, or download it as an image to forward yourself.",
     bg: 'bg-sky-100',
-    image: '/images/feature-image-2.svg',
+    image: '/images/feature-two.svg',
   },
   {
     title: 'Know where you stand',
     description:
       "Mark it paid when the money lands. NoqBook keeps the running total, so you always know your number.",
     bg: 'bg-[#D8F2DD]',
-    image: '/images/feature-image-3.svg',
+    image: '/images/feature-three.svg',
   },
 ]
 
