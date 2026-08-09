@@ -1,18 +1,14 @@
 import { FileText, CheckCircle2, Clock } from "lucide-react";
 import { BRAND } from "../../lib/theme";
-import type { Invoice } from "../../lib/invoiceTypes";
+import type { InvoiceSummary } from "./invoicesApi";
 
 const formatNaira = (n: number): string => `₦${Number(n || 0).toLocaleString("en-NG")}`;
 
-export function OverviewCards({ invoices }: { invoices: Invoice[] }) {
-  const totalCount = invoices.length;
-  const totalReceived = invoices.filter((i) => i.status === "paid").reduce((sum, i) => sum + Number(i.total), 0);
-  const totalOutstanding = invoices.filter((i) => i.status === "due").reduce((sum, i) => sum + Number(i.total), 0);
-
+export function OverviewCards({ summary }: { summary: InvoiceSummary }) {
   const cards = [
-    { label: "Total invoices", value: String(totalCount), icon: FileText, tint: BRAND.lav },
-    { label: "Received", value: formatNaira(totalReceived), icon: CheckCircle2, tint: BRAND.mint },
-    { label: "Outstanding", value: formatNaira(totalOutstanding), icon: Clock, tint: BRAND.peach },
+    { label: "Total invoices", value: String(summary.totalCount), icon: FileText, tint: BRAND.lav },
+    { label: "Received", value: formatNaira(summary.totalReceived), icon: CheckCircle2, tint: BRAND.mint },
+    { label: "Outstanding", value: formatNaira(summary.totalOutstanding), icon: Clock, tint: BRAND.peach },
   ];
 
   return (

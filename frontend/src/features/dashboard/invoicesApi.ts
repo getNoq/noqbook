@@ -6,9 +6,28 @@ function authHeaders(accessToken: string) {
   return { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" };
 }
 
-export async function fetchInvoices(accessToken: string): Promise<Invoice[]> {
-  const res = await fetch(`${API_BASE}/`, { headers: authHeaders(accessToken) });
+export interface PaginatedInvoices {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Invoice[];
+}
+
+export async function fetchInvoices(accessToken: string, page: number = 1): Promise<PaginatedInvoices> {
+  const res = await fetch(`${API_BASE}/?page=${page}`, { headers: authHeaders(accessToken) });
   if (!res.ok) throw new Error("Couldn't load your invoices. Try again.");
+  return res.json();
+}
+
+export interface InvoiceSummary {
+  totalCount: number;
+  totalReceived: number;
+  totalOutstanding: number;
+}
+
+export async function fetchInvoiceSummary(accessToken: string): Promise<InvoiceSummary> {
+  const res = await fetch(`${API_BASE}/summary/`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load your summary.");
   return res.json();
 }
 
@@ -19,5 +38,25 @@ export async function markInvoicePaid(accessToken: string, invoiceId: string, pa
     body: JSON.stringify({ paidDate }),
   });
   if (!res.ok) throw new Error("Couldn't mark this as paid. Try again.");
+  return res.json();
+}
+
+export interface CreateInvoicePayload {
+  customerName: string;
+  customerPhone?: string;
+  items: { description: string; qty: number; unitPrice: number }[];
+  status: "paid" | "due";
+}
+
+export async function createInvoice(accessToken: string, payload: CreateInvoicePayload): Promise<Invoice> {
+  const res = await fetch(`${API_BASE}/`, {
+    method: "POST",
+    headers: authHeaders(accessToken),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't create the invoice. Try again.");
+  }
   return res.json();
 }

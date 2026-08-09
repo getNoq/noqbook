@@ -1,11 +1,16 @@
+import { useState } from "react";
+import { Plus } from "lucide-react";
 import { BRAND, FONT_IMPORT_BLOCK } from "../../lib/theme";
 import type { Invoice } from "../../lib/invoiceTypes";
 import { reminderText, shareCaption, openWhatsApp, docLabel } from "../../lib/invoiceHelpers";
 import { renderInvoiceImage } from "../../lib/invoiceImage";
 import { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
+import { useAuth } from "../auth/AuthContext";
 import { Sidebar } from "./Sidebar";
 import { OverviewCards } from "./OverviewCards";
 import { InvoicesTable } from "./InvoicesTable";
+import { Pagination } from "./Pagination";
+import { CreateInvoiceModal } from "./CreateInvoiceModal";
 import { useDashboardInvoices } from "./useDashboardInvoices";
 
 async function shareInvoiceAsImage(invoice: Invoice) {
@@ -24,13 +29,15 @@ async function shareInvoiceAsImage(invoice: Invoice) {
   }
 }
 
-async function shareInvoiceLink(invoice: Invoice) {
-  const link = await uploadInvoiceAndGetLink(invoice);
-  openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
-}
-
 export function Dashboard() {
-  const { invoices, isLoading, error, markAsPaid } = useDashboardInvoices();
+  const { accessToken } = useAuth();
+  const { invoices, summary, isLoading, error, markAsPaid, createInvoice, page, totalPages, goToPage } = useDashboardInvoices();
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const shareInvoiceLink = async (invoice: Invoice) => {
+    const link = await uploadInvoiceAndGetLink(invoice, accessToken);
+    openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
+  };
 
   return (
     <div className="min-h-screen flex" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
@@ -38,31 +45,49 @@ export function Dashboard() {
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">
-        <h1 className="font-heading text-2xl md:text-3xl mb-1">Overview</h1>
-        <p className="text-sm mb-6" style={{ color: BRAND.inkSoft }}>Your invoices and receipts, all in one place.</p>
-
-        {error && (
-          <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>
-            {error}
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-2xl md:text-3xl">Overview</h1>
+            <p className="text-sm" style={{ color: BRAND.inkSoft }}>Your invoices and receipts, all in one place.</p>
           </div>
-        )}
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold shrink-0"
+            style={{ background: BRAND.ink, color: BRAND.bg }}
+          >
+            <Plus size={16} /> <span className="hidden sm:inline">New invoice</span>
+          </button>
+        </div>
 
-        <OverviewCards invoices={invoices} />
+        <div className="mt-6">
+          {error && (
+            <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>
+              {error}
+            </div>
+          )}
 
-        {isLoading ? (
-          <div className="rounded-2xl p-10 text-center text-sm" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}`, color: BRAND.inkSoft }}>
-            Loading your invoices…
-          </div>
-        ) : (
-          <InvoicesTable
-            invoices={invoices}
-            onMarkAsPaid={(inv) => markAsPaid(inv.id)}
-            onSendReminder={(inv) => openWhatsApp(reminderText(inv), inv.customerPhone)}
-            onShareAsImage={shareInvoiceAsImage}
-            onShareLink={shareInvoiceLink}
-          />
-        )}
+          <OverviewCards summary={summary} />
+
+          {isLoading ? (
+            <div className="rounded-2xl p-10 text-center text-sm" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}`, color: BRAND.inkSoft }}>
+              Loading your invoices…
+            </div>
+          ) : (
+            <>
+              <InvoicesTable
+                invoices={invoices}
+                onMarkAsPaid={(inv) => markAsPaid(inv.id)}
+                onSendReminder={(inv) => openWhatsApp(reminderText(inv), inv.customerPhone)}
+                onShareAsImage={shareInvoiceAsImage}
+                onShareLink={shareInvoiceLink}
+              />
+              <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
+            </>
+          )}
+        </div>
       </main>
+
+      {showCreateModal && <CreateInvoiceModal onClose={() => setShowCreateModal(false)} onCreate={createInvoice} />}
     </div>
   );
 }
