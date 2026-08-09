@@ -2,11 +2,6 @@ import type { Invoice } from "./invoiceTypes";
 
 const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/invoices`;
 
-/**
- * Creates a public, shareable snapshot of this invoice on the backend
- * and returns its hosted URL. Works with or without auth — guest mode
- * calls this with no access token at all.
- */
 export async function uploadInvoiceAndGetLink(invoice: Invoice, accessToken?: string | null): Promise<string> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
@@ -23,6 +18,8 @@ export async function uploadInvoiceAndGetLink(invoice: Invoice, accessToken?: st
       status: invoice.status,
       createdAt: invoice.createdAt,
       paidDate: invoice.paidDate,
+      note: invoice.note || "",
+      brandColor: invoice.brandColor || "",
     }),
   });
 

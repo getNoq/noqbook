@@ -84,7 +84,7 @@ export function DashboardInvoiceReceipt({ invoice, onMarkAsPaid, onDone }: Dashb
           <span className="font-semibold">Total</span>
           <span className="font-heading text-[32px]" style={{ color: invoice.brandColor || BRAND.ink }}>{formatNaira(invoice.total, "code")}</span>
         </div>
-        {invoice.note && <div className="text-xs italic mt-3 text-center" style={{ color: BRAND.inkSoft }}>{invoice.note}</div>}
+        {invoice.note && <div className="text-sm mt-3 text-center" style={{ color: BRAND.inkSoft }}>{invoice.note}</div>}
         <div className="mt-4 flex justify-center">
           <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: invoice.status === "paid" ? BRAND.mint : BRAND.peach, color: invoice.status === "paid" ? BRAND.green : BRAND.red }}>
             {invoice.status === "paid" ? "PAID" : "OUTSTANDING"}

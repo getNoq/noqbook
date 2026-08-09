@@ -24,7 +24,9 @@ export const shareCaption = (inv: Invoice, link?: string): string => {
   const base =
     inv.status === "paid"
       ? `Thanks for your payment! Here's your receipt from ${inv.businessName}.`
-      : `Hi ${inv.customerName}, here's your invoice from ${inv.businessName}. You can view or download it using the link below.`;
+//       : `Hi ${inv.customerName}, here's your invoice from ${inv.businessName}. You can view or download it using the link below.`;
+//   return link ? `${base}\n${link}` : base;
+      : `Hi ${inv.customerName}, here's your invoice from ${inv.businessName}.`;
   return link ? `${base}\n${link}` : base;
 };
 
