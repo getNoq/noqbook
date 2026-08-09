@@ -32,6 +32,12 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     // fonts failed to load — proceed with whatever the browser falls back to
   }
 
+  // Same accent color the on-screen receipt uses — falls back to the
+  // default ink color when no brand color was set (guest invoices, or
+  // an account invoice created before this field existed).
+  const accentColor = invoice.brandColor || BRAND.ink;
+  const hasNote = !!invoice.note && invoice.note.trim().length > 0;
+
   const width = 600;
   const padX = 56;
   const topPad = 60;
@@ -67,7 +73,16 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const totalH = 44;
   const gapTotalToStamp = 44;
   const stampH = 40;
-  const gapStampToFooter = 38;
+
+  // Note block, only reserved when there's actually a note to draw.
+  const gapStampToNote = hasNote ? 28 : 0;
+  const noteMaxWidth = width - padX * 2;
+  measureCtx.font = 'italic 400 18px "Inter", Arial, sans-serif';
+  const noteLines = hasNote ? wrapText(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
+  const noteLineHeight = 24;
+  const noteH = noteLines.length * noteLineHeight;
+
+  const gapStampOrNoteToFooter = 38;
   const footerH = 22;
   const bottomPad = 56;
 
@@ -76,7 +91,9 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     businessNameH + gapNameToDate + dateH + gapDateToIntro + introH + gapIntroToDivider +
     gapDividerToCustomer + customerH + gapCustomerToItems +
     itemsH +
-    gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH + gapStampToFooter + footerH +
+    gapItemsToDivider2 + gapDivider2ToTotal + totalH + gapTotalToStamp + stampH +
+    gapStampToNote + noteH +
+    gapStampOrNoteToFooter + footerH +
     bottomPad;
 
   const canvas = document.createElement("canvas");
@@ -90,7 +107,9 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
 
   let y = topPad;
 
-  ctx.fillStyle = BRAND.ink;
+  // Business name — now uses the invoice's accent color instead of a
+  // hardcoded BRAND.ink, matching the on-screen receipt.
+  ctx.fillStyle = accentColor;
   ctx.textAlign = "center";
   ctx.font = '400 56px "Bebas Neue", Georgia, serif';
   ctx.fillText(invoice.businessName.toUpperCase(), width / 2, y + businessNameH - 14);
@@ -145,10 +164,11 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
 
   ctx.textAlign = "left";
   ctx.font = '400 44px "Bebas Neue", Arial, sans-serif';
-  ctx.fillStyle = BRAND.ink;
+  ctx.fillStyle = accentColor;
   ctx.fillText("Total", padX, y);
   ctx.textAlign = "right";
   ctx.font = '400 48px "Bebas Neue", Georgia, serif';
+  // Total amount — same accentColor swap as the business name above.
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
   y += totalH + gapTotalToStamp;
 
@@ -163,7 +183,22 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillStyle = paid ? BRAND.green : BRAND.red;
   ctx.textAlign = "center";
   ctx.fillText(stampText, width / 2, y + 2);
-  y += stampH / 2 + gapStampToFooter;
+  y += stampH / 2;
+
+  // Note — italic, centered, wrapped, drawn only when present. Sits
+  // between the paid/outstanding stamp and the "Powered by" footer.
+  if (hasNote) {
+    y += gapStampToNote;
+    ctx.font = 'italic 400 18px "Inter", Arial, sans-serif';
+    ctx.fillStyle = "rgba(34,29,23,0.55)";
+    ctx.textAlign = "center";
+    noteLines.forEach((line, index) => {
+      ctx.fillText(line, width / 2, y + index * noteLineHeight);
+    });
+    y += noteH;
+  }
+
+  y += gapStampOrNoteToFooter;
 
   ctx.fillStyle = "rgba(34,29,23,0.4)";
   ctx.font = '400 20px "Inter", Arial, sans-serif';
