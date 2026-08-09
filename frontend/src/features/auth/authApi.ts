@@ -14,7 +14,7 @@ import { AuthTokens, AuthUser } from "./types";
  * actually returns — e.g. if your serializer returns { access, refresh }
  * flat at the top level instead of nested under "tokens".
  */
-const API_BASE = "/api/auth";
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export class ApiError extends Error {
   fieldErrors?: Record<string, string>;

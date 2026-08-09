@@ -9,7 +9,8 @@ export const MARKETING_SITE_URL = "/";
 // backup stays a genuine paid/free-account benefit. Raise this if you want
 // guest mode to feel more generous, but keep some cap.
 export const MAX_GUEST_HISTORY = 3;
-export const STORAGE_KEY = "owobook_guest_invoices";
+// export const STORAGE_KEY = "owobook_guest_invoices";
+export { GUEST_INVOICE_STORAGE_KEY as STORAGE_KEY } from "../../lib/guestInvoiceStorage";
 export const INVOICE_COUNTER_KEY = "owobook_invoice_counter";
 
 // Free accounts get to pick from these; guests only get to look. Values

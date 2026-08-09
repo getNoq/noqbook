@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { AuthTokens, AuthUser } from "./types";
 import * as api from "./authApi";
+import { migrateGuestInvoicesToAccount } from "../../lib/guestMigration";
 
 const TOKENS_STORAGE_KEY = "yousual_auth_tokens";
 
@@ -13,6 +14,7 @@ interface AuthContextValue {
   logIn: (payload: { email: string; password: string }) => Promise<void>;
   logOut: () => void;
   clearError: () => void;
+  accessToken: string | null;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -75,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(newUser);
       setTokens(newTokens);
       saveTokens(newTokens);
+      void migrateGuestInvoicesToAccount(newTokens.access);
     } catch (err) {
       setError(err instanceof api.ApiError ? err.message : "Couldn't create your account. Try again.");
       throw err;
@@ -88,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(loggedInUser);
       setTokens(newTokens);
       saveTokens(newTokens);
+      void migrateGuestInvoicesToAccount(newTokens.access);
     } catch (err) {
       setError(
         err instanceof api.ApiError ? err.message : "Couldn't log you in. Check your details and try again."
@@ -105,8 +109,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const clearError = () => setError(null);
 
   const value = useMemo(
-    () => ({ user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError }),
-    [user, isLoading, error]
+    () => ({ user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError, accessToken: tokens?.access ?? null }),
+    [user, isLoading, error, tokens]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
