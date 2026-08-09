@@ -12,3 +12,12 @@
 // }
 
 export { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
+
+export interface CreateInvoicePayload {
+  customerName: string;
+  customerPhone?: string;
+  items: { description: string; qty: number; unitPrice: number }[];
+  status: "paid" | "due";
+  note?: string;
+  brandColor?: string;
+}

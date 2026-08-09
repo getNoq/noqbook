@@ -10,7 +10,8 @@ import { Sidebar } from "./Sidebar";
 import { OverviewCards } from "./OverviewCards";
 import { InvoicesTable } from "./InvoicesTable";
 import { Pagination } from "./Pagination";
-import { CreateInvoiceModal } from "./CreateInvoiceModal";
+import { DashboardInvoiceForm } from "./DashboardInvoiceForm";
+import { DashboardInvoiceReceipt } from "./DashboardInvoiceReceipt";
 import { useDashboardInvoices } from "./useDashboardInvoices";
 
 async function shareInvoiceAsImage(invoice: Invoice) {
@@ -29,18 +30,60 @@ async function shareInvoiceAsImage(invoice: Invoice) {
   }
 }
 
+type View = "overview" | "create" | "receipt";
+
 export function Dashboard() {
   const { accessToken } = useAuth();
   const { invoices, summary, isLoading, error, markAsPaid, createInvoice, page, totalPages, goToPage } = useDashboardInvoices();
-  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const [view, setView] = useState<View>("overview");
+  const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
 
   const shareInvoiceLink = async (invoice: Invoice) => {
     const link = await uploadInvoiceAndGetLink(invoice, accessToken);
     openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
   };
 
+  if (view === "create") {
+    return (
+      <div className="min-h-screen flex flex-col md:flex-row" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+        <style>{FONT_IMPORT_BLOCK}</style>
+        <Sidebar />
+        <main className="flex-1 min-w-0">
+          <DashboardInvoiceForm
+            onCancel={() => setView("overview")}
+            onGenerate={async (payload) => {
+              const created = await createInvoice(payload);
+              setActiveInvoice(created);
+              setView("receipt");
+            }}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  if (view === "receipt" && activeInvoice) {
+    return (
+      <div className="min-h-screen flex flex-col md:flex-row" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+        <style>{FONT_IMPORT_BLOCK}</style>
+        <Sidebar />
+        <main className="flex-1 min-w-0">
+          <DashboardInvoiceReceipt
+            invoice={activeInvoice}
+            onMarkAsPaid={async () => {
+              await markAsPaid(activeInvoice.id);
+              setActiveInvoice({ ...activeInvoice, status: "paid" });
+            }}
+            onDone={() => setView("overview")}
+          />
+        </main>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+    <div className="min-h-screen flex flex-col md:flex-row" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
       <style>{FONT_IMPORT_BLOCK}</style>
       <Sidebar />
 
@@ -51,7 +94,7 @@ export function Dashboard() {
             <p className="text-sm" style={{ color: BRAND.inkSoft }}>Your invoices and receipts, all in one place.</p>
           </div>
           <button
-            onClick={() => setShowCreateModal(true)}
+            onClick={() => setView("create")}
             className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold shrink-0"
             style={{ background: BRAND.ink, color: BRAND.bg }}
           >
@@ -86,8 +129,6 @@ export function Dashboard() {
           )}
         </div>
       </main>
-
-      {showCreateModal && <CreateInvoiceModal onClose={() => setShowCreateModal(false)} onCreate={createInvoice} />}
     </div>
   );
 }

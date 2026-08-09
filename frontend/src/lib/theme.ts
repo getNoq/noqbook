@@ -13,3 +13,11 @@ export const FONT_IMPORT_BLOCK = `
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
   .ob-serif{ font-family:'Fraunces',serif; }
 `;
+
+export const PRESET_COLORS: { name: string; value: string }[] = [
+  { name: "Yousual Green", value: BRAND.green },
+  { name: "Blue", value: "#3B82F6" },
+  { name: "Black", value: "#141414" },
+  { name: "Purple", value: "#7C3AED" },
+  { name: "Orange", value: "#F97316" },
+];

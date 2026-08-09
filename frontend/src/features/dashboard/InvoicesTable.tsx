@@ -2,6 +2,7 @@ import { BRAND } from "../../lib/theme";
 import type { Invoice } from "../../lib/invoiceTypes";
 import { formatNaira, docLabel } from "../../lib/invoiceHelpers";
 import { RowActionsMenu } from "./RowActionsMenu";
+import { InvoiceCard } from "./InvoiceCard";
 
 interface InvoicesTableProps {
   invoices: Invoice[];
@@ -21,7 +22,20 @@ export function InvoicesTable({ invoices, onMarkAsPaid, onSendReminder, onShareA
   }
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
+    <>
+    <div className="flex flex-col gap-3 md:hidden">
+      {invoices.map((inv) => (
+        <InvoiceCard
+          key={inv.id}
+          invoice={inv}
+          onMarkAsPaid={() => onMarkAsPaid(inv)}
+          onSendReminder={() => onSendReminder(inv)}
+          onShareAsImage={() => onShareAsImage(inv)}
+          onShareLink={() => onShareLink(inv)}
+        />
+      ))}
+    </div>
+    <div className="hidden md:block rounded-2xl overflow-hidden" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
       {/* Horizontal scroll on narrow screens rather than a card relayout
           — keeps every column visible without a second layout to maintain. */}
       <div className="overflow-x-auto">
@@ -66,5 +80,6 @@ export function InvoicesTable({ invoices, onMarkAsPaid, onSendReminder, onShareA
         </table>
       </div>
     </div>
+    </>
   );
 }

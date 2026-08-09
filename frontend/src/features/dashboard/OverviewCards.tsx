@@ -12,9 +12,13 @@ export function OverviewCards({ summary }: { summary: InvoiceSummary }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-      {cards.map((card) => (
-        <div key={card.label} className="rounded-2xl p-5 flex items-center gap-4" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
+    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory mx-1 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 sm:overflow-visible mb-6">
+        {cards.map((card) => (
+            <div
+            key={card.label}
+            className="rounded-2xl p-5 flex items-center gap-4 shrink-0 w-[68%] sm:w-auto snap-start"
+            style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}
+            >
           <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0" style={{ background: card.tint }}>
             <card.icon size={20} style={{ color: BRAND.ink }} />
           </div>

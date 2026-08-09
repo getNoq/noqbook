@@ -46,6 +46,8 @@ export interface CreateInvoicePayload {
   customerPhone?: string;
   items: { description: string; qty: number; unitPrice: number }[];
   status: "paid" | "due";
+  note?: string;
+  brandColor?: string;
 }
 
 export async function createInvoice(accessToken: string, payload: CreateInvoicePayload): Promise<Invoice> {

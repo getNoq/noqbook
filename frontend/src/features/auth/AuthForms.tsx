@@ -104,7 +104,7 @@ function PasswordField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="••••••••"
-          className="w-full rounded-xl pl-4 pr-11 py-3 text-sm outline-none"
+          className="w-full rounded-xl pl-4 pr-11 py-3 text-base md:text-sm outline-none"
           style={inputStyle(invalid)}
         />
         <button

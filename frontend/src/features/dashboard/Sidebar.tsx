@@ -26,7 +26,7 @@ function SidebarContent() {
           </button>
         ))}
       </nav>
-      <div className="border-t pt-4 mt-4" style={{ borderColor: BRAND.line }}>
+      <div className="border-t pt-4 mt-4 mb-8" style={{ borderColor: BRAND.line }}>
         <div className="px-3 mb-3">
           <div className="text-sm font-semibold truncate">{user?.businessName}</div>
           <div className="text-xs truncate" style={{ color: BRAND.inkSoft }}>{user?.email}</div>
@@ -57,7 +57,7 @@ export function Sidebar() {
 
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-50 flex">
-          <div className="w-72 h-full" style={{ background: BRAND.card }}>
+          <div className="w-64 md:w-72 h-full" style={{ background: BRAND.card }}>
             <div className="flex justify-end px-4 pt-4">
               <button onClick={() => setMobileOpen(false)} aria-label="Close menu" style={{ color: BRAND.ink }}>
                 <X size={22} />

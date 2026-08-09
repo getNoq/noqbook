@@ -66,9 +66,10 @@ export function useDashboardInvoices() {
 
   const create = async (payload: CreateInvoicePayload) => {
     if (!accessToken) throw new Error("Not signed in.");
-    await createInvoice(accessToken, payload);
-    await load(1); // new invoice sorts to the top — jump back to page 1
+    const created = await createInvoice(accessToken, payload);
+    await load(1);
     loadSummary();
+    return created;
   };
 
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));

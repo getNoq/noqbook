@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useRef, ReactNode } from "react";
 import { AuthTokens, AuthUser } from "./types";
 import * as api from "./authApi";
 import { migrateGuestInvoicesToAccount } from "../../lib/guestMigration";
@@ -8,9 +8,9 @@ const TOKENS_STORAGE_KEY = "yousual_auth_tokens";
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
-  isLoading: boolean; // true while restoring a saved session on mount
+  isLoading: boolean;
   error: string | null;
-  signUp: (payload: { email: string; password: string; phone: string; businessName?: string }) => Promise<void>;
+  signUp: (payload: { email: string; password: string; phone: string; businessName: string }) => Promise<void>;
   logIn: (payload: { email: string; password: string }) => Promise<void>;
   logOut: () => void;
   clearError: () => void;
@@ -37,14 +37,48 @@ function saveTokens(tokens: AuthTokens | null) {
   }
 }
 
+function decodeJwtExpiry(token: string): number | null {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return typeof payload.exp === "number" ? payload.exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [tokens, setTokens] = useState<AuthTokens | null>(() => loadTokens());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // On first mount, if a token was saved from a previous session, restore
-  // the user from it. If that fails (expired/invalid), clear it quietly.
+  const logOut = () => {
+    setUser(null);
+    setTokens(null);
+    saveTokens(null);
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+  };
+
+  const scheduleRefresh = (currentTokens: AuthTokens) => {
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    const expiresAt = decodeJwtExpiry(currentTokens.access);
+    if (!expiresAt || !currentTokens.refresh) return;
+
+    const msUntilRefresh = expiresAt - Date.now() - 60_000; // refresh 1 min early
+    refreshTimerRef.current = setTimeout(async () => {
+      try {
+        const { access } = await api.refreshAccessToken(currentTokens.refresh!);
+        const nextTokens = { ...currentTokens, access };
+        setTokens(nextTokens);
+        saveTokens(nextTokens);
+        scheduleRefresh(nextTokens);
+      } catch {
+        logOut(); // refresh token itself expired/invalid — real logout
+      }
+    }, Math.max(msUntilRefresh, 0));
+  };
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -54,7 +88,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       try {
         const restoredUser = await api.fetchCurrentUser(tokens.access);
-        if (!cancelled) setUser(restoredUser);
+        if (!cancelled) {
+          setUser(restoredUser);
+          scheduleRefresh(tokens);
+        }
       } catch {
         if (!cancelled) {
           setTokens(null);
@@ -77,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(newUser);
       setTokens(newTokens);
       saveTokens(newTokens);
+      scheduleRefresh(newTokens);
       void migrateGuestInvoicesToAccount(newTokens.access);
     } catch (err) {
       setError(err instanceof api.ApiError ? err.message : "Couldn't create your account. Try again.");
@@ -91,6 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(loggedInUser);
       setTokens(newTokens);
       saveTokens(newTokens);
+      scheduleRefresh(newTokens);
       void migrateGuestInvoicesToAccount(newTokens.access);
     } catch (err) {
       setError(
@@ -98,12 +137,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       );
       throw err;
     }
-  };
-
-  const logOut = () => {
-    setUser(null);
-    setTokens(null);
-    saveTokens(null);
   };
 
   const clearError = () => setError(null);

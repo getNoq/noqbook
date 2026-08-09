@@ -193,7 +193,7 @@ export function InvoiceReceipt({
       <div className="rounded-2xl p-5 mb-5 text-sm" style={{ background: BRAND.lav }}>
         <div className="font-semibold mb-1">Want to track whether this gets paid?</div>
         <div style={{ color: BRAND.inkSoft }} className="mb-3">
-          Save this {docLabel(invoice.status).toLowerCase()}, see customer history, and get automatic reminders — for free.
+          Save this {docLabel(invoice.status).toLowerCase()}, see customer history, and get basic branding — for free.
         </div>
         <button onClick={onCreateAccount} className="rounded-full px-5 py-2.5 font-semibold text-sm" style={{ background: BRAND.ink, color: BRAND.bg }}>
           Create free account

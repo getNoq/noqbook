@@ -31,7 +31,7 @@ export function InvoiceHistory({ savedInvoices, onOpenInvoice, onStartNewInvoice
             style={{ border: `1px solid ${BRAND.line}` }}
           >
             <div>
-              <div className="font-semibold text-sm">{inv.customerName}</div>
+              <div className="font-semibold text-sm leading-tight mb-1">{inv.customerName}</div>
               <div className="text-xs" style={{ color: BRAND.inkSoft }}>
                 {inv.invoiceNumber} · {inv.createdAt} · {docLabel(inv.status)}
               </div>

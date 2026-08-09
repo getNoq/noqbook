@@ -90,7 +90,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
           placeholder="e.g. Chidinma"
-          className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none"
+          className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none"
           style={inputStyle(touched && !customerName.trim())}
         />
 
@@ -101,7 +101,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
           placeholder="08031234567"
           inputMode="numeric"
           maxLength={11}
-          className="w-full rounded-xl px-4 py-3 mb-2 text-sm outline-none"
+          className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none"
           style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)}
         />
         <div className="mb-4 min-h-[16px]">
@@ -118,7 +118,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
                 value={it.description}
                 onChange={(e) => updateItem(it.id, "description", e.target.value)}
                 placeholder="Item or service"
-                className="w-full sm:flex-1 rounded-xl px-3 py-2.5 text-sm outline-none"
+                className="w-full sm:flex-1 rounded-xl px-3 py-2.5 text-base md:text-sm outline-none"
                 style={inputStyle(false)}
               />
               <div className="flex flex-1 items-center gap-2 w-full sm:w-auto">
@@ -128,7 +128,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
                   value={it.qty || ""}
                   placeholder="Qty"
                   onChange={(e) => updateItem(it.id, "qty", e.target.value === "" ? "" : Number(e.target.value))}
-                  className="w-16 rounded-xl px-2 py-2.5 text-sm outline-none text-center"
+                  className="w-16 rounded-xl px-2 py-2.5 text-base md:text-sm outline-none text-center"
                   style={inputStyle(false)}
                 />
                 <input
@@ -137,7 +137,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
                   value={it.unitPrice || ""}
                   placeholder="Price"
                   onChange={(e) => updateItem(it.id, "unitPrice", e.target.value === "" ? "" : Number(e.target.value))}
-                  className="flex-1 rounded-xl px-3 py-2.5 text-sm outline-none"
+                  className="flex-1 rounded-xl px-3 py-2.5 text-base md:text-sm outline-none"
                   style={inputStyle(false)}
                 />
                 <button onClick={() => removeItem(it.id)} className="p-2 rounded-lg shrink-0" style={{ color: BRAND.red }} aria-label="Remove item">

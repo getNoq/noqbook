@@ -18,4 +18,6 @@ export interface Invoice {
   status: InvoiceStatus;
   createdAt: string;
   paidDate: string | null;
+  note?: string;
+  brandColor?: string;
 }

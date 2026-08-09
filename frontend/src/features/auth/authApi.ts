@@ -79,3 +79,7 @@ export function fetchCurrentUser(accessToken: string): Promise<AuthUser> {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
+
+export function refreshAccessToken(refreshToken: string): Promise<{ access: string }> {
+  return request("/token/refresh/", { body: JSON.stringify({ refresh: refreshToken }) });
+}
