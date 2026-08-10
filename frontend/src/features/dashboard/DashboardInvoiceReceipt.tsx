@@ -63,7 +63,7 @@ export function DashboardInvoiceReceipt({ invoice, onMarkAsPaid, onDone }: Dashb
       <div className="rounded-3xl p-7 mb-5" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
         <div className="text-center border-b pb-4 mb-4" style={{ borderColor: BRAND.line }}>
           <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: BRAND.inkSoft }}>{docLabel(invoice.status)} · {invoice.invoiceNumber}</div>
-          <div className="font-heading text-[32px]" style={{ color: invoice.brandColor || BRAND.ink }}>{invoice.businessName}</div>
+          <div className="font-heading text-[32px] leading-[32px]" style={{ color: invoice.brandColor || BRAND.ink }}>{invoice.businessName}</div>
           <div className="text-xs mt-1" style={{ color: BRAND.inkSoft }}>
             {invoice.status === "paid" ? `Paid ${invoice.paidDate}` : `Issued ${invoice.createdAt}`}
           </div>
@@ -81,7 +81,7 @@ export function DashboardInvoiceReceipt({ invoice, onMarkAsPaid, onDone }: Dashb
           ))}
         </div>
         <div className="flex justify-between items-center border-t pt-4" style={{ borderColor: BRAND.line }}>
-          <span className="font-semibold">Total</span>
+          <span className="font-heading text-[24px]">Total</span>
           <span className="font-heading text-[32px]" style={{ color: invoice.brandColor || BRAND.ink }}>{formatNaira(invoice.total, "code")}</span>
         </div>
         {invoice.note && <div className="text-sm mt-3 text-center" style={{ color: BRAND.inkSoft }}>{invoice.note}</div>}
@@ -119,8 +119,8 @@ export function DashboardInvoiceReceipt({ invoice, onMarkAsPaid, onDone }: Dashb
         </button>
       )}
 
-      <button onClick={onDone} className="w-full rounded-full py-3.5 font-semibold text-sm" style={{ background: BRAND.ink, color: BRAND.bg }}>
-        Done — back to overview
+      <button onClick={onDone} className="w-full rounded-full py-3.5 font-semibold text-sm" style={{ background: "#ffffff", color: BRAND.ink, border: "1px solid rgba(34, 29, 23, 0.12)" }}>
+        Done - back to overview
       </button>
     </div>
   );

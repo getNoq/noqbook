@@ -59,7 +59,7 @@ export default function Navbar() {
             ))}
           </ul>
           <a
-            href="#get-started"
+            href="/signup"
             className="font-heading mt-5 block rounded-full bg-ink px-6 py-3 text-center text-[18px] tracking-[5%] text-white"
             onClick={() => setOpen(false)}
           >

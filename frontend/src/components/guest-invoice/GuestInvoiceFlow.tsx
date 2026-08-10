@@ -204,7 +204,7 @@ export default function GuestInvoiceFlow() {
             separate "Guest mode" pill + "N saved" banner. Copy and color
             shift with how close the device is to the cap. */}
         <div
-          className="flex items-center justify-between gap-3 rounded-2xl px-4 py-3 mb-4 text-sm"
+          className="flex flex-col items-start justify-between gap-3 rounded-2xl px-4 py-3 mb-4 text-sm"
           style={{ background: atLimit ? BRAND.peach : BRAND.lav, color: atLimit ? BRAND.red : BRAND.ink }}
         >
           <span className="flex items-center gap-2">
@@ -212,12 +212,21 @@ export default function GuestInvoiceFlow() {
             {guestStatusMessage(savedInvoices.length)}
           </span>
           {savedInvoices.length > 0 && step !== "history" && (
-            <button
-              onClick={() => setStep("history")}
-              className="whitespace-nowrap font-semibold underline underline-offset-2 flex items-center gap-1 shrink-0"
-            >
-              View all <ChevronRight size={14} />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setStep("history")}
+                className="whitespace-nowrap font-semibold underline underline-offset-2 flex items-center gap-1 shrink-0"
+              >
+                Create a free account
+              </button>
+              <span className="text-sm px-1" style={{ color: BRAND.inkSoft }}>or</span>
+              <button
+                onClick={() => setStep("history")}
+                className="whitespace-nowrap font-semibold underline underline-offset-2 flex items-center gap-1 shrink-0"
+              >
+                View all <ChevronRight size={14} />
+              </button>
+            </div>
           )}
         </div>
 

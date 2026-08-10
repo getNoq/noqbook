@@ -102,7 +102,7 @@ export function Dashboard() {
           </button>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 mb-20">
           {error && (
             <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>
               {error}

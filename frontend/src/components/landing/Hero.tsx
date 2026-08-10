@@ -1,4 +1,5 @@
 // import { Play } from 'lucide-react'
+import { Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
@@ -30,19 +31,19 @@ export default function Hero() {
             Track every sale, expense, and payment in one place, so you always know where your money is.
           </p>
 
-          <div className="mt-6 flex flex-row items-center gap-4 sm:flex-row">
+          <div className="mt-6 w-[280px] sm:w-[560px] flex flex-col md:flex-row items-center gap-4 sm:flex-row">
             <Link
-              to="/start"
-              className="font-heading rounded-full bg-yolk px-5 py-2 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
+              to="/signup"
+              className="font-heading w-full rounded-full bg-yolk px-5 py-3 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
-             Log your first sale - free
+             Get started
             </Link>
-            {/* <Link to="/start" className="font-heading flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2 text-[18px] uppercase tracking-[5%] transition-colors hover:bg-white/10">
+            <Link to="/start" className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
-              Demo
-            </Link> */}
+              Log your first sale - free
+            </Link>
           </div>
 
           {/* <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[16px] text-white">

@@ -132,7 +132,7 @@ export function InvoiceForm({
                 value={it.unitPrice || ""}
                 placeholder="Price"
                 onChange={(e) => onUpdateItem(it.id, "unitPrice", e.target.value === "" ? "" : Number(e.target.value))}
-                className="flex-1 md:w-28 rounded-xl px-3 py-2.5 text-[16px] md:text-sm outline-none"
+                className="flex-1 w-full md:w-28 rounded-xl px-3 py-2.5 text-[16px] md:text-sm outline-none"
                 style={inputStyle(false)}
                 required
               />

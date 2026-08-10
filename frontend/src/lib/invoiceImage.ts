@@ -163,14 +163,30 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   y += gapDivider2ToTotal;
 
   ctx.textAlign = "left";
-  ctx.font = '400 44px "Bebas Neue", Arial, sans-serif';
-  ctx.fillStyle = accentColor;
+  ctx.font = '400 34px "Bebas Neue", Arial, sans-serif';
+//   ctx.fillStyle = accentColor;
+  ctx.fillStyle = "#000";
   ctx.fillText("Total", padX, y);
   ctx.textAlign = "right";
   ctx.font = '400 48px "Bebas Neue", Georgia, serif';
   // Total amount — same accentColor swap as the business name above.
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
   y += totalH + gapTotalToStamp;
+
+  // Note — italic, centered, wrapped, drawn only when present. Sits
+  // between the paid/outstanding stamp and the "Powered by" footer.
+  if (hasNote) {
+    y += gapStampToNote;
+    ctx.font = '400 22px "Inter", Arial, sans-serif';
+    ctx.fillStyle = "rgba(34,29,23,0.55)";
+    ctx.textAlign = "center";
+    noteLines.forEach((line, index) => {
+      ctx.fillText(line, width / 2, y + index * noteLineHeight);
+    });
+    y += noteH;
+  }
+
+  y += gapStampOrNoteToFooter;
 
   const paid = invoice.status === "paid";
   ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
@@ -184,21 +200,6 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.textAlign = "center";
   ctx.fillText(stampText, width / 2, y + 2);
   y += stampH / 2;
-
-  // Note — italic, centered, wrapped, drawn only when present. Sits
-  // between the paid/outstanding stamp and the "Powered by" footer.
-  if (hasNote) {
-    y += gapStampToNote;
-    ctx.font = 'italic 400 18px "Inter", Arial, sans-serif';
-    ctx.fillStyle = "rgba(34,29,23,0.55)";
-    ctx.textAlign = "center";
-    noteLines.forEach((line, index) => {
-      ctx.fillText(line, width / 2, y + index * noteLineHeight);
-    });
-    y += noteH;
-  }
-
-  y += gapStampOrNoteToFooter;
 
   ctx.fillStyle = "rgba(34,29,23,0.4)";
   ctx.font = '400 20px "Inter", Arial, sans-serif';

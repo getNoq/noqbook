@@ -57,7 +57,7 @@ export function InvoiceReceipt({
           <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: BRAND.inkSoft }}>
             {docLabel(invoice.status)} · {invoice.invoiceNumber}
           </div>
-          <div className="font-heading text-[32px]">{invoice.businessName}</div>
+          <div className="font-heading text-[32px] leading-[32px]">{invoice.businessName}</div>
           <div className="text-xs mt-1" style={{ color: BRAND.inkSoft }}>
             {invoice.status === "paid" ? `Paid ${invoice.paidDate}` : `Issued ${invoice.createdAt}`}
           </div>
