@@ -211,14 +211,16 @@ export default function GuestInvoiceFlow() {
             <Clock size={15} className="shrink-0" />
             {guestStatusMessage(savedInvoices.length)}
           </span>
-          {savedInvoices.length > 0 && step !== "history" && (
+          {savedInvoices.length > 0 && (
             <div className="flex items-center gap-1">
               <button
-                onClick={() => setStep("history")}
+                onClick={handleCreateAccount}
                 className="whitespace-nowrap font-semibold underline underline-offset-2 flex items-center gap-1 shrink-0"
               >
                 Create a free account
               </button>
+            {step !== "history" && (
+              <>
               <span className="text-sm px-1" style={{ color: BRAND.inkSoft }}>or</span>
               <button
                 onClick={() => setStep("history")}
@@ -226,6 +228,8 @@ export default function GuestInvoiceFlow() {
               >
                 View all <ChevronRight size={14} />
               </button>
+              </>
+            )}
             </div>
           )}
         </div>

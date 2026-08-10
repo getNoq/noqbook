@@ -170,6 +170,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.textAlign = "right";
   ctx.font = '400 48px "Bebas Neue", Georgia, serif';
   // Total amount — same accentColor swap as the business name above.
+  ctx.fillStyle = accentColor;
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
   y += totalH + gapTotalToStamp;
 
@@ -186,7 +187,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     y += noteH;
   }
 
-  y += gapStampOrNoteToFooter;
+  y += gapStampOrNoteToFooter
 
   const paid = invoice.status === "paid";
   ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
@@ -199,7 +200,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillStyle = paid ? BRAND.green : BRAND.red;
   ctx.textAlign = "center";
   ctx.fillText(stampText, width / 2, y + 2);
-  y += stampH / 2;
+  y += stampH + 8;
 
   ctx.fillStyle = "rgba(34,29,23,0.4)";
   ctx.font = '400 20px "Inter", Arial, sans-serif';

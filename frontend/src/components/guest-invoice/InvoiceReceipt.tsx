@@ -54,7 +54,7 @@ export function InvoiceReceipt({
     <div>
       <div className="rounded-3xl p-7 mb-5" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
         <div className="text-center border-b pb-4 mb-4" style={{ borderColor: BRAND.line }}>
-          <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: BRAND.inkSoft }}>
+          <div className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
             {docLabel(invoice.status)} · {invoice.invoiceNumber}
           </div>
           <div className="font-heading text-[32px] leading-[32px]">{invoice.businessName}</div>
