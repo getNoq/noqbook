@@ -1,6 +1,6 @@
 import {
   Share2, Copy, RefreshCw, Check, Download, Link as LinkIcon,
-  Bell, CheckCircle2, Clock, Palette, Lock,
+  CheckCircle2, Clock, Palette, Lock,
 } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import type { Invoice } from "./types";
@@ -19,7 +19,7 @@ interface InvoiceReceiptProps {
   linkCopied: boolean;
   onCopyText: () => void;
   copied: boolean;
-  onSendReminder: () => void;
+  // onSendReminder: () => void;
   onMarkAsPaid: () => void;
   showColorTeaser: boolean;
   onToggleColorTeaser: () => void;
@@ -41,7 +41,7 @@ export function InvoiceReceipt({
   linkCopied,
   onCopyText,
   copied,
-  onSendReminder,
+  // onSendReminder,
   onMarkAsPaid,
   showColorTeaser,
   onToggleColorTeaser,
@@ -184,16 +184,16 @@ export function InvoiceReceipt({
         {copied ? <Check size={14} /> : <Copy size={14} />} Copy as plain text
       </button>
 
-      {invoice.status === "due" && invoice.customerPhone && (
+      {/* {invoice.status === "due" && invoice.customerPhone && (
         <button onClick={onSendReminder} className="w-full flex items-center justify-center gap-2 rounded-full py-3 mb-5 text-sm font-semibold" style={{ background: BRAND.peach, color: BRAND.red }}>
           <Bell size={15} /> Send payment reminder
         </button>
-      )}
+      )} */}
 
       <div className="rounded-2xl p-5 mb-5 text-sm" style={{ background: BRAND.lav }}>
         <div className="font-semibold mb-1">Want to track whether this gets paid?</div>
         <div style={{ color: BRAND.inkSoft }} className="mb-3">
-          Save this {docLabel(invoice.status).toLowerCase()}, see customer history, and get basic branding — for free.
+          Save this {docLabel(invoice.status).toLowerCase()}, see customer history, send reminders, and get basic branding — for free.
         </div>
         <button onClick={onCreateAccount} className="rounded-full px-5 py-2.5 font-semibold text-sm" style={{ background: BRAND.ink, color: BRAND.bg }}>
           Create free account

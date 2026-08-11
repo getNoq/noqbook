@@ -62,3 +62,9 @@ export async function createInvoice(accessToken: string, payload: CreateInvoiceP
   }
   return res.json();
 }
+
+export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load this invoice.");
+  return res.json();
+}

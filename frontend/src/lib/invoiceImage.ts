@@ -19,6 +19,19 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
   return lines;
 }
 
+function wrapParagraphs(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const paragraphs = text.split("\n");
+  const allLines: string[] = [];
+  paragraphs.forEach((paragraph) => {
+    if (paragraph.trim().length === 0) {
+      allLines.push(""); // preserves a blank line between paragraphs
+    } else {
+      allLines.push(...wrapText(ctx, paragraph, maxWidth));
+    }
+  });
+  return allLines;
+}
+
 export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   try {
     await Promise.all([
@@ -71,15 +84,16 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const gapItemsToDivider2 = 24;
   const gapDivider2ToTotal = 58;
   const totalH = 44;
-  const gapTotalToStamp = 44;
+  const gapTotalToStamp = 24;
   const stampH = 40;
 
   // Note block, only reserved when there's actually a note to draw.
   const gapStampToNote = hasNote ? 28 : 0;
   const noteMaxWidth = width - padX * 2;
   measureCtx.font = 'italic 400 18px "Inter", Arial, sans-serif';
-  const noteLines = hasNote ? wrapText(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
-  const noteLineHeight = 24;
+//   const noteLines = hasNote ? wrapText(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
+  const noteLines = hasNote ? wrapParagraphs(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
+  const noteLineHeight = 36;
   const noteH = noteLines.length * noteLineHeight;
 
   const gapStampOrNoteToFooter = 38;
@@ -118,7 +132,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.font = '400 24px "Inter", Arial, sans-serif';
   ctx.fillStyle = "rgba(34,29,23,0.5)";
   ctx.fillText(`Here's your ${docLabel(invoice.status).toLowerCase()} for this purchase`, width / 2, y);
-  y += introH + gapIntroToDivider;
+  y += introH + gapIntroToDivider - 14;
 
   ctx.font = '500 20px "Inter", Arial, sans-serif';
   ctx.fillStyle = "rgba(34,29,23,0.55)";
@@ -151,7 +165,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     ctx.fillText(formatNaira(Number(it.qty) * Number(it.unitPrice)), width - padX, y);
     y += it.lines.length * lineHeight + rowSpacing;
   });
-  y += gapItemsToDivider2;
+//   y += gapItemsToDivider2;
 
   ctx.strokeStyle = "rgba(34,29,23,0.15)";
   ctx.setLineDash([4, 4]);
@@ -174,21 +188,6 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
   y += totalH + gapTotalToStamp;
 
-  // Note — italic, centered, wrapped, drawn only when present. Sits
-  // between the paid/outstanding stamp and the "Powered by" footer.
-  if (hasNote) {
-    y += gapStampToNote;
-    ctx.font = '400 22px "Inter", Arial, sans-serif';
-    ctx.fillStyle = "rgba(34,29,23,0.55)";
-    ctx.textAlign = "center";
-    noteLines.forEach((line, index) => {
-      ctx.fillText(line, width / 2, y + index * noteLineHeight);
-    });
-    y += noteH;
-  }
-
-  y += gapStampOrNoteToFooter
-
   const paid = invoice.status === "paid";
   ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
   const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "OUTSTANDING";
@@ -201,6 +200,40 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.textAlign = "center";
   ctx.fillText(stampText, width / 2, y + 2);
   y += stampH + 8;
+
+  if (hasNote) {
+    y += gapStampToNote;
+
+    ctx.textAlign = "left";
+    ctx.font = '400 28px "Bebas Neue", Arial, sans-serif';
+    ctx.fillStyle = "#374151";
+    ctx.fillText("Note:", padX, y);
+    // y += noteH;
+  }
+
+  // Note — italic, centered, wrapped, drawn only when present. Sits
+  // between the paid/outstanding stamp and the "Powered by" footer.
+  if (hasNote) {
+    y += gapStampToNote;
+    ctx.font = '400 22px "Inter", Arial, sans-serif';
+    ctx.fillStyle = "rgba(34,29,23,0.55)";
+    ctx.textAlign = "left";
+    noteLines.forEach((line, index) => {
+        ctx.fillText(line, padX, y + index * noteLineHeight);
+    });
+    y += noteH;
+  }
+
+//   y += gapStampOrNoteToFooter
+
+  ctx.strokeStyle = "rgba(34,29,23,0.15)";
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(padX, y);
+  ctx.lineTo(width - padX, y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  y += gapDivider2ToTotal - 16;
 
   ctx.fillStyle = "rgba(34,29,23,0.4)";
   ctx.font = '400 20px "Inter", Arial, sans-serif';

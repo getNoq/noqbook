@@ -3,6 +3,7 @@ import type { Invoice } from "../../lib/invoiceTypes";
 import { formatNaira, docLabel } from "../../lib/invoiceHelpers";
 import { RowActionsMenu } from "./RowActionsMenu";
 import { InvoiceCard } from "./InvoiceCard";
+import { Link } from "react-router-dom";
 
 interface InvoicesTableProps {
   invoices: Invoice[];
@@ -54,7 +55,9 @@ export function InvoicesTable({ invoices, onMarkAsPaid, onSendReminder, onShareA
             {invoices.map((inv) => (
               <tr key={inv.id} style={{ borderBottom: `1px solid ${BRAND.line}` }}>
                 <td className="px-5 py-4">
-                  <div className="font-semibold">{inv.customerName}</div>
+                    <Link to={`/dashboard/invoices/${inv.id}`} className="font-semibold hover:underline" style={{ color: "#4f3bb4" }}>
+                        {inv.customerName}
+                    </Link>
                   <div className="text-xs" style={{ color: BRAND.inkSoft }}>{docLabel(inv.status)}</div>
                 </td>
                 <td className="px-5 py-4" style={{ color: BRAND.inkSoft }}>{inv.invoiceNumber}</td>

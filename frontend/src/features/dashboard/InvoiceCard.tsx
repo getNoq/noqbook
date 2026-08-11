@@ -2,6 +2,7 @@ import { BRAND } from "../../lib/theme";
 import type { Invoice } from "../../lib/invoiceTypes";
 import { formatNaira, docLabel } from "../../lib/invoiceHelpers";
 import { RowActionsMenu } from "./RowActionsMenu";
+import { Link } from "react-router-dom";
 
 interface InvoiceCardProps {
   invoice: Invoice;
@@ -16,7 +17,9 @@ export function InvoiceCard({ invoice, onMarkAsPaid, onSendReminder, onShareAsIm
     <div className="rounded-2xl p-4" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="font-semibold text-sm">{invoice.customerName}</div>
+            <Link to={`/dashboard/invoices/${invoice.id}`} className="font-semibold text-base hover:underline" style={{ color: "#4f3bb4" }}>
+                {invoice.customerName}
+            </Link>
           <div className="text-xs mt-0.5" style={{ color: BRAND.inkSoft }}>
             {invoice.invoiceNumber} · {invoice.createdAt} · {docLabel(invoice.status)}
           </div>

@@ -7,7 +7,7 @@ import {
   emptyItem,
   guestStatusMessage,
   invoiceText,
-  reminderText,
+  // reminderText,
   shareCaption,
   openWhatsApp,
   docLabel,
@@ -164,7 +164,7 @@ export default function GuestInvoiceFlow() {
     }
   };
 
-  const sendReminder = (inv: Invoice) => openWhatsApp(reminderText(inv), inv.customerPhone);
+  // const sendReminder = (inv: Invoice) => openWhatsApp(reminderText(inv), inv.customerPhone);
 
   const startNewInvoice = () => {
     setBusinessName(savedInvoices[0]?.businessName || "");
@@ -273,7 +273,7 @@ export default function GuestInvoiceFlow() {
             linkCopied={linkCopied}
             onCopyText={() => copyText(activeInvoice)}
             copied={copied}
-            onSendReminder={() => sendReminder(activeInvoice)}
+            // onSendReminder={() => sendReminder(activeInvoice)}
             onMarkAsPaid={markAsPaid}
             showColorTeaser={showColorTeaser}
             onToggleColorTeaser={() => setShowColorTeaser((s) => !s)}

@@ -104,7 +104,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         </div>
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
-        <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} placeholder="e.g. Payment due within 7 days." rows={2} className="w-full rounded-xl px-4 py-3 mb-6 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
+        <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} placeholder={"e.g. Payment due within 7 days.\nThank you for your business!"} rows={4} className="w-full rounded-xl px-4 py-3 mb-6 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Brand color (optional)</label>
         <div className="flex gap-3 mb-7">

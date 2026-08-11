@@ -12,7 +12,7 @@ export function OverviewCards({ summary }: { summary: InvoiceSummary }) {
   ];
 
   return (
-    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory mx-1 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 sm:overflow-visible mb-6">
+    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory mx-1 px-4 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 lg:overflow-visible mb-6">
         {cards.map((card) => (
             <div
             key={card.label}
