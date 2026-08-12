@@ -51,7 +51,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const accentColor = invoice.brandColor || BRAND.ink;
   const hasNote = !!invoice.note && invoice.note.trim().length > 0;
 
-  const width = 720;
+  const width = 640;
   const padX = 56;
   const topPad = 60;
   const businessNameH = 50;
@@ -77,7 +77,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     lines: wrapText(measureCtx, `${item.qty} × ${item.description}`, descriptionWidth),
   }));
 
-  const lineHeight = 26;
+  const lineHeight = 30;
   const rowSpacing = 20;
   const itemsH = wrappedItems.reduce((sum, item) => sum + item.lines.length * lineHeight + rowSpacing, 0);
 
@@ -154,7 +154,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillText(`Customer: ${invoice.customerName}`, padX, y);
   y += customerH + gapCustomerToItems;
 
-  ctx.font = '400 18px "Inter", Arial, sans-serif';
+  ctx.font = '400 20px "Inter", Arial, sans-serif';
   wrappedItems.forEach((it) => {
     ctx.textAlign = "left";
     ctx.fillStyle = BRAND.ink;
