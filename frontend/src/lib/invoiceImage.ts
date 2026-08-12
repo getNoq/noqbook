@@ -154,7 +154,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillText(`Customer: ${invoice.customerName}`, padX, y);
   y += customerH + gapCustomerToItems;
 
-  ctx.font = '400 20px "Inter", Arial, sans-serif';
+  ctx.font = '400 22px "Inter", Arial, sans-serif';
   wrappedItems.forEach((it) => {
     ctx.textAlign = "left";
     ctx.fillStyle = BRAND.ink;
@@ -177,12 +177,12 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   y += gapDivider2ToTotal;
 
   ctx.textAlign = "left";
-  ctx.font = '400 34px "Bebas Neue", Arial, sans-serif';
+  ctx.font = '400 36px "Bebas Neue", Arial, sans-serif';
 //   ctx.fillStyle = accentColor;
   ctx.fillStyle = "#000";
   ctx.fillText("Total", padX, y);
   ctx.textAlign = "right";
-  ctx.font = '400 48px "Bebas Neue", Georgia, serif';
+  ctx.font = '400 56px "Bebas Neue", Georgia, serif';
   // Total amount — same accentColor swap as the business name above.
   ctx.fillStyle = accentColor;
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
