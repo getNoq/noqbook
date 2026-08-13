@@ -15,7 +15,15 @@ export interface PaginatedInvoices {
 
 export async function fetchInvoices(accessToken: string, page: number = 1): Promise<PaginatedInvoices> {
   const res = await fetch(`${API_BASE}/?page=${page}`, { headers: authHeaders(accessToken) });
-  if (!res.ok) throw new Error("Couldn't load your invoices. Try again.");
+  if (!res.ok) throw new Error("Couldn't load your sales. Try again.");
+  return res.json();
+}
+
+export type OwedSort = "oldest" | "largest";
+
+export async function fetchOwedInvoices(accessToken: string, sort: OwedSort, page: number = 1): Promise<PaginatedInvoices> {
+  const res = await fetch(`${API_BASE}/owed/?sort=${sort}&page=${page}`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load outstanding sales.");
   return res.json();
 }
 
@@ -33,17 +41,10 @@ export async function fetchInvoiceSummary(accessToken: string): Promise<InvoiceS
 
 export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
   const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
-  if (!res.ok) throw new Error("Couldn't load this invoice.");
+  if (!res.ok) throw new Error("Couldn't load this sale.");
   return res.json();
 }
 
-/**
- * Records a payment against an invoice — used for both a full payoff
- * and a partial amount, same endpoint either way. Returns the full
- * updated invoice (new status, amount_paid/amount_due, payment
- * history); callers should always replace their local invoice with
- * this response rather than computing the new state themselves.
- */
 export async function recordPayment(accessToken: string, invoiceId: string, amount: number): Promise<Invoice> {
   const res = await fetch(`${API_BASE}/${invoiceId}/payments/`, {
     method: "POST",
@@ -61,7 +62,7 @@ export interface CreateInvoicePayload {
   customerName: string;
   customerPhone?: string;
   items: { description: string; qty: number; unitPrice: number }[];
-  status: "paid" | "due" | "partially_paid";
+  amountPaidNow: number;
   note?: string;
   brandColor?: string;
 }
@@ -74,13 +75,7 @@ export async function createInvoice(accessToken: string, payload: CreateInvoiceP
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || "Couldn't create the invoice. Try again.");
+    throw new Error(data.message || "Couldn't record the sale. Try again.");
   }
   return res.json();
 }
-
-// export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
-//   const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
-//   if (!res.ok) throw new Error("Couldn't load this invoice.");
-//   return res.json();
-// }

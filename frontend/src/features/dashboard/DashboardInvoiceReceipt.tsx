@@ -167,7 +167,7 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
                     value={paymentAmount}
                     onChange={(e) => setPaymentAmount(e.target.value === "" ? "" : Number(e.target.value))}
                     placeholder="0"
-                    className="flex-1 rounded-xl px-4 py-2.5 text-sm outline-none"
+                    className="flex-1 rounded-xl px-4 py-2.5 text-base md:text-sm outline-none"
                     style={{ border: `1px solid ${BRAND.line}` }}
                   />
                   <button onClick={() => setPaymentAmount(amountDue)} className="rounded-xl px-3 text-xs font-semibold whitespace-nowrap" style={{ border: `1px solid ${BRAND.line}`, color: BRAND.inkSoft }}>

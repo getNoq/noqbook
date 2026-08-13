@@ -12,6 +12,7 @@ import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import WhatsAppWidget from './components/landing/WhatsAppWidget'
 import InvoiceDetailPage from './pages/InvoiceDetailPage'
+import WhoOwesMePage from './pages/WhoOwesMePage'
 
 export default function App() {
   return (
@@ -23,22 +24,9 @@ export default function App() {
         <Route path="/login" element={<GuestOnlyRoute><LoginPage /></GuestOnlyRoute>} />
         <Route path="/forgot-password" element={<GuestOnlyRoute><ForgotPasswordPage /></GuestOnlyRoute>} />
         <Route path="/reset-password" element={<GuestOnlyRoute><ResetPasswordPage /></GuestOnlyRoute>} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/invoices/:id"
-          element={
-            <ProtectedRoute>
-              <InvoiceDetailPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/dashboard/owed" element={<ProtectedRoute><WhoOwesMePage /></ProtectedRoute>} />
+        <Route path="/dashboard/invoices/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
       </Routes>
       <WhatsAppWidget />
     </AuthProvider>

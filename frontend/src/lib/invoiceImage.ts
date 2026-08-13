@@ -198,31 +198,45 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     const line1 = "PARTIALLY PAID";
     const line2 = `${formatNaira(amountPaid)} paid · ${formatNaira(amountDue)} outstanding`;
 
-    // Measure text
+    // =========================
+    // ADJUST PADDING HERE
+    // =========================
+    const line1PaddingX = 22; // Left/right breathing room for line 1
+    const line1PaddingY = 8;  // Top/bottom breathing room for line 1
+
+    const line2PaddingX = 22; // Left/right breathing room for line 2
+    const line2PaddingY = 6;  // Top/bottom breathing room for line 2
+
+    const gap = 16; // Space between line 1 and line 2
+
+    // Measure line 1
     ctx.font = '700 18px "Inter", Arial, sans-serif';
     const line1Width = ctx.measureText(line1).width;
 
+    // Measure line 2
     ctx.font = '600 15px "Inter", Arial, sans-serif';
     const line2Width = ctx.measureText(line2).width;
 
-    const paddingX = 22;
-    const line1H = 32;
-    const line2H = 28;
-    const gap = 16;
+    // Heights based on text + vertical padding
+    const line1H = 18 + line1PaddingY * 2;
+    const line2H = 15 + line2PaddingY * 2;
 
-    const stampWidth = Math.max(line1Width, line2Width) + paddingX * 2;
-    const totalH = line1H + gap + line2H;
+    // Each background fits its own content
+    const line1W = line1Width + line1PaddingX * 2;
+    const line2W = line2Width + line2PaddingX * 2;
 
-    const stampX = width / 2 - stampWidth / 2;
-    const stampY = y - totalH / 2;
+    // =========================
+    // LINE 1 — PARTIALLY PAID
+    // =========================
+    const line1X = width / 2 - line1W / 2;
+    const line1Y = y - (line1H + gap + line2H) / 2;
 
-    // Line 1 background
     ctx.fillStyle = "#FDECC8";
     ctx.beginPath();
     ctx.roundRect(
-      stampX,
-      stampY,
-      stampWidth,
+      line1X,
+      line1Y,
+      line1W,
       line1H,
       16
     );
@@ -233,21 +247,25 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = '700 18px "Inter", Arial, sans-serif';
+
     ctx.fillText(
       line1,
       width / 2,
-      stampY + line1H / 2
+      line1Y + line1H / 2
     );
 
-    // Line 2 background
-    const line2Y = stampY + line1H + gap;
+    // =========================
+    // LINE 2 — PAYMENT DETAILS
+    // =========================
+    const line2X = width / 2 - line2W / 2;
+    const line2Y = line1Y + line1H + gap;
 
     ctx.fillStyle = "#FFFFFF";
     ctx.beginPath();
     ctx.roundRect(
-      stampX,
+      line2X,
       line2Y,
-      stampWidth,
+      line2W,
       line2H,
       14
     );
@@ -256,6 +274,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     // Line 2 text
     ctx.fillStyle = "rgba(34,29,23,0.55)";
     ctx.font = '400 22px "Inter", Arial, sans-serif';
+
     ctx.fillText(
       line2,
       width / 2,
