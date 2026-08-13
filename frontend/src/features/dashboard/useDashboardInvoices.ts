@@ -4,7 +4,6 @@ import { useAuth } from "../auth/AuthContext";
 import {
   fetchInvoices,
   fetchInvoiceSummary,
-  markInvoicePaid,
   createInvoice,
   type CreateInvoicePayload,
   type InvoiceSummary,
@@ -56,13 +55,13 @@ export function useDashboardInvoices() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
-  const markAsPaid = async (invoiceId: string) => {
-    if (!accessToken) return;
-    const paidDate = new Date().toLocaleDateString("en-NG", { day: "2-digit", month: "short", year: "numeric" });
-    const updated = await markInvoicePaid(accessToken, invoiceId, paidDate);
-    setInvoices((prev) => prev.map((inv) => (inv.id === updated.id ? updated : inv)));
-    loadSummary();
-  };
+  // const markAsPaid = async (invoiceId: string) => {
+  //   if (!accessToken) return;
+  //   const paidDate = new Date().toLocaleDateString("en-NG", { day: "2-digit", month: "short", year: "numeric" });
+  //   const updated = await markInvoicePaid(accessToken, invoiceId, paidDate);
+  //   setInvoices((prev) => prev.map((inv) => (inv.id === updated.id ? updated : inv)));
+  //   loadSummary();
+  // };
 
   const create = async (payload: CreateInvoicePayload) => {
     if (!accessToken) throw new Error("Not signed in.");
@@ -79,8 +78,8 @@ export function useDashboardInvoices() {
     summary,
     isLoading,
     error,
-    markAsPaid,
     createInvoice: create,
+    refreshSummary: loadSummary,
     page,
     totalPages,
     goToPage: load,

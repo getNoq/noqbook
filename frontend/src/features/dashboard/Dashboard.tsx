@@ -34,7 +34,7 @@ type View = "overview" | "create" | "receipt";
 
 export function Dashboard() {
   const { accessToken } = useAuth();
-  const { invoices, summary, isLoading, error, markAsPaid, createInvoice, page, totalPages, goToPage } = useDashboardInvoices();
+  const { invoices, summary, isLoading, error, createInvoice, refreshSummary, page, totalPages, goToPage } = useDashboardInvoices();
 
   const [view, setView] = useState<View>("overview");
   const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
@@ -71,11 +71,15 @@ export function Dashboard() {
         <main className="flex-1 min-w-0">
           <DashboardInvoiceReceipt
             invoice={activeInvoice}
-            onMarkAsPaid={async () => {
-              await markAsPaid(activeInvoice.id);
-              setActiveInvoice({ ...activeInvoice, status: "paid" });
+            onPaymentRecorded={(updated) => {
+              setActiveInvoice(updated);
+              refreshSummary();
             }}
-            onDone={() => setView("overview")}
+            onDone={() => {
+              setView("overview");
+              goToPage(1);
+              refreshSummary();
+            }}
           />
         </main>
       </div>
@@ -119,7 +123,6 @@ export function Dashboard() {
             <>
               <InvoicesTable
                 invoices={invoices}
-                onMarkAsPaid={(inv) => markAsPaid(inv.id)}
                 onSendReminder={(inv) => openWhatsApp(reminderText(inv), inv.customerPhone)}
                 onShareAsImage={shareInvoiceAsImage}
                 onShareLink={shareInvoiceLink}

@@ -31,13 +31,29 @@ export async function fetchInvoiceSummary(accessToken: string): Promise<InvoiceS
   return res.json();
 }
 
-export async function markInvoicePaid(accessToken: string, invoiceId: string, paidDate: string): Promise<Invoice> {
-  const res = await fetch(`${API_BASE}/${invoiceId}/mark-paid/`, {
-    method: "PATCH",
+export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load this invoice.");
+  return res.json();
+}
+
+/**
+ * Records a payment against an invoice — used for both a full payoff
+ * and a partial amount, same endpoint either way. Returns the full
+ * updated invoice (new status, amount_paid/amount_due, payment
+ * history); callers should always replace their local invoice with
+ * this response rather than computing the new state themselves.
+ */
+export async function recordPayment(accessToken: string, invoiceId: string, amount: number): Promise<Invoice> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/payments/`, {
+    method: "POST",
     headers: authHeaders(accessToken),
-    body: JSON.stringify({ paidDate }),
+    body: JSON.stringify({ amount }),
   });
-  if (!res.ok) throw new Error("Couldn't mark this as paid. Try again.");
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't record that payment. Try again.");
+  }
   return res.json();
 }
 
@@ -63,8 +79,8 @@ export async function createInvoice(accessToken: string, payload: CreateInvoiceP
   return res.json();
 }
 
-export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
-  const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
-  if (!res.ok) throw new Error("Couldn't load this invoice.");
-  return res.json();
-}
+// export async function fetchInvoiceDetail(accessToken: string, invoiceId: string): Promise<Invoice> {
+//   const res = await fetch(`${API_BASE}/${invoiceId}/`, { headers: authHeaders(accessToken) });
+//   if (!res.ok) throw new Error("Couldn't load this invoice.");
+//   return res.json();
+// }

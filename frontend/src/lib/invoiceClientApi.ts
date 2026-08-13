@@ -20,6 +20,7 @@ export async function uploadInvoiceAndGetLink(invoice: Invoice, accessToken?: st
       paidDate: invoice.paidDate,
       note: invoice.note || "",
       brandColor: invoice.brandColor || "",
+      amountPaid: invoice.amountPaid ?? (invoice.status === "paid" ? invoice.total : 0),
     }),
   });
 

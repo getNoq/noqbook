@@ -5,7 +5,13 @@ export interface InvoiceItem {
   unitPrice: number | "";
 }
 
-export type InvoiceStatus = "paid" | "due";
+export type InvoiceStatus = "paid" | "due" | "partially_paid";
+
+export interface Payment {
+  id: string;
+  amount: number;
+  paidDate: string;
+}
 
 export interface Invoice {
   id: string;
@@ -20,4 +26,10 @@ export interface Invoice {
   paidDate: string | null;
   note?: string;
   brandColor?: string;
+  // Only ever populated for account (dashboard) invoices, fetched from
+  // the backend — guest-mode invoices never have these; the payment
+  // ledger is a signed-in-only feature.
+  amountPaid?: number;
+  amountDue?: number;
+  payments?: Payment[]; // present only on the detail/creation response
 }

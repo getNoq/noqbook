@@ -50,6 +50,8 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   // an account invoice created before this field existed).
   const accentColor = invoice.brandColor || BRAND.ink;
   const hasNote = !!invoice.note && invoice.note.trim().length > 0;
+  const partiallyPaid = invoice.status === "partially_paid";
+  const paid = invoice.status === "paid";
 
   const width = 640;
   const padX = 56;
@@ -85,12 +87,14 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   const gapDivider2ToTotal = 58;
   const totalH = 44;
   const gapTotalToStamp = 24;
-  const stampH = 40;
+  // Two lines (status + amounts) for partially-paid, single-line pill
+  // for everything else.
+  const stampH = partiallyPaid ? 66 : 40;
 
   // Note block, only reserved when there's actually a note to draw.
   const gapStampToNote = hasNote ? 28 : 0;
   const noteMaxWidth = width - padX * 2;
-  measureCtx.font = 'italic 400 18px "Inter", Arial, sans-serif';
+  measureCtx.font = '400 18px "Inter", Arial, sans-serif';
 //   const noteLines = hasNote ? wrapText(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
   const noteLines = hasNote ? wrapParagraphs(measureCtx, invoice.note!.trim(), noteMaxWidth) : [];
   const noteLineHeight = 36;
@@ -165,7 +169,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     ctx.fillText(formatNaira(Number(it.qty) * Number(it.unitPrice)), width - padX, y);
     y += it.lines.length * lineHeight + rowSpacing;
   });
-//   y += gapItemsToDivider2;
+  // y += gapItemsToDivider2;
 
   ctx.strokeStyle = "rgba(34,29,23,0.15)";
   ctx.setLineDash([4, 4]);
@@ -188,17 +192,87 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.fillText(formatNaira(invoice.total, "code"), width - padX, y);
   y += totalH + gapTotalToStamp;
 
-  const paid = invoice.status === "paid";
-  ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
-  const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "OUTSTANDING";
-  ctx.font = '700 18px "Inter", Arial, sans-serif';
-  const stampWidth = ctx.measureText(stampText).width + 40;
-  ctx.beginPath();
-  ctx.roundRect(width / 2 - stampWidth / 2, y - stampH / 2 - 4, stampWidth, stampH, stampH / 2);
-  ctx.fill();
-  ctx.fillStyle = paid ? BRAND.green : BRAND.red;
-  ctx.textAlign = "center";
-  ctx.fillText(stampText, width / 2, y + 2);
+  if (partiallyPaid) {
+    const amountPaid = invoice.amountPaid ?? 0;
+    const amountDue = invoice.amountDue ?? invoice.total - amountPaid;
+    const line1 = "PARTIALLY PAID";
+    const line2 = `${formatNaira(amountPaid)} paid · ${formatNaira(amountDue)} outstanding`;
+
+    // Measure text
+    ctx.font = '700 18px "Inter", Arial, sans-serif';
+    const line1Width = ctx.measureText(line1).width;
+
+    ctx.font = '600 15px "Inter", Arial, sans-serif';
+    const line2Width = ctx.measureText(line2).width;
+
+    const paddingX = 22;
+    const line1H = 32;
+    const line2H = 28;
+    const gap = 16;
+
+    const stampWidth = Math.max(line1Width, line2Width) + paddingX * 2;
+    const totalH = line1H + gap + line2H;
+
+    const stampX = width / 2 - stampWidth / 2;
+    const stampY = y - totalH / 2;
+
+    // Line 1 background
+    ctx.fillStyle = "#FDECC8";
+    ctx.beginPath();
+    ctx.roundRect(
+      stampX,
+      stampY,
+      stampWidth,
+      line1H,
+      16
+    );
+    ctx.fill();
+
+    // Line 1 text
+    ctx.fillStyle = "#B7791F";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = '700 18px "Inter", Arial, sans-serif';
+    ctx.fillText(
+      line1,
+      width / 2,
+      stampY + line1H / 2
+    );
+
+    // Line 2 background
+    const line2Y = stampY + line1H + gap;
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.roundRect(
+      stampX,
+      line2Y,
+      stampWidth,
+      line2H,
+      14
+    );
+    ctx.fill();
+
+    // Line 2 text
+    ctx.fillStyle = "rgba(34,29,23,0.55)";
+    ctx.font = '400 22px "Inter", Arial, sans-serif';
+    ctx.fillText(
+      line2,
+      width / 2,
+      line2Y + line2H / 2
+    );
+  } else {
+    ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
+    const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "OUTSTANDING";
+    ctx.font = '700 18px "Inter", Arial, sans-serif';
+    const stampWidth = ctx.measureText(stampText).width + 40;
+    ctx.beginPath();
+    ctx.roundRect(width / 2 - stampWidth / 2, y - stampH / 2 - 4, stampWidth, stampH, stampH / 2);
+    ctx.fill();
+    ctx.fillStyle = paid ? BRAND.green : BRAND.red;
+    ctx.textAlign = "center";
+    ctx.fillText(stampText, width / 2, y + 2);
+  }
   y += stampH + 8;
 
   if (hasNote) {
@@ -219,7 +293,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     ctx.fillStyle = "rgba(34,29,23,0.55)";
     ctx.textAlign = "left";
     noteLines.forEach((line, index) => {
-        ctx.fillText(line, padX, y + index * noteLineHeight);
+      ctx.fillText(line, padX, y + index * noteLineHeight);
     });
     y += noteH;
   }
