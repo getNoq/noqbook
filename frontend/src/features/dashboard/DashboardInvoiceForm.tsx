@@ -91,10 +91,10 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Customer name</label>
-        <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="e.g. Chidinma" className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(touched && !customerName.trim())} />
+        <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="e.g. Chidinma" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !customerName.trim())} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone (optional)</label>
-        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="08031234567" inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
+        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="08031234567" inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
         <div className="mb-4 min-h-[16px]">
           {!phoneCheck.empty && !phoneCheck.valid && <div className="text-xs" style={{ color: BRAND.red }}>Enter a valid Nigerian number, e.g. 08031234567.</div>}
         </div>
@@ -125,7 +125,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
             setAmountPaidNow(e.target.value === "" ? "" : Number(e.target.value));
           }}
           placeholder="0"
-          className="w-full rounded-xl px-4 py-3 mb-2 text-sm outline-none"
+          className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none"
           style={inputStyle(touched && !amountValid)}
         />
         <div className="mb-6 min-h-[18px] text-xs" style={{ color: balance > 0 ? BRAND.red : BRAND.green }}>

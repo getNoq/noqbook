@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { Upload } from "lucide-react";
+import { Upload, ChevronDown } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import { EXPENSE_CATEGORIES, type ExpenseCategory } from "../../lib/expenseTypes";
 import type { CreateExpensePayload } from "./expensesApi";
@@ -57,18 +57,49 @@ export function RecordExpenseForm({ onCancel, onRecord }: RecordExpenseFormProps
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Title</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Fabric restock" className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(touched && !title.trim())} />
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Fabric restock" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !title.trim())} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Amount</label>
         <input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))} placeholder="0" className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(touched && !(amount !== "" && Number(amount) > 0))} />
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Category</label>
-        <select value={category} onChange={(e) => setCategory(e.target.value as ExpenseCategory)} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(false)}>
-          {EXPENSE_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
+        Category
+        </label>
+        <div className="relative mb-5">
+        <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
+            className="w-full rounded-xl pl-4 pr-10 py-3 text-base md:text-sm outline-none"
+            style={{
+            ...inputStyle(false),
+            WebkitAppearance: "none",
+            MozAppearance: "none",
+            appearance: "none",
+            }}
+        >
+            {EXPENSE_CATEGORIES.map((c) => (
+            <option key={c.value} value={c.value}>{c.label}</option>
+            ))}
         </select>
+        <ChevronDown
+            size={16}
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+            style={{ color: BRAND.inkSoft }}
+        />
+        </div>
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Date</label>
-        <input type="date" value={expenseDate} onChange={(e) => setExpenseDate(e.target.value)} max={todayISO()} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(false)} />
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
+        Date
+        </label>
+        <input
+        type="date"
+        lang="en-GB"
+        value={expenseDate}
+        onChange={(e) => setExpenseDate(e.target.value)}
+        max={todayISO()}
+        className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none"
+        style={inputStyle(false)}
+        />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
         <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} placeholder="Any extra detail" rows={3} className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
