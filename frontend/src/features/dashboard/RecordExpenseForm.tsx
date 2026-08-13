@@ -60,7 +60,7 @@ export function RecordExpenseForm({ onCancel, onRecord }: RecordExpenseFormProps
         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Fabric restock" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !title.trim())} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Amount</label>
-        <input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))} placeholder="0" className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(touched && !(amount !== "" && Number(amount) > 0))} />
+        <input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))} placeholder="0" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !(amount !== "" && Number(amount) > 0))} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
         Category
@@ -69,7 +69,7 @@ export function RecordExpenseForm({ onCancel, onRecord }: RecordExpenseFormProps
         <select
             value={category}
             onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
-            className="w-full rounded-xl pl-4 pr-10 py-3 text-base md:text-sm outline-none"
+            className="w-full rounded-xl pl-4 pr-10 py-3 text-base md:text-sm outline-none !bg-white"
             style={{
             ...inputStyle(false),
             WebkitAppearance: "none",
@@ -97,7 +97,7 @@ export function RecordExpenseForm({ onCancel, onRecord }: RecordExpenseFormProps
         value={expenseDate}
         onChange={(e) => setExpenseDate(e.target.value)}
         max={todayISO()}
-        className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none"
+        className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none !bg-white"
         style={inputStyle(false)}
         />
 
