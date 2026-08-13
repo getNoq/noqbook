@@ -59,7 +59,7 @@ export function CreateInvoiceModal({ onClose, onCreate }: CreateInvoiceModalProp
           qty: Number(it.qty),
           unitPrice: Number(it.unitPrice),
         })),
-        status,
+        amountPaidNow: status === "paid" ? filledItems.reduce((sum, it) => sum + Number(it.qty) * Number(it.unitPrice), 0) : 0,
       });
       onClose();
     } catch (err: any) {
