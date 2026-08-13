@@ -61,7 +61,7 @@ export interface CreateInvoicePayload {
   customerName: string;
   customerPhone?: string;
   items: { description: string; qty: number; unitPrice: number }[];
-  status: "paid" | "due";
+  status: "paid" | "due" | "partially_paid";
   note?: string;
   brandColor?: string;
 }

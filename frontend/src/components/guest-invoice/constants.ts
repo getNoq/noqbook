@@ -23,4 +23,5 @@ export { PRESET_COLORS } from "../../lib/theme";
 export const NOTE_DEFAULTS: Record<InvoiceStatus, string> = {
   due: "Payment due within 7 days.",
   paid: "Thank you for your payment!",
+  partially_paid: "Thank you for your partial payment!",
 };
