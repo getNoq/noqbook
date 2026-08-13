@@ -214,7 +214,7 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
       </div>
 
       <div className="flex gap-3 mb-5">
-        <button onClick={shareLink} disabled={linkLoading} className="flex-1 flex items-center justify-center gap-2 rounded-full py-3 font-semibold text-sm" style={{ border: `1px solid ${BRAND.line}` }}>
+        <button onClick={shareLink} disabled={linkLoading} className="flex-1 flex items-center justify-center gap-2 rounded-full py-3 font-semibold text-sm text-white" style={{ backgroundColor: "#1fb958", border: "1px solid #1fb958" }}>
           <LinkIcon size={16} /> {linkLoading ? "Creating link…" : "Share link on WhatsApp"}
         </button>
         <button onClick={copyLink} className="flex items-center justify-center gap-2 rounded-full py-3 px-4 font-semibold text-sm" style={{ border: `1px solid ${BRAND.line}` }} aria-label="Copy link">
