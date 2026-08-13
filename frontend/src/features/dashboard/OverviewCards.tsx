@@ -1,14 +1,16 @@
-import { FileText, CheckCircle2, Clock } from "lucide-react";
+import { Wallet, TrendingDown, TrendingUp } from "lucide-react";
 import { BRAND } from "../../lib/theme";
-import type { InvoiceSummary } from "./invoicesApi";
+import type { OverviewSummary } from "./overviewApi";
 
 const formatNaira = (n: number): string => `₦${Number(n || 0).toLocaleString("en-NG")}`;
 
-export function OverviewCards({ summary }: { summary: InvoiceSummary }) {
+export function OverviewCards({ summary }: { summary: OverviewSummary }) {
+  const profitPositive = summary.profit >= 0;
+
   const cards = [
-    { label: "Total invoices", value: String(summary.totalCount), icon: FileText, tint: BRAND.lav },
-    { label: "Received", value: formatNaira(summary.totalReceived), icon: CheckCircle2, tint: BRAND.mint },
-    { label: "Outstanding", value: formatNaira(summary.totalOutstanding), icon: Clock, tint: BRAND.peach },
+    { label: "Sales", value: formatNaira(summary.totalSales), icon: Wallet, tint: BRAND.lav },
+    { label: "Expenses", value: formatNaira(summary.totalExpenses), icon: TrendingDown, tint: BRAND.peach },
+    { label: "Profit", value: formatNaira(summary.profit), icon: TrendingUp, tint: profitPositive ? BRAND.mint : BRAND.peach },
   ];
 
   return (

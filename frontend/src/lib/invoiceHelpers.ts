@@ -11,7 +11,7 @@ export const docLabel = (status: InvoiceStatus): string => (status === "paid" ? 
 
 export function statusBadge(status: InvoiceStatus): { label: string; bg: string; color: string } {
   if (status === "paid") return { label: "Paid", bg: BRAND.mint, color: BRAND.green };
-  if (status === "partially_paid") return { label: "Partially paid", bg: BRAND.amber, color: BRAND.amberStrong };
+  if (status === "partially_paid") return { label: "Partially Paid", bg: BRAND.amber, color: BRAND.amberStrong };
   return { label: "Due", bg: BRAND.peach, color: BRAND.red };
 }
 

@@ -13,6 +13,7 @@ import DashboardPage from './pages/DashboardPage'
 import WhatsAppWidget from './components/landing/WhatsAppWidget'
 import InvoiceDetailPage from './pages/InvoiceDetailPage'
 import WhoOwesMePage from './pages/WhoOwesMePage'
+import ExpenseDetailPage from './pages/ExpenseDetailPage'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/dashboard/owed" element={<ProtectedRoute><WhoOwesMePage /></ProtectedRoute>} />
         <Route path="/dashboard/invoices/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
+        <Route path="/dashboard/expenses/:id" element={<ProtectedRoute><ExpenseDetailPage /></ProtectedRoute>} />
       </Routes>
       <WhatsAppWidget />
     </AuthProvider>

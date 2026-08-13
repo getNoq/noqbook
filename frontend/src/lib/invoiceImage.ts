@@ -1,36 +1,37 @@
 import { BRAND } from "./theme";
 import type { Invoice } from "./invoiceTypes";
 import { docLabel, formatNaira } from "./invoiceHelpers";
+import { wrapText, wrapParagraphs } from "./canvasText";
 
-function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
-  const words = text.split(" ");
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const test = line ? `${line} ${word}` : word;
-    if (ctx.measureText(test).width <= maxWidth) {
-      line = test;
-    } else {
-      if (line) lines.push(line);
-      line = word;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
+// function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+//   const words = text.split(" ");
+//   const lines: string[] = [];
+//   let line = "";
+//   for (const word of words) {
+//     const test = line ? `${line} ${word}` : word;
+//     if (ctx.measureText(test).width <= maxWidth) {
+//       line = test;
+//     } else {
+//       if (line) lines.push(line);
+//       line = word;
+//     }
+//   }
+//   if (line) lines.push(line);
+//   return lines;
+// }
 
-function wrapParagraphs(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
-  const paragraphs = text.split("\n");
-  const allLines: string[] = [];
-  paragraphs.forEach((paragraph) => {
-    if (paragraph.trim().length === 0) {
-      allLines.push(""); // preserves a blank line between paragraphs
-    } else {
-      allLines.push(...wrapText(ctx, paragraph, maxWidth));
-    }
-  });
-  return allLines;
-}
+// function wrapParagraphs(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+//   const paragraphs = text.split("\n");
+//   const allLines: string[] = [];
+//   paragraphs.forEach((paragraph) => {
+//     if (paragraph.trim().length === 0) {
+//       allLines.push(""); // preserves a blank line between paragraphs
+//     } else {
+//       allLines.push(...wrapText(ctx, paragraph, maxWidth));
+//     }
+//   });
+//   return allLines;
+// }
 
 export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   try {
