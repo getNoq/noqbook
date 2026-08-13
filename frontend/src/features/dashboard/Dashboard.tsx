@@ -2,9 +2,9 @@ import { useState } from "react";
 import { BRAND, FONT_IMPORT_BLOCK } from "../../lib/theme";
 import type { Invoice } from "../../lib/invoiceTypes";
 import type { Expense } from "../../lib/expenseTypes";
-import { reminderText, shareCaption, openWhatsApp, docLabel } from "../../lib/invoiceHelpers";
-import { renderInvoiceImage } from "../../lib/invoiceImage";
-import { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
+// import { shareCaption, openWhatsApp, docLabel } from "../../lib/invoiceHelpers";
+// import { renderInvoiceImage } from "../../lib/invoiceImage";
+// import { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
 import { useAuth } from "../auth/AuthContext";
 import { Sidebar } from "./Sidebar";
 import { OverviewCards } from "./OverviewCards";
@@ -20,21 +20,21 @@ import { useDashboardInvoices } from "./useDashboardInvoices";
 import { useOverview } from "./useOverview";
 import { createExpense } from "./expensesApi";
 
-async function shareInvoiceAsImage(invoice: Invoice) {
-  const blob = await renderInvoiceImage(invoice);
-  const file = new File([blob], `${docLabel(invoice.status).toLowerCase()}.png`, { type: "image/png" });
-  const nav = navigator as Navigator & { canShare?: (data?: ShareData) => boolean };
-  if (nav.canShare && nav.canShare({ files: [file] })) {
-    await navigator.share({ files: [file], text: shareCaption(invoice) });
-  } else {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${docLabel(invoice.status).toLowerCase()}-${invoice.customerName}-${invoice.invoiceNumber}.png`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-}
+// async function shareInvoiceAsImage(invoice: Invoice) {
+//   const blob = await renderInvoiceImage(invoice);
+//   const file = new File([blob], `${docLabel(invoice.status).toLowerCase()}.png`, { type: "image/png" });
+//   const nav = navigator as Navigator & { canShare?: (data?: ShareData) => boolean };
+//   if (nav.canShare && nav.canShare({ files: [file] })) {
+//     await navigator.share({ files: [file], text: shareCaption(invoice) });
+//   } else {
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = `${docLabel(invoice.status).toLowerCase()}-${invoice.customerName}-${invoice.invoiceNumber}.png`;
+//     a.click();
+//     URL.revokeObjectURL(url);
+//   }
+// }
 
 type View = "overview" | "create-sale" | "sale-receipt" | "create-expense" | "expense-confirmation";
 
@@ -47,10 +47,10 @@ export function Dashboard() {
   const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
   const [activeExpense, setActiveExpense] = useState<Expense | null>(null);
 
-  const shareInvoiceLink = async (invoice: Invoice) => {
-    const link = await uploadInvoiceAndGetLink(invoice, accessToken);
-    openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
-  };
+  // const shareInvoiceLink = async (invoice: Invoice) => {
+  //   const link = await uploadInvoiceAndGetLink(invoice, accessToken);
+  //   openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
+  // };
 
   if (view === "create-sale") {
     return (
