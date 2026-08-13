@@ -59,7 +59,7 @@ function StyledSelect({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-label={ariaLabel}
-        className="appearance-none w-full rounded-xl px-3 py-2.5 pr-9 text-sm font-semibold outline-none cursor-pointer"
+        className="appearance-none w-full rounded-xl px-3 py-2.5 pr-9 text-base md:text-sm font-normal outline-none cursor-pointer"
         style={selectStyle}
       >
         {options.map((opt) => (
@@ -215,7 +215,7 @@ export function OverviewFilters(props: OverviewFiltersProps) {
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by customer name…"
-            className="w-full rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none"
+            className="w-full rounded-xl pl-9 pr-3 py-2.5 text-base md:text-sm outline-none"
             style={{
               border: `1px solid ${BRAND.line}`,
               background: BRAND.card,
