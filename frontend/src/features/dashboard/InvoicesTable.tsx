@@ -49,7 +49,7 @@ export function InvoicesTable({ invoices, onSendReminder, onShareAsImage, onShar
                 return (
                   <tr key={inv.id} style={{ borderBottom: `1px solid ${BRAND.line}` }}>
                     <td className="px-5 py-4">
-                      <Link to={`/dashboard/invoices/${inv.id}`} className="font-semibold hover:underline" style={{ color: "#4f3bb4" }}>
+                      <Link to={`/dashboard/sales/${inv.id}`} className="font-semibold hover:underline" style={{ color: "#4f3bb4" }}>
                         {inv.customerName}
                       </Link>
                       <div className="text-xs" style={{ color: BRAND.inkSoft }}>{docLabel(inv.status)}</div>

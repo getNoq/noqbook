@@ -65,14 +65,14 @@ export function OverviewRowMenu({ item }: { item: FeedItem }) {
       {open && (
         <div className="absolute right-0 mt-1 w-52 rounded-xl py-1.5 z-20" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}`, boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
           <button
-            onClick={() => { close(); navigate(item.type === "sale" ? `/dashboard/invoices/${item.invoiceId}` : `/dashboard/expenses/${item.expenseId}`); }}
+            onClick={() => { close(); navigate(item.type === "sale" ? `/dashboard/sales/${item.invoiceId}` : `/dashboard/expenses/${item.expenseId}`); }}
             className={itemClass} style={{ color: BRAND.ink }}
           >
             <Eye size={15} style={{ color: BRAND.inkSoft }} /> View details
           </button>
 
           {item.type === "sale" && item.status !== "paid" && (
-            <button onClick={() => { close(); navigate(`/dashboard/invoices/${item.invoiceId}`); }} disabled={busy} className={itemClass} style={{ color: BRAND.ink }}>
+            <button onClick={() => { close(); navigate(`/dashboard/sales/${item.invoiceId}`); }} disabled={busy} className={itemClass} style={{ color: BRAND.ink }}>
               <Wallet size={15} style={{ color: BRAND.inkSoft }} /> Record payment
             </button>
           )}

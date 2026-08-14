@@ -20,10 +20,12 @@ import PasswordSettingsPage from './pages/settings/PasswordSettingsPage'
 import PlanSettingsPage from './pages/settings/PlanSettingsPage'
 import BillingSettingsPage from './pages/settings/BillingSettingsPage'
 import TeamSettingsPage from './pages/settings/TeamSettingsPage'
+import { ScrollToTop } from './components/ScrollToTop'
 
 export default function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/start" element={<GuestInvoicePage />} />
@@ -33,7 +35,7 @@ export default function App() {
         <Route path="/reset-password" element={<GuestOnlyRoute><ResetPasswordPage /></GuestOnlyRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/dashboard/owed" element={<ProtectedRoute><WhoOwesMePage /></ProtectedRoute>} />
-        <Route path="/dashboard/invoices/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
+        <Route path="/dashboard/sales/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/expenses/:id" element={<ProtectedRoute><ExpenseDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsLayoutPage /></ProtectedRoute>}>
           <Route index element={<Navigate to="profile" replace />} />

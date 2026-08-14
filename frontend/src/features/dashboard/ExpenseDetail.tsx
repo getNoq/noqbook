@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Download, ExternalLink } from "lucide-react";
 import { BRAND, FONT_IMPORT_BLOCK } from "../../lib/theme";
 import type { Expense } from "../../lib/expenseTypes";
@@ -16,6 +16,7 @@ export function ExpenseDetail() {
   const [expense, setExpense] = useState<Expense | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     if (!accessToken || !id) return;
@@ -42,7 +43,7 @@ export function ExpenseDetail() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+    <div className="min-h-dvh flex flex-col md:flex-row" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
       <style>{FONT_IMPORT_BLOCK}</style>
       <Sidebar />
       <main className="flex-1 min-w-0">
@@ -85,10 +86,20 @@ export function ExpenseDetail() {
                 <Download size={16} /> Download expense voucher
               </button>
             )}
-
-            <button onClick={() => navigate("/dashboard")} className="w-full rounded-full py-3.5 font-semibold bg-white text-sm" style={{ border: `1px solid ${BRAND.line}`, color: "#000000" }}>
-              Done - back to overview
+            <button 
+                onClick={() => {
+                    // location.key is "default" only if it's the very first page loaded in this tab
+                    if (location.key !== "default") {
+                    navigate(-1);
+                    } else {
+                    navigate("/dashboard");
+                    }
+                }} 
+                 className="w-full rounded-full py-3.5 font-semibold bg-white text-sm" style={{ border: `1px solid ${BRAND.line}`, color: "#000000" }}
+            > 
+                Done - back to overview 
             </button>
+
           </div>
         )}
       </main>

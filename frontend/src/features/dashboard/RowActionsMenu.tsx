@@ -33,11 +33,11 @@ export function RowActionsMenu({ invoice, onSendReminder, onShareAsImage, onShar
       </button>
       {open && (
         <div className="absolute right-0 mt-1 w-52 rounded-xl py-1.5 z-20" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}`, boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
-          <Link to={`/dashboard/invoices/${invoice.id}`} onClick={() => setOpen(false)} className={itemClass} style={{ color: BRAND.ink }}>
+          <Link to={`/dashboard/sales/${invoice.id}`} onClick={() => setOpen(false)} className={itemClass} style={{ color: BRAND.ink }}>
             <Eye size={15} style={{ color: BRAND.inkSoft }} /> View details
           </Link>
           {invoice.status !== "paid" && (
-            <Link to={`/dashboard/invoices/${invoice.id}`} onClick={() => setOpen(false)} className={itemClass} style={{ color: BRAND.ink }}>
+            <Link to={`/dashboard/sales/${invoice.id}`} onClick={() => setOpen(false)} className={itemClass} style={{ color: BRAND.ink }}>
               <Wallet size={15} style={{ color: BRAND.inkSoft }} /> Record payment
             </Link>
           )}

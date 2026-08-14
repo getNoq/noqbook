@@ -14,7 +14,7 @@ function badgeFor(item: FeedItem) {
 }
 
 function detailPath(item: FeedItem) {
-  return item.type === "sale" ? `/dashboard/invoices/${item.invoiceId}` : `/dashboard/expenses/${item.expenseId}`;
+  return item.type === "sale" ? `/dashboard/sales/${item.invoiceId}` : `/dashboard/expenses/${item.expenseId}`;
 }
 
 function FeedRowTitle({ item }: { item: FeedItem }) {

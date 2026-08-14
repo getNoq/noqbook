@@ -18,7 +18,7 @@ export function InvoiceCard({ invoice, onSendReminder, onShareAsImage, onShareLi
     <div className="rounded-2xl p-4" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
       <div className="flex items-start justify-between gap-3">
         <div>
-          <Link to={`/dashboard/invoices/${invoice.id}`} className="font-semibold text-base hover:underline" style={{ color: "#4f3bb4" }}>
+          <Link to={`/dashboard/sales/${invoice.id}`} className="font-semibold text-base hover:underline" style={{ color: "#4f3bb4" }}>
             {invoice.customerName}
           </Link>
           <div className="text-xs mt-0.5" style={{ color: BRAND.inkSoft }}>{invoice.invoiceNumber} · {invoice.createdAt} · {docLabel(invoice.status)}</div>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import {
   fetchOverviewSummary, fetchOverviewFeed,
@@ -10,13 +11,35 @@ const PAGE_SIZE = 10;
 
 export function useOverview() {
   const { accessToken } = useAuth();
-  const [type, setType] = useState<FeedType>("all");
-  const [range, setRange] = useState<DateRangePreset>("all");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [sort, setSort] = useState<FeedSort>("newest");
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Filters live in the URL, not local state — so navigating to a sale/
+  // expense detail page and coming back preserves them automatically,
+  // without a separate persistence layer.
+  const type = (searchParams.get("type") as FeedType) || "all";
+  const range = (searchParams.get("range") as DateRangePreset) || "all";
+  const dateFrom = searchParams.get("dateFrom") || "";
+  const dateTo = searchParams.get("dateTo") || "";
+  const sort = (searchParams.get("sort") as FeedSort) || "newest";
+  const search = searchParams.get("search") || "";
+  const page = Number(searchParams.get("page")) || 1;
+
+  const updateParams = (updates: Record<string, string | number>) => {
+    const next = new URLSearchParams(searchParams);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === "" || value === "all" || (key === "page" && value === 1)) next.delete(key);
+      else next.set(key, String(value));
+    });
+    setSearchParams(next, { replace: true });
+  };
+
+  const setType = (v: FeedType) => updateParams({ type: v, page: 1 });
+  const setRange = (v: DateRangePreset) => updateParams({ range: v, page: 1 });
+  const setDateFrom = (v: string) => updateParams({ dateFrom: v, page: 1 });
+  const setDateTo = (v: string) => updateParams({ dateTo: v, page: 1 });
+  const setSort = (v: FeedSort) => updateParams({ sort: v, page: 1 });
+  const setSearch = (v: string) => updateParams({ search: v, page: 1 });
+  const goToPage = (p: number) => updateParams({ page: p });
 
   const [summary, setSummary] = useState<OverviewSummary>(EMPTY_SUMMARY);
   const [items, setItems] = useState<FeedItem[]>([]);
@@ -29,35 +52,30 @@ export function useOverview() {
     try {
       setSummary(await fetchOverviewSummary(accessToken, { range, dateFrom, dateTo }));
     } catch {
-      // non-fatal — cards just stay at their last known values
+      // non-fatal
     }
   }, [accessToken, range, dateFrom, dateTo]);
 
-  const loadFeed = useCallback(
-    async (targetPage: number) => {
-      if (!accessToken) return;
-      setIsLoading(true);
-      setError(null);
-      try {
-        const data = await fetchOverviewFeed(accessToken, { type, range, dateFrom, dateTo, search, sort, page: targetPage });
-        setItems(data.results);
-        setTotalCount(data.count);
-        setPage(targetPage);
-      } catch (err: any) {
-        setError(err?.message || "Couldn't load your activity.");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [accessToken, type, range, dateFrom, dateTo, search, sort]
-  );
+  const loadFeed = useCallback(async () => {
+    if (!accessToken) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await fetchOverviewFeed(accessToken, { type, range, dateFrom, dateTo, search, sort, page });
+      setItems(data.results);
+      setTotalCount(data.count);
+    } catch (err: any) {
+      setError(err?.message || "Couldn't load your activity.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [accessToken, type, range, dateFrom, dateTo, search, sort, page]);
 
-  // Small debounce so every keystroke in search doesn't fire a request.
   useEffect(() => {
-    const handle = setTimeout(() => loadFeed(1), 300);
+    const handle = setTimeout(() => loadFeed(), 300);
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, range, dateFrom, dateTo, search, sort]);
+  }, [type, range, dateFrom, dateTo, search, sort, page]);
 
   useEffect(() => {
     loadSummary();
@@ -68,8 +86,7 @@ export function useOverview() {
 
   return {
     type, setType, range, setRange, dateFrom, setDateFrom, dateTo, setDateTo, sort, setSort, search, setSearch,
-    summary, items, isLoading, error, page, totalPages,
-    goToPage: loadFeed,
-    refresh: () => { loadFeed(page); loadSummary(); },
+    summary, items, isLoading, error, page, totalPages, goToPage,
+    refresh: () => { loadFeed(); loadSummary(); },
   };
 }

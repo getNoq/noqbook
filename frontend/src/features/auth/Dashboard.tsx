@@ -1,9 +1,14 @@
 import { LogOut, Mail, Phone } from "lucide-react";
 import { BRAND, FONT_IMPORT_BLOCK } from "../../lib/theme";
 import { useAuth } from "./AuthContext";
+import { useEffect } from "react";
 
 export function Dashboard() {
   const { user, logOut } = useAuth();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div style={{ background: BRAND.bg, minHeight: "100vh", fontFamily: "Inter, sans-serif", color: BRAND.ink }}>

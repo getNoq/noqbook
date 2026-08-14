@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { BRAND, FONT_IMPORT_BLOCK } from "../../lib/theme";
 import type { Invoice } from "../../lib/invoiceTypes";
 import { useAuth } from "../auth/AuthContext";
@@ -14,6 +14,7 @@ export function InvoiceDetail() {
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     if (!accessToken || !id) return;
@@ -26,25 +27,44 @@ export function InvoiceDetail() {
   }, [accessToken, id]);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row gap-4" style={{ background: BRAND.bg, fontFamily: "Inter, sans-serif", color: BRAND.ink }}>
+    <div
+      className="min-h-dvh flex flex-col md:flex-row gap-4"
+      style={{
+        background: BRAND.bg,
+        fontFamily: "Inter, sans-serif",
+        color: BRAND.ink,
+      }}
+    >
       <style>{FONT_IMPORT_BLOCK}</style>
       <Sidebar />
       <main className="flex-1 min-w-0">
-        {isLoading && 
-          <div className="max-w-xl mx-auto px-4 md:px-0 py-10 text-center text-sm" style={{ color: BRAND.inkSoft }}>
+        {isLoading && (
+          <div
+            className="max-w-xl mx-auto px-4 md:px-0 py-10 text-center text-sm"
+            style={{ color: BRAND.inkSoft }}
+          >
             Loading invoice…
-            </div>
-        }
-        {!isLoading && error && 
-          <div className="max-w-xl mx-auto px-4 md:px-0 py-10 text-center text-sm" style={{ color: BRAND.red }}>
+          </div>
+        )}
+        {!isLoading && error && (
+          <div
+            className="max-w-xl mx-auto px-4 md:px-0 py-10 text-center text-sm"
+            style={{ color: BRAND.red }}
+          >
             {error}
           </div>
-        }
+        )}
         {!isLoading && !error && invoice && (
           <DashboardInvoiceReceipt
             invoice={invoice}
             onPaymentRecorded={setInvoice}
-            onDone={() => navigate("/dashboard")}
+            onDone={() => {
+              if (location.key !== "default") {
+                navigate(-1);
+              } else {
+                navigate("/dashboard");
+              }
+            }}
           />
         )}
       </main>
