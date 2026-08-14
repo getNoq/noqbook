@@ -71,9 +71,9 @@ import { MAX_GUEST_HISTORY } from "./constants";
 export { formatNaira, docLabel, invoiceText, reminderText, shareCaption, openWhatsApp } from "../../lib/invoiceHelpers";
 
 export function guestStatusMessage(count: number): string {
-  if (count === 0) return "Guest Mode — invoices stay on this device only.";
+  if (count === 0) return "Guest Mode — records stay on this device only.";
   if (count >= MAX_GUEST_HISTORY) {
-    return `${count} of ${MAX_GUEST_HISTORY} saved on this device (limit reached). Creating another invoice will replace your oldest one.`;
+    return `${count} of ${MAX_GUEST_HISTORY} saved on this device (limit reached). Creating another record will replace your oldest one.`;
   }
   return `${count} of ${MAX_GUEST_HISTORY} used on this device. Create a free account to save unlimited ones.`;
 }

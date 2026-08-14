@@ -14,6 +14,7 @@ import { AuthTokens, AuthUser } from "./types";
  * actually returns — e.g. if your serializer returns { access, refresh }
  * flat at the top level instead of nested under "tokens".
  */
+
 const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export class ApiError extends Error {
@@ -27,8 +28,8 @@ export class ApiError extends Error {
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     ...options,
+    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
   });
 
   let data: any = {};
@@ -56,7 +57,7 @@ export function signup(payload: {
   email: string;
   password: string;
   phone: string;
-  businessName?: string;
+  businessName: string 
 }): Promise<AuthResponse> {
   return request<AuthResponse>("/signup/", { body: JSON.stringify(payload) });
 }
@@ -74,9 +75,24 @@ export function resetPassword(payload: { token: string; password: string }): Pro
 }
 
 export function fetchCurrentUser(accessToken: string): Promise<AuthUser> {
+  return request<AuthUser>("/me/", { method: "GET", headers: { Authorization: `Bearer ${accessToken}` } });
+}
+
+export function updateProfile(
+  accessToken: string,
+  payload: { businessName: string; firstName: string; lastName: string; phone: string }
+): Promise<AuthUser> {
   return request<AuthUser>("/me/", {
-    method: "GET",
+    method: "PATCH",
     headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function changePassword(accessToken: string, payload: { currentPassword: string; newPassword: string }): Promise<{ message: string }> {
+  return request("/password/change/", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(payload),
   });
 }
 

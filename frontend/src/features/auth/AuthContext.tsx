@@ -15,6 +15,7 @@ interface AuthContextValue {
   logOut: () => void;
   clearError: () => void;
   accessToken: string | null;
+  updateProfile: (payload: { businessName: string; firstName: string; lastName: string; phone: string }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -139,10 +140,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateProfile: AuthContextValue["updateProfile"] = async (payload) => {
+    if (!tokens?.access) throw new Error("Not signed in.");
+    const updatedUser = await api.updateProfile(tokens.access, payload);
+    setUser(updatedUser);
+  };
+
   const clearError = () => setError(null);
 
   const value = useMemo(
-    () => ({ user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError, accessToken: tokens?.access ?? null }),
+    () => ({
+      user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError,
+      accessToken: tokens?.access ?? null, updateProfile,
+    }),
     [user, isLoading, error, tokens]
   );
 

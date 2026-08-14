@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './features/auth/AuthContext'
 import ProtectedRoute from './features/auth/ProtectedRoute'
 import GuestOnlyRoute from './features/auth/GuestOnlyRoute'
@@ -14,6 +14,12 @@ import WhatsAppWidget from './components/landing/WhatsAppWidget'
 import InvoiceDetailPage from './pages/InvoiceDetailPage'
 import WhoOwesMePage from './pages/WhoOwesMePage'
 import ExpenseDetailPage from './pages/ExpenseDetailPage'
+import SettingsLayoutPage from './pages/settings/SettingsLayoutPage'
+import ProfileSettingsPage from './pages/settings/ProfileSettingsPage'
+import PasswordSettingsPage from './pages/settings/PasswordSettingsPage'
+import PlanSettingsPage from './pages/settings/PlanSettingsPage'
+import BillingSettingsPage from './pages/settings/BillingSettingsPage'
+import TeamSettingsPage from './pages/settings/TeamSettingsPage'
 
 export default function App() {
   return (
@@ -29,6 +35,14 @@ export default function App() {
         <Route path="/dashboard/owed" element={<ProtectedRoute><WhoOwesMePage /></ProtectedRoute>} />
         <Route path="/dashboard/invoices/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/expenses/:id" element={<ProtectedRoute><ExpenseDetailPage /></ProtectedRoute>} />
+        <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsLayoutPage /></ProtectedRoute>}>
+          <Route index element={<Navigate to="profile" replace />} />
+          <Route path="profile" element={<ProfileSettingsPage />} />
+          <Route path="password" element={<PasswordSettingsPage />} />
+          <Route path="plan" element={<PlanSettingsPage />} />
+          <Route path="billing" element={<BillingSettingsPage />} />
+          <Route path="team" element={<TeamSettingsPage />} />
+        </Route>
       </Routes>
       <WhatsAppWidget />
     </AuthProvider>

@@ -107,7 +107,7 @@ export function OverviewFilters(props: OverviewFiltersProps) {
           <input
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search by customer name…"
+            placeholder="Search by name or title…"
             className="w-full rounded-xl pl-9 pr-3 py-2.5 text-base md:text-sm outline-none"
             style={{
               border: `1px solid ${BRAND.line}`,

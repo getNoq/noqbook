@@ -48,7 +48,7 @@ export function InvoiceForm({
   return (
     <div className="rounded-3xl p-7" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
       <h1 className="font-heading text-[28px] md:text-[40px]">
-        Create {hasSavedInvoices ? "another" : "your first"} invoice
+        Record {hasSavedInvoices ? "another" : "your first"} sale
       </h1>
       <p className="text-sm mb-7" style={{ color: BRAND.inkSoft }}>
         Fill this out like paper. Nothing is saved until you say so.

@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-
 const FREE_FEATURES = [
-  'Unlimited invoices & receipts',
-  'Unlimited sales logs',
-  'Paid & unpaid tracking',
-  'WhatsApp & PDF/image sharing',
-  'Basic invoice customization',
-]
+  "Unlimited sales and expense logs",
+  "Unlimited invoices and receipts",
+  "Payment tracking with partial payments",
+  "Expense recording with receipt uploads",
+  "WhatsApp & image sharing",
+  "Custom notes and brand colors",
+  "\"Who owes me\" and profit overview",
+];
 
 const BUSINESS_FEATURES = [
   'Profit & cash flow dashboard',
@@ -46,7 +47,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
         {/* Free plan */}
         <div className="rounded-2xl bg-white border border-neutral-200 p-8">
           <p className="font-heading text-[32px] uppercase">Free</p>
-          <p className="text-[14px] leading-[20px] text-[#667085]">Get your business records organized.</p>
+          <p className="text-[14px] leading-[20px] text-[#667085]">Get your business records organized. Everything you need to run your business day to day.</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦0<span className="text-[24px] text-[#667085]">/month</span>
           </p>

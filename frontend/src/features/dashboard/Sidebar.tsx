@@ -5,8 +5,9 @@ import { BRAND } from "../../lib/theme";
 import { useAuth } from "../auth/AuthContext";
 
 const NAV_ITEMS = [
-  { label: "Overview", icon: LayoutDashboard, to: "/dashboard" },
-  { label: "Who owes me", icon: Users, to: "/dashboard/owed" },
+  { label: "Overview", icon: LayoutDashboard, to: "/dashboard", match: (path: string) => path === "/dashboard" },
+  { label: "Who owes me", icon: Users, to: "/dashboard/owed", match: (path: string) => path === "/dashboard/owed" },
+  { label: "Settings", icon: Settings, to: "/dashboard/settings", match: (path: string) => path.startsWith("/dashboard/settings") },
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
@@ -18,7 +19,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <div className="font-heading text-lg px-2 mb-8" style={{ color: BRAND.ink }}>Yousual</div>
       <nav className="flex-1 flex flex-col gap-1">
         {NAV_ITEMS.map((item) => {
-          const active = location.pathname === item.to;
+          const active = item.match(location.pathname);
           return (
             <Link
               key={item.label}
@@ -32,11 +33,6 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             </Link>
           );
         })}
-        {/* Settings isn't built yet — a quiet placeholder rather than a
-            dead link that looks broken. */}
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium opacity-40" style={{ color: BRAND.inkSoft }}>
-          <Settings size={17} /> Settings
-        </div>
       </nav>
       <div className="border-t pt-4 mt-4" style={{ borderColor: BRAND.line }}>
         <div className="px-3 mb-3">
