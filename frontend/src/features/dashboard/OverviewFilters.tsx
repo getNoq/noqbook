@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Search, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
+import { Search, ChevronDown } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import type { FeedType, DateRangePreset, FeedSort } from "./overviewApi";
+import { DatePickerField } from "../../components/ui/DatePickerField";
 
 interface OverviewFiltersProps {
   type: FeedType;
@@ -74,111 +72,6 @@ function StyledSelect({
         className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2"
         style={{ color: BRAND.inkSoft }}
       />
-    </div>
-  );
-}
-
-// --- date picker field ----------------------------------------------------
-// Replaces the native <input type="date"> entirely. This is a plain button
-// styled exactly like the other filter fields (so it always shows a real,
-// controllable "dd/mm/yyyy" placeholder, and never triggers iOS's native
-// -webkit-appearance chrome) that opens a react-day-picker calendar
-// popover on click/tap. No native browser date UI is involved anywhere in
-// this component, so there's nothing left for iOS or desktop browsers to
-// render inconsistently.
-//
-// Requires: npm install react-day-picker
-// The "react-day-picker/style.css" import only needs to happen once
-// anywhere in the app — safe to leave here, or move to a root layout file.
-
-function isoToDate(iso: string): Date | undefined {
-  if (!iso) return undefined;
-  const [y, m, d] = iso.split("-").map(Number);
-  if (!y || !m || !d) return undefined;
-  const date = new Date(y, m - 1, d);
-  return Number.isNaN(date.getTime()) ? undefined : date;
-}
-
-function dateToIso(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
-function isoToDisplay(iso: string): string {
-  const date = isoToDate(iso);
-  if (!date) return "";
-  const d = String(date.getDate()).padStart(2, "0");
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  return `${d}/${m}/${date.getFullYear()}`;
-}
-
-interface DatePickerFieldProps {
-  value: string; // ISO yyyy-mm-dd, empty string if unset
-  onChange: (iso: string) => void;
-  placeholder?: string;
-  className?: string;
-}
-
-function DatePickerField({
-  value,
-  onChange,
-  placeholder = "dd/mm/yyyy",
-  className = "",
-}: DatePickerFieldProps) {
-  const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const display = isoToDisplay(value);
-
-  return (
-    <div ref={containerRef} className={`relative min-w-0 ${className}`}>
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm outline-none"
-        style={{
-          border: `1px solid ${BRAND.line}`,
-          background: BRAND.card,
-          color: display ? undefined : BRAND.inkSoft,
-        }}
-      >
-        <span className="truncate">{display || placeholder}</span>
-        <CalendarIcon size={16} className="shrink-0" style={{ color: BRAND.inkSoft }} />
-      </button>
-
-      {open && (
-        <div
-          className="absolute z-20 mt-1 rounded-xl p-2 shadow-lg"
-          style={{ border: `1px solid ${BRAND.line}`, background: BRAND.card }}
-        >
-          <DayPicker
-            mode="single"
-            selected={isoToDate(value)}
-            onSelect={(date) => {
-              if (date) {
-                onChange(dateToIso(date));
-                setOpen(false);
-              }
-            }}
-            defaultMonth={isoToDate(value)}
-          />
-        </div>
-      )}
     </div>
   );
 }
@@ -258,8 +151,18 @@ export function OverviewFilters(props: OverviewFiltersProps) {
       {/* Custom date range */}
       {range === "custom" && (
         <div className="flex gap-2 mt-2">
-          <DatePickerField value={dateFrom} onChange={onDateFromChange} />
-          <DatePickerField value={dateTo} onChange={onDateToChange} />
+          <DatePickerField
+            value={dateFrom}
+            onChange={onDateFromChange}
+            className="flex-1"
+            align="left"
+          />
+          <DatePickerField
+            value={dateTo}
+            onChange={onDateToChange}
+            className="flex-1"
+            align="right"
+          />
         </div>
       )}
     </div>

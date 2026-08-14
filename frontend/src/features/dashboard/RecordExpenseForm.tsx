@@ -3,6 +3,7 @@ import { Upload, ChevronDown } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import { EXPENSE_CATEGORIES, type ExpenseCategory } from "../../lib/expenseTypes";
 import type { CreateExpensePayload } from "./expensesApi";
+import { DatePickerField } from "../../components/ui/DatePickerField";
 
 const inputStyle = (invalid: boolean) => ({ border: `1px solid ${invalid ? BRAND.red : BRAND.line}` });
 const todayISO = () => new Date().toISOString().slice(0, 10);
@@ -91,14 +92,11 @@ export function RecordExpenseForm({ onCancel, onRecord }: RecordExpenseFormProps
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
         Date
         </label>
-        <input
-        type="date"
-        lang="en-GB"
+        <DatePickerField
         value={expenseDate}
-        onChange={(e) => setExpenseDate(e.target.value)}
-        max={todayISO()}
-        className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none !bg-white"
-        style={inputStyle(false)}
+        onChange={setExpenseDate}
+        maxDate={todayISO()}
+        className="mb-5"
         />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
