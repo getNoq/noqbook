@@ -117,8 +117,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
               : "and save ₦5,000 every year."}
           </p> */}
           <p className="text-[14px] leading-[24px]">
-            Go beyond keeping records. Run your business with clarity.
-            Track your money, customers, expenses, and performance in one place.
+            Know exactly where your business stands. Everything you need to track sales, expenses, payments, and business performance.
           </p>
           <p className="font-heading my-6 tracking-[-2%]">
             {/* ₦{billing === "monthly" ? "2,500" : "25,000"} */}

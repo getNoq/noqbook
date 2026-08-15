@@ -18,12 +18,12 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
 
         <div className="relative z-10 flex flex-col items-center px-6 pt-10 text-center md:pt-[64px]">
-          <h1 className="font-heading flex flex-col items-center max-w-3xl text-[48px] leading-[48px] tracking-[-2%] md:text-[80px] md:leading-[80px] mx-auto">
-            Your business moves fast. 
+          <h1 className="font-heading flex flex-col items-center max-w-3xl max-[378px]:text-[40px] max-[378px]:leading-[40px] text-[48px] leading-[48px] tracking-[-2%] md:text-[80px] md:leading-[80px] mx-auto">
+            Keep your business
             <br />
             <div className="inline-block rounded-[12px] h-[60px] md:h-[90px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}>
               <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
-                Keep the record.
+                on record.
               </span>
             </div>
           </h1>
@@ -42,7 +42,7 @@ export default function Hero() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
-              See how it works
+              Try without an account
             </Link>
           </div>
 

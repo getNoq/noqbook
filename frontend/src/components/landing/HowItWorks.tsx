@@ -19,7 +19,7 @@ export default function HowItWorks() {
     <section className="px-5 py-12 md:py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="font-heading flex flex-col items-center max-w-3xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
-          YOU DON'T NEED TO GUESS
+          YOU DON'T NEED TO GUESS.
           <br />
           <div className="inline-block rounded-[12px] h-[50px] md:h-[80px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}>
             <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
