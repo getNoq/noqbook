@@ -9,21 +9,21 @@ const FEATURES: Feature[] = [
   {
     title: 'Log the sale',
     description:
-      "Type the item, the amount, and the customer's name. Under a minute, even on a bad network day.",
+      "Record what the customer bought, how much they paid and what's outstanding, under a minute.",
     bg: 'bg-[#B8CAF4]',
     image: '/images/feature-one.svg',
   },
   {
-    title: 'Send the receipt',
+    title: 'Share the receipt',
     description:
-      "One tap sends it straight to WhatsApp, or download it as an image to forward yourself.",
+      "Send a receipt straight to your customers on WhatsApp, or download it as an image.",
     bg: 'bg-sky-100',
     image: '/images/feature-two.svg',
   },
   {
     title: 'Know where you stand',
     description:
-      "Mark it paid when the money lands. Yousual keeps the running total, so you always know your number.",
+      "Fully paid, partly paid or owed, Yousual keeps the running total, so you always know your number.",
     bg: 'bg-[#D8F2DD]',
     image: '/images/feature-three.svg',
   },
@@ -37,7 +37,7 @@ export default function LogShareKnow() {
           LOG IT. SHARE IT. 
           <div className="inline-block rounded-[12px] h-[50px] md:h-[80px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}> 
             <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
-              KNOW IT'S PAID. 
+              KNOW IT'S STATUS. 
             </span> 
           </div>
         </h1>

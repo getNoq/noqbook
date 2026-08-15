@@ -10,6 +10,7 @@ import {
   validatePhone,
   validateBusinessName,
 } from "./validators";
+import { Link } from "react-router-dom";
 
 // ---------- Shared bits ----------
 
@@ -242,7 +243,7 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
           {touched && <FieldError message={passwordError} />}
         </div>
 
-        <div className="mb-7">
+        <div className="mb-5">
           <PasswordField
             id="confirmPassword"
             label="Confirm password"
@@ -252,6 +253,11 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
           />
           {touched && <FieldError message={confirmError} />}
         </div>
+
+          <div className="mb-4 text-sm" style={{ color: BRAND.inkSoft }}>
+            By signing up, you agree to our{" "}
+            <Link to="/privacy-policy" target="_blank" className="underline" style={{ color: BRAND.ink }}>Privacy Policy</Link>.
+          </div>
 
         <SubmitButton busy={busy} disabled={touched && !canSubmit}>
           Create account

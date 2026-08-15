@@ -6,19 +6,19 @@ interface PainPoint {
 
 const PAIN_POINTS: PainPoint[] = [
   {
-    quote: 'Customer said he already paid',
-    description: "Without a record, it's your word against theirs - every single time.",
-    image: '/images/customer-experience.png'
+    quote: 'Your business runs on your phone.',
+    description: "Sales live in a notebook or WhatsApp. Payments live in your bank — or your head.",
+    image: '/images/shopping-online.png'
   },
   {
-    quote: "I made plenty sales but I'm still broke",
-    description: "Revenue and profit aren't the same thing if you're not tracking what goes out too.",
-    image: '/images/financial.png'
+    quote: "Your bank shows where money moved.",
+    description: "A bank transaction can tell you ₦50,000 came in. It can't tell you who paid, what they bought, what they still owe, or what you spent to make the sale.",
+    image: '/images/mobile-banking.png'
   },
   {
-    quote: 'Where did all my money go?',
-    description: 'Cash, transfer, POS - money moves through three channels and nobody is adding it up.',
-    image: '/images/debt.png'
+    quote: 'Yousual shows what happened.',
+    description: 'Yousual brings the details together, so you can see what happened behind the money.',
+    image: '/images/online-payment.png'
   },
 ]
 
@@ -30,11 +30,10 @@ export default function ProblemSection() {
           The Problem
         </span>
         <h2 className="mt-2 text-[28px] font-semibold leading-[36px] md:text-[36px] md:leading-[44px] tracking-[-2%]">
-          Your business runs on your phone. Your money doesn't add up anywhere.
+            Your money moves. But do you know the whole story?
         </h2>
         <p className="mx-auto text-[18px] leading-[28px] mt-3 max-w-[678px] text-[#667085]">
-          Sales live in a notebook. Payments live in your head. And when a customer says
-          "but I paid you already," you have nothing to show them.
+          Sales, expenses and customer payments can end up in different places — your notebook, WhatsApp, bank account, or your head. Yousual keeps the business behind the money in one place.
         </p>
       </div>
 
@@ -46,7 +45,7 @@ export default function ProblemSection() {
               alt={point.quote} 
               className="absolute left-1/2 -translate-x-1/2 -top-[30px] h-[60px] w-[60px] object-cover" 
             />
-            <p className="text-[18px] leading-[30px] text-[#101828] font-medium">"{point.quote}"</p>
+            <p className="text-[18px] leading-[30px] text-[#101828] font-medium">{point.quote}</p>
             <p className="mt-3 text-[16px] leading-[24px] text-[#667085]">{point.description}</p>
           </div>
         ))}

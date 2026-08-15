@@ -6,7 +6,7 @@ const FREE_FEATURES = [
   "Payment tracking with partial payments",
   "Expense recording with receipt uploads",
   "WhatsApp & image sharing",
-  "Custom notes and brand colors",
+  "Custom notes and preset brand colors",
   "\"Who owes me\" and profit overview",
 ];
 
@@ -38,8 +38,9 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
           </div>
         </h1>
         <p className="mx-auto mt-3 max-w-[678px] text-[#667085] text-[18px] leading-[28px]">
-          Start free. Pay when it's saving you time. No card needed to try it. Upgrade once
-          reminders and reports are worth it to you.
+          {/* Start free. Pay when it's saving you time. No card needed to try it. Upgrade once
+          reminders and reports are worth it to you. */}
+          Start free and simple. More power when you need it and it's saving you time. 
         </p>
       </div>
 
@@ -47,7 +48,7 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
         {/* Free plan */}
         <div className="rounded-2xl bg-white border border-neutral-200 p-8">
           <p className="font-heading text-[32px] uppercase">Free</p>
-          <p className="text-[14px] leading-[20px] text-[#667085]">Get your business records organized. Everything you need to run your business day to day.</p>
+          <p className="text-[14px] leading-[24px] text-[#667085]">Get your business records organized. Everything you need to run your business day to day.</p>
           <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦0<span className="text-[24px] text-[#667085]">/month</span>
           </p>
@@ -79,7 +80,8 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
         {/* Business plan */}
         <div className="relative rounded-2xl bg-ink p-8 text-white">
           <span className="absolute -top-3 right-8 rounded-[8px] bg-yolk px-3 py-1 text-[18px] font-heading uppercase tracking-wide text-ink">
-            Most owners pick this
+            {/* Most owners pick this */}
+            Launching soon
           </span>
           <div className="flex items-center gap-4">
             <p className="font-heading text-[32px] uppercase">Business</p>
@@ -108,18 +110,29 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
               </button>
             </div>
           </div>
-          <p className="text-[14px] leading-[24px]">
+          {/* <p className="text-[14px] leading-[24px]">
             Know exactly where your business stands -{" "}
             {billing === "monthly"
               ? "for less than ₦85/day, billed monthly."
               : "and save ₦5,000 every year."}
+          </p> */}
+          <p className="text-[14px] leading-[24px]">
+            Go beyond keeping records. Run your business with clarity.
+            Track your money, customers, expenses, and performance in one place.
           </p>
-          <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
+          <p className="font-heading my-6 tracking-[-2%]">
+            {/* ₦{billing === "monthly" ? "2,500" : "25,000"} */}
+            <span className="text-[24px] leading-[32px] text-white/80">
+              {/* /{billing === "monthly" ? "month" : "year"} */}
+            Price: Coming soon
+            </span>
+          </p>
+          {/* <p className="font-heading mt-2 text-[48px] leading-[72px] tracking-[-2%]">
             ₦{billing === "monthly" ? "2,500" : "25,000"}
             <span className="text-[24px] text-white/80">
               /{billing === "monthly" ? "month" : "year"}
             </span>
-          </p>
+          </p> */}
 
           <p className="mt-3 text-[14px] leading-[24px] font-semibold uppercase text-white">
             Features

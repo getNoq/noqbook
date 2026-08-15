@@ -21,18 +21,12 @@ interface FaqItem {
 // promises — left out for now since those specifics aren't set yet.
 const FAQS: FaqItem[] = [
   {
-    question: "Do I need to create an account to use Yousual?",
+    question: "Do I need to create an account to record a sale??",
     answer: [
-      "No. You can create and share an invoice or receipt instantly in guest mode — no sign-up required. Your 3 most recent records are saved on your device.",
-      "Create a free account whenever you're ready to keep your full history and access it across devices.",
+      "No. You can record a sale, create and share an invoice or receipt instantly in guest mode — no sign-up required. Your 3 most recent invoices are saved on your device.",
+      "Create a free account whenever you're ready to keep your full history and access your records across devices.",
     ],
     link: { label: "Try it without an account", href: "/start" },
-  },
-  {
-    question: "What can I record on Yousual?",
-    answer: [
-      "Record sales, invoices, receipts, customer payments, outstanding amounts and business expenses — all in one place.",
-    ],
   },
   {
     question: "What happens when I reach the guest mode limit?",
@@ -43,34 +37,59 @@ const FAQS: FaqItem[] = [
     link: { label: "Create a free account to keep your full history.", href: "/signup" },
   },
   {
+    question: "What can I record on Yousual?",
+    answer: [
+      "Yousual helps you keep track of the money coming into and going out of your business.",
+      "You can record sales, create invoices and receipts, track paid and outstanding amounts, and record business expenses. You can also keep customer records and see your business activity in one place.",
+    ],
+  },
+  {
     question: "How is Yousual different from my bank app?",
     answer: [
-      "Your bank shows where money moved. Yousual helps you understand what happened in your business — what you sold, who paid, what they bought, what you spent and what is still owed.",
+      "Your bank shows you money moving through your account. Yousual helps you track the business behind that money.",
+      "A customer may pay you by bank transfer, cash, or another method — but your bank doesn't know what they paid for. Yousual lets you record the sale, link it to the customer, track what is still owed, and record the expenses that came out of the business.",
+      "Think of your bank as where your money moves and Yousual as where you keep track of your business.",
     ],
   },
   {
     question: "How do I record a sale?",
     answer: [
-      "You can record a sale by adding what was sold, the amount, and the customer's details if needed. You can mark the sale as paid, partial payment or outstanding and generate a receipt or invoice to share with your customer.",
+      "You can record a sale by adding what was sold, the amount, and the customer's details if needed. You can mark the sale as paid or outstanding and generate a receipt or invoice to share with your customer.",
       "This means you can keep a record whether the customer paid by bank transfer, cash, or another payment method.",
     ],
   },
   {
     question: "Can I record business expenses?",
     answer: [
-      "Yes. Business customers can record expenses and attach receipt photos, making it easier to keep track of where business money goes.",
+      "Yes. Business customers can record expenses such as stock purchases, transport, rent, supplies, or other business costs.",
+      "You can also attach a photo of the receipt so you have a record of what the expense was for. Your expenses can then be used alongside your sales to understand where your business stands.",
     ],
   },
   {
-    question: "Does my customer need a Yousual account?",
+    question: "How do I share an invoice or receipt with my customer?",
     answer: [
-      "No. Your customers don't need to sign up. You can send invoices and receipts directly through WhatsApp or share them as an image or a link.",
+      "Once your invoice or receipt is ready, you can share it directly through WhatsApp, download it as an image or PDF, or use the available sharing options on your device.",
+      "Your customer doesn't need a Yousual account to receive or view an invoice or receipt.",
+    ],
+  },
+  {
+    question: "Can I customize my invoices and receipts?",
+    answer: [
+      "Yes. Free accounts can choose from preset brand colors and add custom notes to their invoices and receipts.",
+      "Business customers get more advanced branding options, including greater customization for their business identity and branded invoice links.",
+      "Guests can preview the customization experience before signing up.",
     ],
     link: { label: "Create a free account to personalize your invoices.", href: "/signup" },
   },
+  {
+    question: "Do you support Nigerian businesses?",
+    answer: [
+      "Yes. Yousual is built with Nigerian businesses in mind. Invoices and receipts use Naira (₦) formatting, Nigerian phone numbers are supported, and the platform is designed around how many Nigerian businesses sell, receive payments, record expenses, and communicate with customers.",
+    ],
+  },
 ];
 
-export default function Faq() {
+export default function OldFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (index: number) => {

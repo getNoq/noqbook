@@ -21,6 +21,8 @@ import PlanSettingsPage from './pages/settings/PlanSettingsPage'
 import BillingSettingsPage from './pages/settings/BillingSettingsPage'
 import TeamSettingsPage from './pages/settings/TeamSettingsPage'
 import { ScrollToTop } from './components/ScrollToTop'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -45,6 +47,8 @@ export default function App() {
           <Route path="billing" element={<BillingSettingsPage />} />
           <Route path="team" element={<TeamSettingsPage />} />
         </Route>
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <WhatsAppWidget />
     </AuthProvider>

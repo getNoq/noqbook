@@ -4,7 +4,7 @@ import { MessageCircle, X } from "lucide-react";
 // TODO: replace with your real WhatsApp Business number, international
 // format, no "+" or leading zeros — e.g. Nigerian 0803 123 4567 becomes
 // "2348031234567".
-const WHATSAPP_NUMBER = "2348029196194";
+const WHATSAPP_NUMBER = "2349110213058";
 const DEFAULT_MESSAGE = "Hi Yousual! I have a question about the app.";
 
 function buildWhatsAppUrl(message: string) {

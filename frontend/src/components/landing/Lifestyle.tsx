@@ -12,36 +12,36 @@ interface Audience {
 
 const AUDIENCES: Audience[] = [
   {
-    label: 'Professionals',
+    label: 'Sellers & Traders',
     icon: Briefcase,
-    headline: 'Professionals',
-    description: 'For people balancing classes, projects, and long study sessions.',
+    headline: 'Sellers & Traders',
+    description: 'For shops, retailers, wholesalers, online sellers and businesses that sell goods.',
     image:
       '/images/3234.jpg',
   },
   {
-    label: 'Students',
+    label: 'Makers & Creators',
     icon: GraduationCap,
-    headline: 'Students',
-    description: 'For students juggling side hustles between lectures and deadlines.',
+    headline: 'Makers & Creators',
+    description: 'For designers, artisans, manufacturers and businesses that make or create what they sell.',
     image:
-      '/images/44802.jpg',
+      '/images/makers-creators.svg',
   },
   {
-    label: 'Remote Workers',
+    label: 'Food & Hospitality',
     icon: Laptop,
-    headline: 'Remote Workers',
-    description: 'For freelancers who need to know what they billed and what got paid.',
+    headline: 'Food & Hospitality',
+    description: 'For restaurants, food vendors, caterers, bakeries, cafés and hospitality businesses.',
     image:
-      'images/1661.jpg',
+      'images/food-restaurant.svg',
   },
   {
-    label: 'Busy Parents',
+    label: 'Services & Professionals',
     icon: Baby,
-    headline: 'Busy Parents',
-    description: 'For parents running a side business around school runs and nap times.',
+    headline: 'Services & Professionals',
+    description: 'For freelancers, consultants, beauty businesses, repairers, contractors and other service providers.',
     image:
-      '/images/2149160257.jpg',
+      '/images/professional.svg',
   },
 ]
 
@@ -57,30 +57,30 @@ export default function Lifestyle() {
       >
       <div className="mx-auto max-w-[768px] text-center">
         <span className="font-heading mark inline-block text-[20px] uppercase leading-[24px] tracking-wide">
-          Fits Every Lifestyle
+          BUILT FOR YOUR BUSINESS
         </span>
-        <h2 className="mt-2 text-[28px] font-semibold leading-[36px] md:text-[36px] md:leading-[44px] tracking-[-2%]">
-          Adapted for the way you live and work
+        <h2 className="mt-2 text-[24px] font-semibold leading-[32px] md:text-[36px] md:leading-[44px] tracking-[-2%]">
+          Whatever you sell, make or do, <br /> Yousual keeps track.
         </h2>
         <p className="mx-auto text-[18px] leading-[28px] mt-3 max-w-[678px] text-[#667085]">
           Used by people to improve their routines.
         </p>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
           {AUDIENCES.map((item, index) => {
-            const Icon = item.icon
+            // const Icon = item.icon
             const isActive = index === active
             return (
               <button
                 key={item.label}
                 onClick={() => setActive(index)}
-                className={`flex items-center gap-2 rounded-[16px] border px-4 py-3 md:px-6 md:py-4 text-[14px] md:text-[16px] font-medium transition-colors ${
+                className={`flex items-center gap-1 rounded-[8px] border px-2 py-3 md:px-3 md:py-3 text-[14px] md:text-[14px] font-medium transition-colors ${
                   isActive
                     ? 'border-ink bg-ink text-white'
                     : 'border-neutral-300 bg-white text-neutral-700 hover:border-ink'
                 }`}
               >
-                <Icon size={24} />
+                {/* <Icon size={24} /> */}
                 {item.label}
               </button>
             )

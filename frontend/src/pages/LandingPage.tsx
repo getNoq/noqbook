@@ -9,6 +9,7 @@ import Pricing from "../components/landing/Pricing";
 import FinalCta from "../components/landing/FinalCta";
 import Footer from "../components/landing/Footer";
 import Faq from "../components/landing/Faq";
+import PartPayment from "../components/landing/PartPayment";
 
 export default function LandingPage() {
   return (
@@ -21,6 +22,7 @@ export default function LandingPage() {
         <LogShareKnow />
         <Lifestyle />
         <DailyGlance />
+        <PartPayment />
         <Faq />
         <Pricing />
         <FinalCta />

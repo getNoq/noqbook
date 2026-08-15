@@ -18,17 +18,17 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
 
         <div className="relative z-10 flex flex-col items-center px-6 pt-10 text-center md:pt-[64px]">
-          <h1 className="font-heading max-w-3xl text-[48px] leading-[48px] tracking-[-2%] md:text-[80px] md:leading-[80px]">
-            KNOW WHERE
+          <h1 className="font-heading flex flex-col items-center max-w-3xl text-[48px] leading-[48px] tracking-[-2%] md:text-[80px] md:leading-[80px] mx-auto">
+            Your business moves fast. 
             <br />
-            <div className="inline-block rounded-[12px] h-[60px] md:h-[90px] font-heading bg-yolk px-3 flex items-center" style={{ transform: 'rotate(-2.05deg)' }}>
+            <div className="inline-block rounded-[12px] h-[60px] md:h-[90px] font-heading bg-yolk px-3 flex items-center max-w-[500px]" style={{ transform: 'rotate(-2.05deg)' }}>
               <span className="text-ink" style={{ transform: 'rotate(2.05deg)' }}>
-                YOUR MONEY IS.
+                Keep the record.
               </span>
             </div>
           </h1>
-          <p className="text-[18px] md:text-[18px] leading-[28px] md:leading-[28px] mx-auto mt-5 max-w-[678px] text-white">
-            Track every sale, expense, and payment in one place, so you always know where your money is.
+          <p className="text-[18px] md:text-[18px] leading-[28px] md:leading-[28px] font-medium mx-auto mt-5 max-w-[728px] text-white">
+            Record sales, track expenses, share receipts, and keep a clear record of what came in, what went out, and what is still owed.
           </p>
 
           <div className="mt-6 w-[280px] sm:w-[560px] flex flex-col md:flex-row items-center gap-4 sm:flex-row">
@@ -36,13 +36,13 @@ export default function Hero() {
               to="/signup"
               className="font-heading w-full rounded-full bg-yolk px-5 py-3 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
-             Get started
+             Try Yousual free
             </Link>
             <Link to="/start" className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span>
-              Log your first sale - free
+              See how it works
             </Link>
           </div>
 

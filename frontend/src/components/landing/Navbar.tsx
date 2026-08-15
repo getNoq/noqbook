@@ -12,7 +12,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-black/5">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-black/9">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 md:px-8">
         <a href="#home" className="flex items-center gap-2 tracking-tight">
           <img src="/images/yousual-logomark.svg" alt="NOQ logomark" height={56} width={160} />
