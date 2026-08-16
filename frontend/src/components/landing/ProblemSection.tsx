@@ -45,7 +45,7 @@ export default function ProblemSection() {
               alt={point.quote} 
               className="absolute left-1/2 -translate-x-1/2 -top-[30px] h-[60px] w-[60px] object-cover" 
             />
-            <p className="text-[18px] leading-[30px] text-[#101828] font-medium">{point.quote}</p>
+            <p className="text-[18px] leading-[24px] text-[#101828] font-medium">{point.quote}</p>
             <p className="mt-3 text-[16px] leading-[24px] text-[#667085]">{point.description}</p>
           </div>
         ))}

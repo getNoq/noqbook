@@ -23,6 +23,7 @@ import TeamSettingsPage from './pages/settings/TeamSettingsPage'
 import { ScrollToTop } from './components/ScrollToTop'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import NotFoundPage from './pages/NotFoundPage'
+// import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="billing" element={<BillingSettingsPage />} />
           <Route path="team" element={<TeamSettingsPage />} />
         </Route>
+        {/* <Route path="/i/:id" element={<PublicInvoicePage />} /> */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
