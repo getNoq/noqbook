@@ -23,8 +23,8 @@ export default function LandingPage() {
         <Lifestyle />
         <DailyGlance />
         <PartPayment />
-        <Faq />
         <Pricing />
+        <Faq />
         <FinalCta />
       </main>
       <Footer />

@@ -27,7 +27,7 @@ export default function Pricing() {
 const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
 
   return (
-    <section id="pricing" className="bg-neutral-50 px-5 py-20 md:px-8">
+    <section id="pricing" className="bg-neutral-50 border border-black/5 px-5 py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="font-heading flex flex-wrap flex-row items-center justify-center gap-2 max-w-5xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
           YOUR PACE,
@@ -69,12 +69,12 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
             ))}
           </ul>
 
-          {/* <a
-            href="#get-started"
-            className="mt-8 block rounded-full tracking-[2%] bg-ink px-5 py-3 text-center text-[20px] font-heading text-white transition-colors hover:bg-neutral-800"
+          <a
+            href="/signup"
+            className="mt-8 block rounded-full tracking-[2%] bg-ink px-5 py-3 text-center text-[18px] font-heading text-white transition-colors hover:bg-neutral-800"
           >
-            It's Free - Get Started
-          </a> */}
+            Start for free
+          </a>
         </div>
 
         {/* Business plan */}

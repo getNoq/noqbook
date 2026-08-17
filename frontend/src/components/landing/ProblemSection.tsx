@@ -24,7 +24,7 @@ const PAIN_POINTS: PainPoint[] = [
 
 export default function ProblemSection() {
   return (
-    <section className="bg-neutral-50 px-5 py-20 md:px-8">
+    <section className="bg-neutral-50 border border-black/5 px-5 py-20 md:px-8">
       <div className="mx-auto max-w-[768px] text-center">
         <span className="font-heading mark inline-block text-[20px] uppercase leading-[24px] tracking-wide">
           The Problem

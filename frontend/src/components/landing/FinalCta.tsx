@@ -1,6 +1,6 @@
 export default function FinalCta() {
   return (
-    <section id="get-started" className="px-5 py-20 md:px-8">
+    <section id="get-started" className="bg-neutral-50 border-t border-black/5 px-5 py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="font-heading flex flex-wrap flex-row items-center justify-center gap-2 max-w-5xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[48px] mx-auto">
           YOUR NOTEBOOK HAS SERVED YOU WELL.

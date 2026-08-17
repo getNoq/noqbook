@@ -12,7 +12,7 @@ const STATS: Stat[] = [
 
 export default function PartPayment() {
   return (
-    <section className="px-5 py-20 md:px-8">
+    <section className="px-5 bg-white border-t border-black/5 py-20 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="font-heading flex flex-wrap flex-row items-center justify-center gap-2 max-w-5xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
           Got paid part of it? 
@@ -36,6 +36,15 @@ export default function PartPayment() {
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="mx-auto max-w-4xl text-center mt-2">
+        <a
+          href="/start"
+          className="font-heading w-full max-w-[240px] mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
+        >
+          See how it works
+        </a>
       </div>
     </section>
   )

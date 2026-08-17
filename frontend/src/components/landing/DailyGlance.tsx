@@ -12,7 +12,7 @@
 
 export default function DailyGlance() {
   return (
-    <section className="px-5 pt-20 pb-10 md:px-8">
+    <section className="px-5 pt-20 bg-neutral-50 border-t border-black/5 pb-0 md:pb-10 md:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="font-heading flex flex-wrap flex-row items-center justify-center gap-2 max-w-5xl text-[36px] leading-[36px] tracking-[-2%] md:text-[64px] md:leading-[64px] mx-auto">
           One screen.

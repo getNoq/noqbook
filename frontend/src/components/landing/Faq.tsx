@@ -142,11 +142,7 @@ export default function Faq() {
           Can't find the answer you're looking for? Chat with our friendly team.
         </p>
         
-        <a href="#get-started"
-          className="font-heading mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
-        >
-          Get in touch
-        </a>
+        <a href="https://wa.me/2349110213058?text=Hi Yousual! I have a question about the app." target="_blank" rel="noopener noreferrer" className="font-heading mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"> Get in touch </a>
       </div>
     </section>
   );

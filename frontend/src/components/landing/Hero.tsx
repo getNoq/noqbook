@@ -1,5 +1,4 @@
 // import { Play } from 'lucide-react'
-import { Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
@@ -27,22 +26,22 @@ export default function Hero() {
               </span>
             </div>
           </h1>
-          <p className="text-[18px] md:text-[18px] leading-[28px] md:leading-[28px] font-medium mx-auto mt-5 max-w-[728px] text-white">
+          <p className="text-[16px] md:text-[18px] leading-[24px] md:leading-[28px] font-medium mx-auto mt-5 max-w-[728px] text-white">
             Record sales, track expenses, share receipts, and keep a clear record of what came in, what went out, and what is still owed.
           </p>
 
           <div className="mt-6 w-[280px] sm:w-[560px] flex flex-col md:flex-row items-center gap-4 sm:flex-row">
             <Link
-              to="/signup"
+              to="/start"
               className="font-heading w-full rounded-full bg-yolk px-5 py-3 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
              Try Yousual free
             </Link>
-            <Link to="/start" className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+            <Link to="/signup" className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10">
+              {/* <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
-              </span>
-              Try without an account
+              </span> */}
+              Create a free account
             </Link>
           </div>
 
