@@ -3,6 +3,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { BRAND, PRESET_COLORS } from "../../lib/theme";
 import { normalizeNGPhone } from "../../lib/phone";
 import type { CreateInvoicePayload } from "./invoicesApi";
+import { CustomerAutocomplete } from "./CustomerAutocomplete";
 
 interface DraftItem {
   id: string;
@@ -91,7 +92,15 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Customer name</label>
-        <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="e.g. Chidinma" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !customerName.trim())} />
+        {/* <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="e.g. Chidinma" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !customerName.trim())} /> */}
+        <div className="mb-5">
+          <CustomerAutocomplete
+            value={customerName}
+            onChange={setCustomerName}
+            onSelectCustomer={(c) => { setCustomerName(c.name); if (c.phone) setCustomerPhone(c.phone); }}
+            invalid={touched && !customerName.trim()}
+          />
+        </div>
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone (optional)</label>
         <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="08031234567" inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />

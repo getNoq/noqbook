@@ -13,6 +13,8 @@ import DashboardPage from './pages/DashboardPage'
 import WhatsAppWidget from './components/landing/WhatsAppWidget'
 import InvoiceDetailPage from './pages/InvoiceDetailPage'
 import WhoOwesMePage from './pages/WhoOwesMePage'
+import CustomersPage from './pages/CustomersPage'
+import CustomerDetailPage from './pages/CustomerDetailPage'
 import ExpenseDetailPage from './pages/ExpenseDetailPage'
 import SettingsLayoutPage from './pages/settings/SettingsLayoutPage'
 import ProfileSettingsPage from './pages/settings/ProfileSettingsPage'
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/reset-password" element={<GuestOnlyRoute><ResetPasswordPage /></GuestOnlyRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/dashboard/owed" element={<ProtectedRoute><WhoOwesMePage /></ProtectedRoute>} />
+        <Route path="/dashboard/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
+        <Route path="/dashboard/customers/:id" element={<ProtectedRoute><CustomerDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/sales/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/expenses/:id" element={<ProtectedRoute><ExpenseDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsLayoutPage /></ProtectedRoute>}>

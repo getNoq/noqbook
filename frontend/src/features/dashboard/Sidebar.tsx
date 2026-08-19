@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Settings, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Settings, LogOut, Menu, Contact, X } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import { useAuth } from "../auth/AuthContext";
 
 const NAV_ITEMS = [
   { label: "Overview", icon: LayoutDashboard, to: "/dashboard", match: (path: string) => path === "/dashboard" },
   { label: "Who owes me", icon: Users, to: "/dashboard/owed", match: (path: string) => path === "/dashboard/owed" },
+  { label: "Customers", icon: Contact, to: "/dashboard/customers", match: (path: string) => path.startsWith("/dashboard/customers") },
   { label: "Settings", icon: Settings, to: "/dashboard/settings", match: (path: string) => path.startsWith("/dashboard/settings") },
 ];
 
