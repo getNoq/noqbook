@@ -19,6 +19,8 @@ import { ExpenseConfirmation } from "./ExpenseConfirmation";
 import { useDashboardInvoices } from "./useDashboardInvoices";
 import { useOverview } from "./useOverview";
 import { createExpense } from "./expensesApi";
+import { EmailVerificationBanner } from "./EmailVerificationBanner";
+import { VerifyEmailGateModal } from "./VerifyEmailGateModal";
 
 // async function shareInvoiceAsImage(invoice: Invoice) {
 //   const blob = await renderInvoiceImage(invoice);
@@ -44,13 +46,14 @@ type View =
   | "expense-confirmation";
 
 export function Dashboard() {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { createInvoice } = useDashboardInvoices();
   const overview = useOverview();
 
   const [view, setView] = useState<View>("overview");
   const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
   const [activeExpense, setActiveExpense] = useState<Expense | null>(null);
+  const [showVerifyGate, setShowVerifyGate] = useState(false);
 
   // const shareInvoiceLink = async (invoice: Invoice) => {
   //   const link = await uploadInvoiceAndGetLink(invoice, accessToken);
@@ -181,12 +184,13 @@ export function Dashboard() {
             </p>
           </div>
           <AddMenu
-            onRecordSale={() => setView("create-sale")}
-            onRecordExpense={() => setView("create-expense")}
+            onRecordSale={() => (user?.isEmailVerified ? setView("create-sale") : setShowVerifyGate(true))}
+            onRecordExpense={() => (user?.isEmailVerified ? setView("create-expense") : setShowVerifyGate(true))}
           />
         </div>
 
         <div className="mt-6">
+          <EmailVerificationBanner />
           <OverviewCards summary={overview.summary} />
 
           <OverviewFilters
@@ -236,6 +240,7 @@ export function Dashboard() {
           )}
         </div>
       </main>
+      {showVerifyGate && <VerifyEmailGateModal onClose={() => setShowVerifyGate(false)} />}
     </div>
   );
 }

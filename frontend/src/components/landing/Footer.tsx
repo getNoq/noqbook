@@ -7,7 +7,7 @@ export default function Footer() {
           {/* <span className="font-heading text-[44px]">NOQ</span> */}
         </a>
         <p className="text-[16px] text-neutral-400">
-          Built for Nigerian shop &amp; service businesses.
+          Built for You &amp; Your business.
         </p>
       </div>
     </footer>

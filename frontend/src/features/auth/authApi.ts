@@ -99,3 +99,11 @@ export function changePassword(accessToken: string, payload: { currentPassword: 
 export function refreshAccessToken(refreshToken: string): Promise<{ access: string }> {
   return request("/token/refresh/", { body: JSON.stringify({ refresh: refreshToken }) });
 }
+
+export function verifyEmail(payload: { token: string }): Promise<{ message: string }> {
+  return request("/email/verify/", { body: JSON.stringify(payload) });
+}
+
+export function resendVerificationEmail(accessToken: string): Promise<{ message: string }> {
+  return request("/email/resend/", { headers: { Authorization: `Bearer ${accessToken}` }, body: JSON.stringify({}) });
+}

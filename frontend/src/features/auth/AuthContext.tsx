@@ -16,6 +16,8 @@ interface AuthContextValue {
   clearError: () => void;
   accessToken: string | null;
   updateProfile: (payload: { businessName: string; firstName: string; lastName: string; phone: string }) => Promise<void>;
+  resendVerificationEmail: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -146,11 +148,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(updatedUser);
   };
 
+  const resendVerificationEmail = async () => {
+    if (!tokens?.access) throw new Error("Not signed in.");
+    await api.resendVerificationEmail(tokens.access);
+  };
+
+  const refreshUser = async () => {
+    if (!tokens?.access) return;
+    const refreshed = await api.fetchCurrentUser(tokens.access);
+    setUser(refreshed);
+  };
+
   const clearError = () => setError(null);
 
   const value = useMemo(
     () => ({
-      user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError,
+      user, isAuthenticated: !!user, isLoading, error, signUp, logIn, logOut, clearError, resendVerificationEmail, refreshUser,
       accessToken: tokens?.access ?? null, updateProfile,
     }),
     [user, isLoading, error, tokens]

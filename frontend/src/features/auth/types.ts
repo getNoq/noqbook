@@ -5,6 +5,7 @@ export interface AuthUser {
   businessName: string;
   firstName: string;
   lastName: string;
+  isEmailVerified: boolean;
 }
 
 export interface AuthTokens {
