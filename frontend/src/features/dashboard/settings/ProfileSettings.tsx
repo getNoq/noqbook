@@ -42,25 +42,25 @@ export function ProfileSettings() {
       {saved && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.mint, color: BRAND.green }}>Profile updated.</div>}
 
       <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Business name</label>
-      <input value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(touched && !businessName.trim())} />
+      <input value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !businessName.trim())} />
 
       <div className="grid grid-cols-2 gap-4 mb-5">
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>First name</label>
-          <input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-xl px-4 py-3 text-sm outline-none" style={inputStyle(false)} />
+          <input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-xl px-4 py-3 text-base md:text-sm outline-none" style={inputStyle(false)} />
         </div>
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Last name</label>
-          <input value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-xl px-4 py-3 text-sm outline-none" style={inputStyle(false)} />
+          <input value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-xl px-4 py-3 text-base md:text-sm outline-none" style={inputStyle(false)} />
         </div>
       </div>
 
       <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone number</label>
-      <input value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-sm outline-none" style={inputStyle(touched && !phoneCheck.valid)} />
+      <input value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none" style={inputStyle(touched && !phoneCheck.valid)} />
       <div className="mb-5 min-h-[16px] text-xs" style={{ color: BRAND.red }}>{touched && !phoneCheck.valid ? "Enter a valid Nigerian number, e.g. 08031234567." : ""}</div>
 
       <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Email</label>
-      <input value={user?.email || ""} disabled className="w-full rounded-xl px-4 py-3 mb-1 text-sm outline-none cursor-not-allowed opacity-60" style={inputStyle(false)} />
+      <input value={user?.email || ""} disabled className="w-full rounded-xl px-4 py-3 mb-1 text-base md:text-sm outline-none cursor-not-allowed opacity-60" style={inputStyle(false)} />
       <div className="mb-7 text-xs" style={{ color: BRAND.inkSoft }}>Email can't be changed yet — contact support if you need this updated.</div>
 
       <button onClick={handleSubmit} disabled={busy || (touched && !canSubmit)} className="rounded-full px-6 py-3 font-semibold text-sm transition-opacity" style={{ background: BRAND.ink, color: BRAND.bg, opacity: busy || (touched && !canSubmit) ? 0.5 : 1 }}>

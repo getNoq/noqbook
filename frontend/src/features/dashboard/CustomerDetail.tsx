@@ -97,11 +97,11 @@ export function CustomerDetail() {
                 </div>
               ) : (
                 <div>
-                  <input value={editName} onChange={(e) => setEditName(e.target.value)} className="w-full rounded-xl px-3 py-2 mb-2 text-sm outline-none" style={{ border: `1px solid ${BRAND.line}` }} placeholder="Name" />
+                  <input value={editName} onChange={(e) => setEditName(e.target.value)} className="w-full rounded-xl px-3 py-2 mb-2 text-base md:text-sm outline-none" style={{ border: `1px solid ${BRAND.line}` }} placeholder="Name" />
                   <input
                     value={editPhone}
                     onChange={(e) => setEditPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
-                    className="w-full rounded-xl px-3 py-2 mb-3 text-sm outline-none"
+                    className="w-full rounded-xl px-3 py-2 mb-3 text-base md:text-sm outline-none"
                     style={{ border: `1px solid ${!phoneCheck.empty && !phoneCheck.valid ? BRAND.red : BRAND.line}` }}
                     placeholder="Phone (optional)"
                     inputMode="numeric"

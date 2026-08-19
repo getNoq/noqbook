@@ -15,7 +15,7 @@ function PasswordField({ value, onChange, placeholder }: { value: string; onChan
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl pl-4 pr-11 py-3 text-sm outline-none"
+        className="w-full rounded-xl pl-4 pr-11 py-3 text-base md:text-sm outline-none"
         style={inputStyle(false)}
       />
       <button type="button" onClick={() => setVisible((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: BRAND.inkSoft }} aria-label={visible ? "Hide password" : "Show password"}>

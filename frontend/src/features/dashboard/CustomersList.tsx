@@ -53,7 +53,7 @@ export function CustomersList() {
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             placeholder="Search by name…"
-            className="w-full max-w-sm rounded-xl px-3 py-2 text-sm outline-none"
+            className="w-full max-w-sm rounded-xl px-3 py-2 text-base md:text-sm outline-none"
             style={{ border: `1px solid ${BRAND.line}`, background: BRAND.card }}
           />
         </div>
