@@ -39,7 +39,7 @@ async function shareInvoiceAsImage(invoice: Invoice) {
 }
 
 export function WhoOwesMe() {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const {
     invoices,
     isLoading,
@@ -83,7 +83,7 @@ export function WhoOwesMe() {
               Every sale that isn't fully paid yet, in one place.
             </p>
           </div>
-          {totalOwed !== null && totalOwed > 0 && (
+          {user?.role !== "staff" && totalOwed !== null && totalOwed > 0 && (
             <div
               className="rounded-2xl px-5 py-3 text-left min-[369px]:text-right shrink-0"
               style={{ background: BRAND.peach }}

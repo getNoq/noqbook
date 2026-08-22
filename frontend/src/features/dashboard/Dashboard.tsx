@@ -191,7 +191,7 @@ export function Dashboard() {
 
         <div className="mt-6">
           <EmailVerificationBanner />
-          <OverviewCards summary={overview.summary} />
+          {user?.role !== "staff" && <OverviewCards summary={overview.summary} />}
 
           <OverviewFilters
             type={overview.type}

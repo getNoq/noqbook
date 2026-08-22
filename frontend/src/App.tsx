@@ -26,6 +26,7 @@ import { ScrollToTop } from './components/ScrollToTop'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import NotFoundPage from './pages/NotFoundPage'
 import VerifyEmailPage from './pages/auth/VerifyEmailPage'
+import AcceptInvitePage from './pages/AcceptInvitePage'
 // import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
@@ -55,6 +56,7 @@ export default function App() {
         </Route>
         {/* <Route path="/i/:id" element={<PublicInvoicePage />} /> */}
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/invite/:token" element={<AcceptInvitePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { BRAND, PRESET_COLORS } from "../../lib/theme";
 import { normalizeNGPhone } from "../../lib/phone";
@@ -11,6 +11,8 @@ interface DraftItem {
   qty: number | "";
   unitPrice: number | "";
 }
+
+type PaymentType = "full" | "part" | "unpaid";
 
 const emptyDraftItem = (): DraftItem => ({ id: crypto.randomUUID(), description: "", qty: 1, unitPrice: 0 });
 const inputStyle = (invalid: boolean) => ({ border: `1px solid ${invalid ? BRAND.red : BRAND.line}` });
@@ -30,8 +32,8 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [amountPaidNow, setAmountPaidNow] = useState<number | "">(0);
-  const [amountManuallyEdited, setAmountManuallyEdited] = useState(false);
+  const [paymentType, setPaymentType] = useState<PaymentType>("full");
+  const [partAmount, setPartAmount] = useState<number | "">("");
 
   const phoneCheck = normalizeNGPhone(customerPhone);
   const updateItem = (id: string, field: keyof DraftItem, value: string | number) =>
@@ -42,24 +44,20 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
   const filledItems = items.filter((it) => it.description.trim().length > 0);
   const total = filledItems.reduce((sum, it) => sum + Number(it.qty || 0) * Number(it.unitPrice || 0), 0);
 
-  // Defaults "amount received" to the full total (paid-in-full is the
-  // common case) but stops auto-syncing the moment the owner types
-  // their own number, so a deliberate partial amount never gets
-  // silently overwritten by a later edit to the items.
-  useEffect(() => {
-    if (!amountManuallyEdited) setAmountPaidNow(total);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total]);
+  // "Paid in full" and "Unpaid" derive their amount directly from the
+  // total — only "Part payment" has its own number the owner types.
+  const amountPaidNow = paymentType === "full" ? total : paymentType === "unpaid" ? 0 : Number(partAmount || 0);
+  const balance = total - amountPaidNow;
 
-  const balance = total - Number(amountPaidNow || 0);
-  const amountValid = amountPaidNow !== "" && Number(amountPaidNow) >= 0 && Number(amountPaidNow) <= total;
+  const nameRequired = paymentType !== "full";
+  const partAmountValid = paymentType !== "part" || (partAmount !== "" && Number(partAmount) > 0 && Number(partAmount) < total);
 
   const canSubmit =
-    customerName.trim().length > 0 &&
+    (!nameRequired || customerName.trim().length > 0) &&
     filledItems.length > 0 &&
     filledItems.every((it) => Number(it.qty) > 0 && Number(it.unitPrice) > 0) &&
     phoneCheck.valid &&
-    amountValid;
+    partAmountValid;
 
   const handleSubmit = async () => {
     setTouched(true);
@@ -71,7 +69,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         customerName: customerName.trim(),
         customerPhone: phoneCheck.local || undefined,
         items: filledItems.map((it) => ({ description: it.description.trim(), qty: Number(it.qty), unitPrice: Number(it.unitPrice) })),
-        amountPaidNow: Number(amountPaidNow || 0),
+        amountPaidNow,
         note: note.trim(),
         brandColor,
       });
@@ -91,23 +89,6 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
 
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Customer name</label>
-        {/* <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="e.g. Chidinma" className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(touched && !customerName.trim())} /> */}
-        <div className="mb-5">
-          <CustomerAutocomplete
-            value={customerName}
-            onChange={setCustomerName}
-            onSelectCustomer={(c) => { setCustomerName(c.name); if (c.phone) setCustomerPhone(c.phone); }}
-            invalid={touched && !customerName.trim()}
-          />
-        </div>
-
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone (optional)</label>
-        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="08031234567" inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
-        <div className="mb-4 min-h-[16px]">
-          {!phoneCheck.empty && !phoneCheck.valid && <div className="text-xs" style={{ color: BRAND.red }}>Enter a valid Nigerian number, e.g. 08031234567.</div>}
-        </div>
-
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Items sold</label>
         <div className="flex flex-col gap-3 mb-3">
           {items.map((it) => (
@@ -123,31 +104,73 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         </div>
         <button onClick={addItem} className="flex items-center gap-1.5 text-sm font-semibold mb-6" style={{ color: BRAND.lavStrong }}><Plus size={15} /> Add another item</button>
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2 mt-5" style={{ color: BRAND.inkSoft }}>Amount received now</label>
-        <input
-          type="number"
-          min={0}
-          max={total}
-          value={amountPaidNow}
-          onChange={(e) => {
-            setAmountManuallyEdited(true);
-            setAmountPaidNow(e.target.value === "" ? "" : Number(e.target.value));
-          }}
-          placeholder="0"
-          className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none"
-          style={inputStyle(touched && !amountValid)}
-        />
-        <div className="mb-6 min-h-[18px] text-xs" style={{ color: balance > 0 ? BRAND.red : BRAND.green }}>
-          {touched && !amountValid
-            ? "Amount received can't be more than the sale total."
-            : balance > 0
-              ? `₦${balance.toLocaleString("en-NG")} balance remaining`
-              : total > 0
-                ? "Paid in full"
-                : ""}
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Payment</label>
+        <div className="flex gap-2 mb-4">
+          {([
+            { value: "full", label: "Paid in full" },
+            { value: "part", label: "Part payment" },
+            { value: "unpaid", label: "Unpaid" },
+          ] as { value: PaymentType; label: string }[]).map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => { setPaymentType(opt.value); if (opt.value !== "part") setPartAmount(""); }}
+              className="flex-1 rounded-xl py-2.5 text-xs sm:text-sm font-semibold"
+              style={{
+                background: paymentType === opt.value ? BRAND.ink : BRAND.card,
+                color: paymentType === opt.value ? BRAND.bg : BRAND.inkSoft,
+                border: `1px solid ${paymentType === opt.value ? BRAND.ink : BRAND.line}`,
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
         </div>
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
+        {paymentType === "part" && (
+          <>
+            <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Amount received</label>
+            <input
+              type="number"
+              min={0}
+              max={total}
+              value={partAmount}
+              onChange={(e) => setPartAmount(e.target.value === "" ? "" : Number(e.target.value))}
+              placeholder="0"
+              className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none"
+              style={inputStyle(touched && !partAmountValid)}
+            />
+            <div className="mb-2 min-h-[18px] text-xs" style={{ color: BRAND.red }}>
+              {touched && !partAmountValid ? "Enter an amount greater than zero and less than the sale total." : ""}
+            </div>
+          </>
+        )}
+
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>
+          Customer name {!nameRequired && <span>(optional)</span>}
+        </label>
+        <div className="mb-1">
+          <CustomerAutocomplete
+            value={customerName}
+            onChange={setCustomerName}
+            onSelectCustomer={(c) => { setCustomerName(c.name); if (c.phone) setCustomerPhone(c.phone); }}
+            invalid={touched && nameRequired && !customerName.trim()}
+          />
+        </div>
+        <div className="mb-4 min-h-[16px] text-xs" style={{ color: BRAND.inkSoft }}>
+          {!nameRequired
+            ? 'Leave blank for a walk-in customer — we\'ll record it as "Unknown".'
+            : touched && !customerName.trim()
+              ? <span style={{ color: BRAND.red }}>Required when payment isn't in full — need a way to identify who owes you.</span>
+              : ""}
+        </div>
+
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone (optional)</label>
+        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="08031234567" inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-2 text-base md:text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
+        <div className="mb-4 min-h-[16px]">
+          {!phoneCheck.empty && !phoneCheck.valid && <div className="text-xs" style={{ color: BRAND.red }}>Enter a valid Nigerian number, e.g. 08031234567.</div>}
+        </div>
+
+        <label className="block text-xs font-semibold uppercase tracking-wide mb-2 mt-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
         <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} placeholder={"e.g. Payment due within 7 days.\nThank you for your business!"} rows={4} className="w-full rounded-xl px-4 py-3 mb-6 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Brand color (optional)</label>
@@ -157,15 +180,19 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
           ))}
         </div>
 
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[14px]" style={{ color: BRAND.inkSoft }}>Outstanding</span>
-          <span className="font-heading text-[24px]" style={{ color: BRAND.red }}>₦{balance.toLocaleString("en-NG")}</span>
-        </div>
+        {(paymentType === "part" || paymentType === "unpaid") && (
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[14px]" style={{ color: BRAND.inkSoft }}>Outstanding</span>
+              <span className="font-heading text-[24px]" style={{ color: BRAND.red }}>₦{balance.toLocaleString("en-NG")}</span>
+            </div>
+        )}
+        {paymentType === "part" && (
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[14px]" style={{ color: BRAND.inkSoft }}>Paid</span>
+              <span className="font-heading text-[24px]" style={{ color: BRAND.green }}>₦{amountPaidNow.toLocaleString("en-NG")}</span>
+            </div>
+        )}
 
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[14px]" style={{ color: BRAND.inkSoft }}>Paid</span>
-          <span className="font-heading text-[24px]" style={{ color: BRAND.green }}>₦{amountPaidNow.toLocaleString("en-NG")}</span>
-        </div>
 
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold" style={{ color: BRAND.inkSoft }}>Sale total</span>

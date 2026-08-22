@@ -1,18 +1,22 @@
 import { NavLink } from "react-router-dom";
 import { BRAND } from "../../../lib/theme";
+import { useAuth } from "../../auth/AuthContext";
 
-const TABS = [
+const ALL_TABS = [
   { to: "/dashboard/settings/profile", label: "Profile" },
   { to: "/dashboard/settings/password", label: "Password" },
-  { to: "/dashboard/settings/plan", label: "Plan" },
-  { to: "/dashboard/settings/billing", label: "Billing" },
+  { to: "/dashboard/settings/plan", label: "Plan", ownerOnly: true },
+  { to: "/dashboard/settings/billing", label: "Billing", ownerOnly: true },
   { to: "/dashboard/settings/team", label: "Team" },
 ];
 
 export function SettingsTabs() {
+  const { user } = useAuth();
+  const tabs = ALL_TABS.filter((tab) => !tab.ownerOnly || user?.role !== "staff");
+
   return (
     <div className="flex gap-2 overflow-x-auto border-b" style={{ borderColor: BRAND.line }}>
-      {TABS.map((tab) => (
+      {tabs.map((tab) => (
         <NavLink
           key={tab.to}
           to={tab.to}
