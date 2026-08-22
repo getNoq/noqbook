@@ -10,7 +10,7 @@ import {
   validatePhone,
   validateBusinessName,
 } from "./validators";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 // ---------- Shared bits ----------
 
@@ -153,8 +153,9 @@ function LinkButton({ onClick, children }: { onClick?: () => void; children: Rea
 
 export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void; onGoToLogin?: () => void }) {
   const { signUp, error: authError, clearError } = useAuth();
+  const [searchParams] = useSearchParams();
   const [businessName, setBusinessName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(searchParams.get("email") || "");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -279,7 +280,8 @@ export function LoginForm({
   onGoToForgotPassword?: () => void;
 }) {
   const { logIn, error: authError, clearError } = useAuth();
-  const [email, setEmail] = useState("");
+  const [searchParams] = useSearchParams();
+  const [email, setEmail] = useState(searchParams.get("email") || "");
   const [password, setPassword] = useState("");
   const [touched, setTouched] = useState(false);
   const [busy, setBusy] = useState(false);

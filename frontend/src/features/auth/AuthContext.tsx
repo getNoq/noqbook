@@ -49,6 +49,18 @@ function decodeJwtExpiry(token: string): number | null {
   }
 }
 
+const PENDING_INVITE_KEY = "yousual_pending_invite_token";
+
+function consumePendingInviteToken(): string | undefined {
+  try {
+    const token = sessionStorage.getItem(PENDING_INVITE_KEY);
+    if (token) sessionStorage.removeItem(PENDING_INVITE_KEY);
+    return token || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [tokens, setTokens] = useState<AuthTokens | null>(() => loadTokens());
@@ -113,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp: AuthContextValue["signUp"] = async (payload) => {
     setError(null);
     try {
-      const { user: newUser, tokens: newTokens } = await api.signup(payload);
+      const { user: newUser, tokens: newTokens } = await api.signup({ ...payload, inviteToken: consumePendingInviteToken() });
       setUser(newUser);
       setTokens(newTokens);
       saveTokens(newTokens);
@@ -128,7 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logIn: AuthContextValue["logIn"] = async (payload) => {
     setError(null);
     try {
-      const { user: loggedInUser, tokens: newTokens } = await api.login(payload);
+      const { user: loggedInUser, tokens: newTokens } = await api.login({ ...payload, inviteToken: consumePendingInviteToken() });
       setUser(loggedInUser);
       setTokens(newTokens);
       saveTokens(newTokens);

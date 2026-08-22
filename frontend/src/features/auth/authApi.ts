@@ -57,13 +57,14 @@ export function signup(payload: {
   email: string;
   password: string;
   phone: string;
-  businessName: string 
-}): Promise<AuthResponse> {
-  return request<AuthResponse>("/signup/", { body: JSON.stringify(payload) });
+  businessName: string;
+  inviteToken?: string;
+}): Promise<AuthResponse & { joinedTeam?: string }> {
+  return request("/signup/", { body: JSON.stringify(payload) });
 }
 
-export function login(payload: { email: string; password: string }): Promise<AuthResponse> {
-  return request<AuthResponse>("/login/", { body: JSON.stringify(payload) });
+export function login(payload: { email: string; password: string; inviteToken?: string }): Promise<AuthResponse & { joinedTeam?: string }> {
+  return request("/login/", { body: JSON.stringify(payload) });
 }
 
 export function requestPasswordReset(payload: { email: string }): Promise<{ message: string }> {
