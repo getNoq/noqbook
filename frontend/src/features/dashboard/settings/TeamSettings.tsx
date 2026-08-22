@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserPlus, X } from "lucide-react";
+import { UserPlus, X, ChevronDown } from "lucide-react";
 import { BRAND } from "../../../lib/theme";
 import { useAuth } from "../../auth/AuthContext";
 import { fetchTeamMembers, inviteMember, removeMember } from "../teamsApi";
@@ -112,14 +112,28 @@ export function TeamSettings() {
             value={inviteEmail}
             onChange={(e) => setInviteEmail(e.target.value)}
             placeholder="teammate@example.com"
-            className="w-full rounded-xl px-4 py-3 mb-4 text-sm outline-none"
+            className="w-full rounded-xl px-4 py-3 mb-4 text-base md:text-sm outline-none"
             style={{ border: `1px solid ${BRAND.line}` }}
           />
           <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Role</label>
-          <select value={inviteRole} onChange={(e) => setInviteRole(e.target.value as TeamRole)} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={{ border: `1px solid ${BRAND.line}` }}>
-            <option value="staff">Staff — records sales and expenses</option>
-            <option value="admin">Admin — can also invite and remove staff</option>
-          </select>
+
+            <div className="relative mb-5">
+            <select
+                value={inviteRole}
+                onChange={(e) => setInviteRole(e.target.value as TeamRole)}
+                className="appearance-none w-full rounded-xl px-4 py-3 pr-10 text-base md:text-sm outline-none cursor-pointer"
+                style={{ border: `1px solid ${BRAND.line}` }}
+            >
+                <option value="staff">Staff — records sales and expenses</option>
+                <option value="admin">Admin — can also invite and remove staff</option>
+            </select>
+
+            <ChevronDown
+                size={16}
+                className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"
+                style={{ color: BRAND.inkSoft }}
+            />
+            </div>
           <button onClick={handleInvite} disabled={inviting || !inviteEmail.trim()} className="flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-sm transition-opacity" style={{ background: BRAND.ink, color: BRAND.bg, opacity: inviting || !inviteEmail.trim() ? 0.5 : 1 }}>
             <UserPlus size={16} /> {inviting ? "Sending…" : "Send invite"}
           </button>

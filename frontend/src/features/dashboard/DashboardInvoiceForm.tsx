@@ -105,7 +105,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         <button onClick={addItem} className="flex items-center gap-1.5 text-sm font-semibold mb-6" style={{ color: BRAND.lavStrong }}><Plus size={15} /> Add another item</button>
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Payment</label>
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-6">
           {([
             { value: "full", label: "Paid in full" },
             { value: "part", label: "Part payment" },
@@ -158,7 +158,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         </div>
         <div className="mb-4 min-h-[16px] text-xs" style={{ color: BRAND.inkSoft }}>
           {!nameRequired
-            ? 'Leave blank for a walk-in customer — we\'ll record it as "Unknown".'
+            ? 'Leave blank if customer name is not given — we\'ll record it as "Unknown".'
             : touched && !customerName.trim()
               ? <span style={{ color: BRAND.red }}>Required when payment isn't in full — need a way to identify who owes you.</span>
               : ""}

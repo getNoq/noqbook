@@ -79,3 +79,55 @@ export async function createInvoice(accessToken: string, payload: CreateInvoiceP
   }
   return res.json();
 }
+
+export interface EditLogEntry {
+  id: string;
+  action: "edited" | "deleted";
+  changedBy: string;
+  changes: Record<string, { old: any; new: any }>;
+  createdAt: string;
+}
+
+export interface InvoiceDetail extends Invoice {
+  editHistory: EditLogEntry[];
+  lastEditedByEmail: string | null;
+  lastEditedAt: string | null;
+}
+
+export interface UpdateInvoicePayload {
+  customerName?: string;
+  customerPhone?: string;
+  items?: { description: string; qty: number; unitPrice: number }[];
+  note?: string;
+  brandColor?: string;
+}
+
+export async function updateInvoice(accessToken: string, invoiceId: string, payload: UpdateInvoicePayload): Promise<InvoiceDetail> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/`, {
+    method: "PATCH",
+    headers: authHeaders(accessToken),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't save changes.");
+  }
+  return res.json();
+}
+
+export async function deleteInvoice(accessToken: string, invoiceId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/`, { method: "DELETE", headers: authHeaders(accessToken) });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't delete this sale.");
+  }
+}
+
+export async function deletePayment(accessToken: string, invoiceId: string, paymentId: string): Promise<InvoiceDetail> {
+  const res = await fetch(`${API_BASE}/${invoiceId}/payments/${paymentId}/`, { method: "DELETE", headers: authHeaders(accessToken) });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't delete this payment.");
+  }
+  return res.json();
+}
