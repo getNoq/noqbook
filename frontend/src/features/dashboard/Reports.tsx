@@ -7,6 +7,7 @@ import { useAuth } from "../auth/AuthContext";
 import { Sidebar } from "./Sidebar";
 import { useReports } from "./useReports";
 import { downloadReportCsv, type DateRangePreset } from "./reportsApi";
+import { DatePickerField } from "../../components/ui/DatePickerField";
 
 const formatNaira = (n: number) => `₦${Number(n || 0).toLocaleString("en-NG")}`;
 
@@ -49,7 +50,7 @@ export function Reports() {
       <style>{FONT_IMPORT_BLOCK}</style>
       <Sidebar />
       <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">
-        <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col xxs:flex-row xxs:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="font-heading text-2xl md:text-3xl">Reports</h1>
             <p className="text-sm" style={{ color: BRAND.inkSoft }}>Trends, breakdowns, and exportable data for your business.</p>
@@ -59,18 +60,34 @@ export function Reports() {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-3">
-          {RANGE_OPTIONS.map((opt) => (
-            <button key={opt.value} onClick={() => setRange(opt.value)} className="rounded-full px-3.5 py-1.5 text-xs font-semibold" style={{ background: range === opt.value ? BRAND.ink : BRAND.card, color: range === opt.value ? BRAND.bg : BRAND.inkSoft, border: `1px solid ${BRAND.line}` }}>
-              {opt.label}
+        <div className="flex flex-nowrap gap-2 mb-3 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+        {RANGE_OPTIONS.map((opt) => (
+            <button
+            key={opt.value}
+            onClick={() => setRange(opt.value)}
+            className="flex-shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap"
+            style={{ background: range === opt.value ? BRAND.ink : BRAND.card, color: range === opt.value ? BRAND.bg : BRAND.inkSoft, border: `1px solid ${BRAND.line}` }}
+            >
+            {opt.label}
             </button>
-          ))}
+        ))}
         </div>
         {range === "custom" && (
-          <div className="flex gap-2 mb-6 max-w-sm">
-            <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="flex-1 rounded-xl px-3 py-2 text-sm outline-none" style={{ border: `1px solid ${BRAND.line}` }} />
-            <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="flex-1 rounded-xl px-3 py-2 text-sm outline-none" style={{ border: `1px solid ${BRAND.line}` }} />
-          </div>
+        <div className="flex gap-2 mb-6 max-w-sm">
+            <DatePickerField
+            value={dateFrom}
+            onChange={setDateFrom}
+            placeholder="From"
+            maxDate={dateTo || undefined}
+            />
+            <DatePickerField
+            value={dateTo}
+            onChange={setDateTo}
+            placeholder="To"
+            align="right"
+            minDate={dateFrom || undefined}
+            />
+        </div>
         )}
 
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
