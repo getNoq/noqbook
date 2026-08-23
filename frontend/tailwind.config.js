@@ -12,6 +12,9 @@ export default {
         body: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['"Bebas Neue"', 'system-ui', 'sans-serif'],
       },
+      screens: {
+        'xs': '475px',
+      },
     },
   },
   plugins: [],

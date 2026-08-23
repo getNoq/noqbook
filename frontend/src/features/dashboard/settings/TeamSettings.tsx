@@ -121,7 +121,7 @@ export function TeamSettings() {
             <select
                 value={inviteRole}
                 onChange={(e) => setInviteRole(e.target.value as TeamRole)}
-                className="appearance-none w-full rounded-xl px-4 py-3 pr-10 text-base md:text-sm outline-none cursor-pointer"
+                className="appearance-none w-full rounded-xl bg-[#fff] px-4 py-3 pr-10 text-base md:text-sm outline-none cursor-pointer"
                 style={{ border: `1px solid ${BRAND.line}` }}
             >
                 <option value="staff">Staff — records sales and expenses</option>

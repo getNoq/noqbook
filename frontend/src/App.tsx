@@ -27,6 +27,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import NotFoundPage from './pages/NotFoundPage'
 import VerifyEmailPage from './pages/auth/VerifyEmailPage'
 import AcceptInvitePage from './pages/AcceptInvitePage'
+import ReportsPage from './pages/ReportsPage'
 // import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="/dashboard/customers/:id" element={<ProtectedRoute><CustomerDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/sales/:id" element={<ProtectedRoute><InvoiceDetailPage /></ProtectedRoute>} />
         <Route path="/dashboard/expenses/:id" element={<ProtectedRoute><ExpenseDetailPage /></ProtectedRoute>} />
+        <Route path="/dashboard/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
         <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsLayoutPage /></ProtectedRoute>}>
           <Route index element={<Navigate to="profile" replace />} />
           <Route path="profile" element={<ProfileSettingsPage />} />

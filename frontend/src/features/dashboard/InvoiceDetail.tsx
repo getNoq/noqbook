@@ -74,7 +74,7 @@ export function InvoiceDetail() {
         {!isLoading && error && <div className="max-w-xl mx-auto px-4 md:px-0 py-10 text-center text-sm" style={{ color: BRAND.red }}>{error}</div>}
 
         {!isLoading && !error && invoice && (
-          <div className="max-w-xl mx-auto px-4 md:px-0 py-6">
+          <div className="max-w-xl mx-auto px-4 md:px-0 pt-6 pb-0">
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex gap-2">
                 {canManage && (

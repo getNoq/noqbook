@@ -67,19 +67,19 @@ export function EditInvoiceForm({ invoice, onCancel, onSave }: EditInvoiceFormPr
         {error && <div className="rounded-xl px-4 py-3 mb-5 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{error}</div>}
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Customer name</label>
-        <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(false)} />
+        <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(false)} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Phone</label>
-        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-5 text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
+        <input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, "").slice(0, 11))} inputMode="numeric" maxLength={11} className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none" style={inputStyle(!phoneCheck.empty && !phoneCheck.valid)} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Items</label>
         <div className="flex flex-col gap-3 mb-3">
           {items.map((it) => (
             <div key={it.id} className="flex flex-wrap gap-2 items-center w-full">
-              <input value={it.description} onChange={(e) => updateItem(it.id, "description", e.target.value)} placeholder="Item or service" className="w-full sm:flex-1 rounded-xl px-3 py-2.5 text-sm outline-none" style={inputStyle(false)} />
+              <input value={it.description} onChange={(e) => updateItem(it.id, "description", e.target.value)} placeholder="Item or service" className="w-full sm:flex-1 rounded-xl px-3 py-2.5 text-base md:text-sm outline-none" style={inputStyle(false)} />
               <div className="flex flex-1 items-center gap-2 w-full sm:w-auto">
-                <input type="number" min={1} value={it.qty || ""} onChange={(e) => updateItem(it.id, "qty", e.target.value === "" ? "" : Number(e.target.value))} className="w-16 rounded-xl px-2 py-2.5 text-sm outline-none text-center" style={inputStyle(false)} />
-                <input type="number" min={0} value={it.unitPrice || ""} onChange={(e) => updateItem(it.id, "unitPrice", e.target.value === "" ? "" : Number(e.target.value))} className="flex-1 rounded-xl px-3 py-2.5 text-sm outline-none" style={inputStyle(false)} />
+                <input type="number" min={1} value={it.qty || ""} onChange={(e) => updateItem(it.id, "qty", e.target.value === "" ? "" : Number(e.target.value))} className="w-16 rounded-xl px-2 py-2.5 text-base md:text-sm outline-none text-center" style={inputStyle(false)} />
+                <input type="number" min={0} value={it.unitPrice || ""} onChange={(e) => updateItem(it.id, "unitPrice", e.target.value === "" ? "" : Number(e.target.value))} className="flex-1 rounded-xl px-3 py-2.5 text-base md:text-sm outline-none" style={inputStyle(false)} />
                 <button onClick={() => removeItem(it.id)} className="p-2 rounded-lg shrink-0" style={{ color: BRAND.red }}><Trash2 size={16} /></button>
               </div>
             </div>
@@ -88,7 +88,7 @@ export function EditInvoiceForm({ invoice, onCancel, onSave }: EditInvoiceFormPr
         <button onClick={addItem} className="flex items-center gap-1.5 text-sm font-semibold mb-6" style={{ color: BRAND.lavStrong }}><Plus size={15} /> Add another item</button>
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes</label>
-        <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} rows={3} className="w-full rounded-xl px-4 py-3 mb-6 text-sm outline-none resize-none" style={inputStyle(false)} />
+        <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} rows={3} className="w-full rounded-xl px-4 py-3 mb-6 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
 
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Brand color</label>
         <div className="flex gap-3 mb-7">

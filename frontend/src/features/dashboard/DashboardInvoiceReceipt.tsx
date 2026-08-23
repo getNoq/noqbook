@@ -87,7 +87,7 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 md:px-0 py-6">
+    <div className="max-w-xl mx-auto px-4 md:px-0 pt-0 pb-8">
       <div className="rounded-3xl p-7 mb-5" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
         <div className="text-center border-b pb-4 mb-4" style={{ borderColor: BRAND.line }}>
           <div className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>{docLabel(invoice.status)} · {invoice.invoiceNumber}</div>

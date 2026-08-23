@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Settings, LogOut, Menu, Contact, X } from "lucide-react";
+import { LayoutDashboard, Users, Settings, LogOut, Menu, Contact, X, BarChart3 } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import { useAuth } from "../auth/AuthContext";
 
-const NAV_ITEMS = [
+const ALL_NAV_ITEMS = [
   { label: "Overview", icon: LayoutDashboard, to: "/dashboard", match: (path: string) => path === "/dashboard" },
   { label: "Who owes me", icon: Users, to: "/dashboard/owed", match: (path: string) => path === "/dashboard/owed" },
   { label: "Customers", icon: Contact, to: "/dashboard/customers", match: (path: string) => path.startsWith("/dashboard/customers") },
+  { label: "Reports", icon: BarChart3, to: "/dashboard/reports", match: (path: string) => path.startsWith("/dashboard/reports"), ownerOrAdminOnly: true },
   { label: "Settings", icon: Settings, to: "/dashboard/settings", match: (path: string) => path.startsWith("/dashboard/settings") },
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { user, logOut } = useAuth();
   const location = useLocation();
+  const NAV_ITEMS = ALL_NAV_ITEMS.filter((item) => !item.ownerOrAdminOnly || user?.role !== "staff");
 
   return (
     <div className="h-full flex flex-col px-4 py-6">
