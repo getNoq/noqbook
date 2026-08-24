@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Users, Settings, LogOut, Menu, Contact, X, BarChart3 } from "lucide-react";
 import { BRAND } from "../../lib/theme";
 import { useAuth } from "../auth/AuthContext";
+import { TeamSwitcher } from "./TeamSwitcher";
 
 const ALL_NAV_ITEMS = [
   { label: "Overview", icon: LayoutDashboard, to: "/dashboard", match: (path: string) => path === "/dashboard" },
@@ -38,6 +39,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
       <div className="border-t pt-4 mt-4" style={{ borderColor: BRAND.line }}>
+        <TeamSwitcher />
         <div className="px-3 mb-3">
           <div className="text-sm font-semibold truncate">{user?.businessName}</div>
           <div className="text-xs truncate" style={{ color: BRAND.inkSoft }}>{user?.email}</div>

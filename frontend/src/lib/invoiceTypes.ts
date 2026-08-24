@@ -26,6 +26,7 @@ export interface Invoice {
   paidDate: string | null;
   note?: string;
   brandColor?: string;
+  hideBranding?: boolean;
   // Only ever populated for account (dashboard) invoices, fetched from
   // the backend — guest-mode invoices never have these; the payment
   // ledger is a signed-in-only feature.

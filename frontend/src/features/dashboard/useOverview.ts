@@ -22,7 +22,9 @@ export function useOverview() {
   const dateTo = searchParams.get("dateTo") || "";
   const sort = (searchParams.get("sort") as FeedSort) || "newest";
   const search = searchParams.get("search") || "";
+  const status = searchParams.get("status") || "";
   const page = Number(searchParams.get("page")) || 1;
+
 
   const updateParams = (updates: Record<string, string | number>) => {
     const next = new URLSearchParams(searchParams);
@@ -39,6 +41,7 @@ export function useOverview() {
   const setDateTo = (v: string) => updateParams({ dateTo: v, page: 1 });
   const setSort = (v: FeedSort) => updateParams({ sort: v, page: 1 });
   const setSearch = (v: string) => updateParams({ search: v, page: 1 });
+  const setStatus = (v: string) => updateParams({ status: v, page: 1 });
   const goToPage = (p: number) => updateParams({ page: p });
 
   const [summary, setSummary] = useState<OverviewSummary>(EMPTY_SUMMARY);
@@ -61,7 +64,7 @@ export function useOverview() {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await fetchOverviewFeed(accessToken, { type, range, dateFrom, dateTo, search, sort, page });
+      const data = await fetchOverviewFeed(accessToken, { type, range, dateFrom, dateTo, search, sort, page, status });
       setItems(data.results);
       setTotalCount(data.count);
     } catch (err: any) {
@@ -69,13 +72,13 @@ export function useOverview() {
     } finally {
       setIsLoading(false);
     }
-  }, [accessToken, type, range, dateFrom, dateTo, search, sort, page]);
+  }, [accessToken, type, range, dateFrom, dateTo, search, sort, page, status]);
 
   useEffect(() => {
     const handle = setTimeout(() => loadFeed(), 300);
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, range, dateFrom, dateTo, search, sort, page]);
+  }, [type, range, dateFrom, dateTo, search, sort, page, status]);
 
   useEffect(() => {
     loadSummary();
@@ -85,7 +88,7 @@ export function useOverview() {
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
   return {
-    type, setType, range, setRange, dateFrom, setDateFrom, dateTo, setDateTo, sort, setSort, search, setSearch,
+    type, setType, range, setRange, dateFrom, setDateFrom, dateTo, setDateTo, sort, setSort, search, setSearch, status, setStatus,
     summary, items, isLoading, error, page, totalPages, goToPage,
     refresh: () => { loadFeed(); loadSummary(); },
   };

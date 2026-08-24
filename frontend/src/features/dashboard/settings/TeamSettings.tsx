@@ -17,6 +17,7 @@ export function TeamSettings() {
   const [inviteRole, setInviteRole] = useState<TeamRole>("staff");
   const [inviting, setInviting] = useState(false);
   const [inviteSent, setInviteSent] = useState(false);
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null);
 
   const load = () => {
     if (!accessToken) return;
@@ -81,7 +82,7 @@ export function TeamSettings() {
                   {ROLE_LABEL[m.role]}
                 </span>
                 {canManage && m.role !== "owner" && !m.isYou && (
-                  <button onClick={() => handleRemove(m.id)} aria-label="Remove member" style={{ color: BRAND.inkSoft }}>
+                  <button onClick={() => setConfirmRemoveId(m.id)} aria-label="Remove member" style={{ color: BRAND.inkSoft }}>
                     <X size={16} />
                   </button>
                 )}
@@ -139,6 +140,18 @@ export function TeamSettings() {
           </button>
         </div>
       )}
+        {confirmRemoveId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
+            <div className="w-full max-w-sm rounded-3xl p-6 text-center" style={{ background: BRAND.card }}>
+            <h2 className="font-heading text-xl mb-2">Remove this member?</h2>
+            <p className="text-sm mb-6" style={{ color: BRAND.inkSoft }}>They'll immediately lose access to this team's sales and expenses.</p>
+            <div className="flex gap-3">
+                <button onClick={() => setConfirmRemoveId(null)} className="flex-1 rounded-full py-3 font-semibold text-sm" style={{ border: `1px solid ${BRAND.line}`, color: BRAND.inkSoft }}>Cancel</button>
+                <button onClick={() => { handleRemove(confirmRemoveId); setConfirmRemoveId(null); }} className="flex-1 rounded-full py-3 font-semibold text-sm" style={{ background: BRAND.red, color: BRAND.bg }}>Remove</button>
+            </div>
+            </div>
+        </div>
+        )}
     </div>
   );
 }

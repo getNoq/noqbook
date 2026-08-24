@@ -11,15 +11,15 @@ export const docLabel = (status: InvoiceStatus): string => (status === "paid" ? 
 
 export function statusBadge(status: InvoiceStatus): { label: string; bg: string; color: string } {
   if (status === "paid") return { label: "Paid", bg: BRAND.mint, color: BRAND.green };
-  if (status === "partially_paid") return { label: "Partially Paid", bg: BRAND.amber, color: BRAND.amberStrong };
-  return { label: "Due", bg: BRAND.peach, color: BRAND.red };
+  if (status === "partially_paid") return { label: "Part payment", bg: BRAND.amber, color: BRAND.amberStrong };
+  return { label: "Unpaid", bg: BRAND.peach, color: BRAND.red };
 }
 
 export const invoiceText = (inv: Invoice): string => {
   const lines = inv.items
     .map((it) => `• ${it.description} — ${formatNaira(Number(it.qty) * Number(it.unitPrice))}`)
     .join("\n");
-  const statusLine = inv.status === "paid" ? "PAID" : inv.status === "partially_paid" ? "PARTIALLY PAID" : "OUTSTANDING";
+  const statusLine = inv.status === "paid" ? "PAID" : inv.status === "partially_paid" ? "PART PAYMENT" : "UNPAID";
   return `${docLabel(inv.status)} ${inv.invoiceNumber} from ${inv.businessName}\nCustomer: ${inv.customerName}\n\n${lines}\n\nTotal: ${formatNaira(inv.total)}\nStatus: ${statusLine}\n\nCreated with Yousual (https://yousual.com)`;
 };
 

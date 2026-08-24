@@ -196,7 +196,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   if (partiallyPaid) {
     const amountPaid = invoice.amountPaid ?? 0;
     const amountDue = invoice.amountDue ?? invoice.total - amountPaid;
-    const line1 = "PARTIALLY PAID";
+    const line1 = "PART PAYMENT";
     const line2 = `${formatNaira(amountPaid)} paid · ${formatNaira(amountDue)} outstanding`;
 
     // =========================
@@ -283,7 +283,7 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
     );
   } else {
     ctx.fillStyle = paid ? "#DBF3E7" : "#FFE4CD";
-    const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "OUTSTANDING";
+    const stampText = paid ? `PAID${invoice.paidDate ? " · " + invoice.paidDate : ""}` : "UNPAID";
     ctx.font = '700 18px "Inter", Arial, sans-serif';
     const stampWidth = ctx.measureText(stampText).width + 40;
     ctx.beginPath();
@@ -329,10 +329,12 @@ export async function renderInvoiceImage(invoice: Invoice): Promise<Blob> {
   ctx.setLineDash([]);
   y += gapDivider2ToTotal - 16;
 
+if (!invoice.hideBranding) {
   ctx.fillStyle = "rgba(34,29,23,0.4)";
   ctx.font = '400 20px "Inter", Arial, sans-serif';
   ctx.textAlign = "center";
   ctx.fillText("Powered by Yousual", width / 2, y);
+}
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("toBlob failed"))), "image/png");

@@ -206,6 +206,8 @@ export function Dashboard() {
             onSortChange={overview.setSort}
             search={overview.search}
             onSearchChange={overview.setSearch}
+            status={overview.status}
+            onStatusChange={overview.setStatus}
           />
 
           {overview.error && (

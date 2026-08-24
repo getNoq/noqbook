@@ -16,6 +16,8 @@ interface OverviewFiltersProps {
   onSortChange: (s: FeedSort) => void;
   search: string;
   onSearchChange: (v: string) => void;
+  status: string;
+  onStatusChange: (v: string) => void;
 }
 
 const TYPE_OPTIONS: { value: FeedType; label: string }[] = [
@@ -30,6 +32,14 @@ const RANGE_OPTIONS: { value: DateRangePreset; label: string }[] = [
   { value: "week", label: "Last 7 days" },
   { value: "month", label: "This month" },
   { value: "custom", label: "Custom date" },
+];
+
+const STATUS_OPTIONS = [
+  { value: "", label: "All statuses" },
+  { value: "paid", label: "Paid" },
+  { value: "partially_paid", label: "Part payment" },
+  { value: "due", label: "Unpaid" },
+  { value: "recorded", label: "Recorded (expenses)" },
 ];
 
 const selectStyle = {
@@ -52,7 +62,7 @@ function StyledSelect({
   ariaLabel,
 }: StyledSelectProps) {
   return (
-    <div className="relative flex-1 lg:flex-none lg:w-40">
+    <div className="relative shrink-0 w-28 lg:flex-none lg:w-32">
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -90,12 +100,13 @@ export function OverviewFilters(props: OverviewFiltersProps) {
     onSortChange,
     search,
     onSearchChange,
+    status,
+    onStatusChange,
   } = props;
 
   return (
     <div className="mb-5">
-      {/* Search + filters */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col lg:flex-row lg:items-center gap-2">
         {/* Search */}
         <div className="relative w-full lg:flex-1">
           <Search
@@ -116,36 +127,41 @@ export function OverviewFilters(props: OverviewFiltersProps) {
           />
         </div>
 
-        {/* Type */}
-        <StyledSelect
-          value={type}
-          onChange={(value) => onTypeChange(value as FeedType)}
-          options={TYPE_OPTIONS}
-          ariaLabel="Filter by type"
-        />
+        {/* Filters — horizontal scroll on mobile, inline row on desktop */}
+        <div className="flex gap-2 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0 scrollbar-hide">
+          <StyledSelect
+            value={type}
+            onChange={(value) => onTypeChange(value as FeedType)}
+            options={TYPE_OPTIONS}
+            ariaLabel="Filter by type"
+          />
 
-        {/* Date */}
-        <StyledSelect
-          value={range}
-          onChange={(value) =>
-            onRangeChange(value as DateRangePreset)
-          }
-          options={RANGE_OPTIONS}
-          ariaLabel="Filter by date"
-        />
+          <StyledSelect
+            value={range}
+            onChange={(value) => onRangeChange(value as DateRangePreset)}
+            options={RANGE_OPTIONS}
+            ariaLabel="Filter by date"
+          />
 
-        {/* Sort */}
-        <StyledSelect
-          value={sort}
-          onChange={(value) => onSortChange(value as FeedSort)}
-          options={[
-            { value: "newest", label: "Newest first" },
-            { value: "oldest", label: "Oldest first" },
-            { value: "amount_desc", label: "Highest amount" },
-            { value: "amount_asc", label: "Lowest amount" },
-          ]}
-          ariaLabel="Sort"
-        />
+          <StyledSelect
+            value={sort}
+            onChange={(value) => onSortChange(value as FeedSort)}
+            options={[
+              { value: "newest", label: "Newest first" },
+              { value: "oldest", label: "Oldest first" },
+              { value: "amount_desc", label: "Highest amount" },
+              { value: "amount_asc", label: "Lowest amount" },
+            ]}
+            ariaLabel="Sort"
+          />
+
+          <StyledSelect
+            value={status}
+            onChange={onStatusChange}
+            options={STATUS_OPTIONS}
+            ariaLabel="Filter by status"
+          />
+        </div>
       </div>
 
       {/* Custom date range */}

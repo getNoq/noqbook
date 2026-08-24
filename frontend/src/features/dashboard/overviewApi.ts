@@ -55,6 +55,7 @@ export interface FeedParams {
   search?: string;
   sort: FeedSort;
   page: number;
+  status?: string;
 }
 
 export async function fetchOverviewFeed(accessToken: string, params: FeedParams): Promise<PaginatedFeed> {
@@ -62,6 +63,7 @@ export async function fetchOverviewFeed(accessToken: string, params: FeedParams)
   if (params.dateFrom) query.set("dateFrom", params.dateFrom);
   if (params.dateTo) query.set("dateTo", params.dateTo);
   if (params.search) query.set("search", params.search);
+  if (params.status) query.set("status", params.status);
   const res = await fetch(`${API_BASE}/feed/?${query.toString()}`, { headers: authHeaders(accessToken) });
   if (!res.ok) throw new Error("Couldn't load your activity.");
   return res.json();

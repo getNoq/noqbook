@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { fetchTeamMembers } from "../teamsApi";
 import { Check } from "lucide-react";
 import { BRAND } from "../../../lib/theme";
 import { useAuth } from "../../auth/AuthContext";
@@ -25,7 +27,34 @@ const BUSINESS_FEATURES = [
 ];
 
 export function PlanSettings() {
-  const { user } = useAuth();
+  const { accessToken, user } = useAuth();
+  const [teamPlan, setTeamPlan] = useState<"free" | "business" | null>(null);
+  const [myRole, setMyRole] = useState<string | null>(null);
+  const [hideBranding, setHideBranding] = useState(false);
+  const [savingBranding, setSavingBranding] = useState(false);
+
+  useEffect(() => {
+    if (!accessToken) return;
+    fetchTeamMembers(accessToken).then((data) => {
+      setTeamPlan(data.team.plan);
+      setMyRole(data.myRole);
+    }).catch(() => {});
+  }, [accessToken]);
+
+  const handleToggleBranding = async () => {
+    if (!accessToken) return;
+    setSavingBranding(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/teams/branding/`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ hideBranding: !hideBranding }),
+      });
+      if (res.ok) setHideBranding((v) => !v);
+    } finally {
+      setSavingBranding(false);
+    }
+  };
 
   const upgradeMailto = `mailto:yousual@gmail.com?subject=${encodeURIComponent("Business Plan upgrade request")}&body=${encodeURIComponent(
     `Hi, I'd like to upgrade ${user?.businessName || "my account"} to the Business Plan.`
@@ -62,6 +91,22 @@ export function PlanSettings() {
           Request early access
         </a>
         <p className="text-xs mt-3" style={{ color: BRAND.inkSoft }}>Business Plan billing isn't live yet — this sends us a note and we'll follow up directly.</p>
+        {teamPlan === "business" && myRole === "owner" && (
+          <div className="flex items-center justify-between mt-5 pt-5" style={{ borderTop: `1px solid ${BRAND.line}` }}>
+            <div>
+              <div className="text-sm font-semibold">Hide "Powered by Yousual"</div>
+              <div className="text-xs" style={{ color: BRAND.inkSoft }}>Removes it from invoices, receipts, and shared links.</div>
+            </div>
+            <button
+              onClick={handleToggleBranding}
+              disabled={savingBranding}
+              className="w-11 h-6 rounded-full relative shrink-0 transition-colors"
+              style={{ background: hideBranding ? BRAND.green : BRAND.line }}
+            >
+              <span className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform" style={{ transform: hideBranding ? "translateX(22px)" : "translateX(2px)" }} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

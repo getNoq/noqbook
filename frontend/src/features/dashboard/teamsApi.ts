@@ -61,3 +61,28 @@ export async function acceptInvite(accessToken: string, token: string): Promise<
   }
   return res.json();
 }
+
+export interface MyTeamEntry {
+  teamId: string;
+  teamName: string;
+  role: "owner" | "admin" | "staff";
+  isActive: boolean;
+}
+
+export async function fetchMyTeams(accessToken: string): Promise<MyTeamEntry[]> {
+  const res = await fetch(`${API_BASE}/my-teams/`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load your teams.");
+  return res.json();
+}
+
+export async function switchTeam(accessToken: string, teamId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/switch/`, {
+    method: "POST",
+    headers: authHeaders(accessToken),
+    body: JSON.stringify({ teamId }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Couldn't switch teams.");
+  }
+}
