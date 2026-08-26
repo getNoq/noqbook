@@ -1,5 +1,5 @@
-import { ComingSoonSettings } from '../../features/dashboard/settings/ComingSoonSettings'
+import { BillingSettings } from '../../features/dashboard/settings/BillingSettings'
 
 export default function BillingSettingsPage() {
-  return <ComingSoonSettings title="Billing & transaction history" description="A record of your payments and plan changes will show up here once billing goes live." />
+  return <BillingSettings />
 }

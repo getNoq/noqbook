@@ -28,6 +28,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import VerifyEmailPage from './pages/auth/VerifyEmailPage'
 import AcceptInvitePage from './pages/AcceptInvitePage'
 import ReportsPage from './pages/ReportsPage'
+import BillingCallbackPage from './pages/settings/BillingCallbackPage'
 // import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="billing" element={<BillingSettingsPage />} />
           <Route path="team" element={<TeamSettingsPage />} />
         </Route>
+        <Route path="/dashboard/settings/billing/callback" element={<ProtectedRoute><BillingCallbackPage /></ProtectedRoute>} />
         {/* <Route path="/i/:id" element={<PublicInvoicePage />} /> */}
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/invite/:token" element={<AcceptInvitePage />} />
