@@ -8,6 +8,7 @@ export interface AuthUser {
   isEmailVerified: boolean;
   role: "owner" | "admin" | "staff" | null;
   teamName: string | null;
+  teamPlan: "free" | "business";
 }
 
 export interface AuthTokens {

@@ -8,6 +8,7 @@ import { Sidebar } from "./Sidebar";
 import { useReports } from "./useReports";
 import { downloadReportCsv, type DateRangePreset } from "./reportsApi";
 import { DatePickerField } from "../../components/ui/DatePickerField";
+import { BusinessPlanGate } from "./BusinessPlanGate";
 
 const formatNaira = (n: number) => `₦${Number(n || 0).toLocaleString("en-NG")}`;
 
@@ -60,6 +61,7 @@ export function Reports() {
           </button>
         </div>
 
+        <BusinessPlanGate feature="Reports" description="Trends, category breakdowns, and exportable data — upgrade to unlock.">
         <div className="flex flex-nowrap gap-2 mb-3 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
         {RANGE_OPTIONS.map((opt) => (
             <button
@@ -179,6 +181,7 @@ export function Reports() {
             </div>
           </>
         )}
+        </BusinessPlanGate>
       </main>
     </div>
   );

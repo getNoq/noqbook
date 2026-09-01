@@ -11,6 +11,7 @@ import { renderInvoiceImage } from "../../lib/invoiceImage";
 import { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
 import type { Invoice } from "../../lib/invoiceTypes";
 import { fetchCustomerDetail, updateCustomer, type CustomerDetail as CustomerDetailData } from "./customersApi";
+import { BusinessPlanGate } from "./BusinessPlanGate";
 
 const formatNaira = (n: number) => `₦${Number(n || 0).toLocaleString("en-NG")}`;
 
@@ -80,6 +81,7 @@ export function CustomerDetail() {
       <style>{FONT_IMPORT_BLOCK}</style>
       <Sidebar />
       <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8 mb-20">
+        <BusinessPlanGate feature="Customer history">
         {isLoading && <p className="text-sm" style={{ color: BRAND.inkSoft }}>Loading…</p>}
         {!isLoading && error && <p className="text-sm" style={{ color: BRAND.red }}>{error}</p>}
         {!isLoading && data && (
@@ -150,6 +152,7 @@ export function CustomerDetail() {
             </button>
           </>
         )}
+        </BusinessPlanGate>
       </main>
     </div>
   );

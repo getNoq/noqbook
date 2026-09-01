@@ -7,6 +7,7 @@ import { Sidebar } from "./Sidebar";
 import { Pagination } from "./Pagination";
 import { fetchCustomers } from "./customersApi";
 import type { Customer } from "../../lib/customerTypes";
+import { BusinessPlanGate } from "./BusinessPlanGate";
 
 const PAGE_SIZE = 10;
 
@@ -47,6 +48,7 @@ export function CustomersList() {
         <h1 className="font-heading text-2xl md:text-3xl mb-1">Customers</h1>
         <p className="text-sm mb-6" style={{ color: BRAND.inkSoft }}>Everyone you've recorded a sale for.</p>
 
+        <BusinessPlanGate feature="Customer history" description="See who bought what and when — upgrade to unlock.">
         <div className="flex items-center gap-2 mb-5">
           <Search size={16} style={{ color: BRAND.inkSoft }} className="shrink-0" />
           <input
@@ -84,6 +86,7 @@ export function CustomersList() {
             <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
           </>
         )}
+        </BusinessPlanGate>
       </main>
     </div>
   );

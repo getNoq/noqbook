@@ -4,6 +4,7 @@ import { BRAND } from "../../lib/theme";
 import { Expense, EXPENSE_CATEGORIES, type ExpenseCategory } from "../../lib/expenseTypes";
 import type { UpdateExpensePayload } from "./expensesApi";
 import { DatePickerField } from "../../components/ui/DatePickerField";
+import { useAuth } from "../auth/AuthContext";
 
 const inputStyle = (invalid: boolean) => ({ border: `1px solid ${invalid ? BRAND.red : BRAND.line}` });
 const todayISO = () => new Date().toISOString().slice(0, 10);
@@ -24,6 +25,9 @@ export function EditExpenseForm({ expense, onCancel, onSave }: EditExpenseFormPr
   const [touched, setTouched] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const { user } = useAuth();
+  const canUploadReceipt = user?.teamPlan === "business";
 
   const canSubmit = title.trim().length > 0 && amount !== "" && Number(amount) > 0;
 
@@ -105,12 +109,21 @@ export function EditExpenseForm({ expense, onCancel, onSave }: EditExpenseFormPr
         <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Notes (optional)</label>
         <textarea value={note} onChange={(e) => setNote(e.target.value.slice(0, 280))} placeholder="Any extra detail" rows={3} className="w-full rounded-xl px-4 py-3 mb-5 text-base md:text-sm outline-none resize-none" style={inputStyle(false)} />
 
-        <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Receipt (optional)</label>
-        <label className="flex items-center gap-2 rounded-xl px-4 py-3 mb-7 text-sm cursor-pointer" style={{ border: `1px dashed ${BRAND.line}`, color: BRAND.inkSoft }}>
-          <Upload size={16} />
-          {receipt ? receipt.name : expense.receiptUrl ? "Replace attached receipt" : "Attach a photo or PDF (max 5MB)"}
-          <input type="file" accept="image/jpeg,image/png,application/pdf" onChange={handleFileChange} className="hidden" />
-        </label>
+        {canUploadReceipt ? (
+          <>
+            <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: BRAND.inkSoft }}>Receipt (optional)</label>
+            <label className="flex items-center gap-2 rounded-xl px-4 py-3 mb-7 text-sm cursor-pointer" style={{ border: `1px dashed ${BRAND.line}`, color: BRAND.inkSoft }}>
+              <Upload size={16} />
+              {receipt ? receipt.name : expense.receiptUrl ? "Replace attached receipt" : "Attach a photo or PDF (max 5MB)"}
+              <input type="file" accept="image/jpeg,image/png,application/pdf" onChange={handleFileChange} className="hidden" />
+            </label>
+          </>
+        ) : (
+          <div className="rounded-xl px-4 py-3 mb-7 text-xs" style={{ border: `1px dashed ${BRAND.line}`, color: BRAND.inkSoft }}>
+            Attaching receipt photos is a Business Plan feature.{" "}
+            <a href="/dashboard/settings/plan" className="underline font-semibold" style={{ color: BRAND.ink }}>Upgrade</a>
+          </div>
+        )}
 
         <div className="flex gap-3">
           <button onClick={onCancel} className="flex-1 rounded-full py-3.5 font-semibold text-sm" style={{ border: `1px solid ${BRAND.line}`, color: BRAND.inkSoft }}>Cancel</button>
