@@ -7,7 +7,7 @@ function authHeaders(accessToken: string) {
 export interface BillingStatus {
   plan: "free" | "business";
   isComped: boolean;
-  subscription: { gateway: string; status: string; currentPeriodEnd: string | null; amount: number } | null;
+  subscription: { gateway: string; status: string; currentPeriodEnd: string | null; amount: number; gracePeriodEndsAt: string | null } | null;
 }
 
 export async function fetchBillingStatus(accessToken: string): Promise<BillingStatus> {
@@ -16,8 +16,14 @@ export async function fetchBillingStatus(accessToken: string): Promise<BillingSt
   return res.json();
 }
 
-export async function startSubscription(accessToken: string, gateway: "paystack" | "flutterwave"): Promise<{ authorizationUrl: string }> {
-  const res = await fetch(`${API_BASE}/subscribe/`, { method: "POST", headers: authHeaders(accessToken), body: JSON.stringify({ gateway }) });
+export async function fetchPlanPrices(accessToken: string): Promise<{ interval: "monthly" | "yearly"; amount: number }[]> {
+  const res = await fetch(`${API_BASE}/prices/`, { headers: authHeaders(accessToken) });
+  if (!res.ok) throw new Error("Couldn't load pricing.");
+  return res.json();
+}
+
+export async function startSubscription(accessToken: string, gateway: "paystack" | "flutterwave", interval: "monthly" | "yearly"): Promise<{ authorizationUrl: string }> {
+  const res = await fetch(`${API_BASE}/subscribe/`, { method: "POST", headers: authHeaders(accessToken), body: JSON.stringify({ gateway, interval }) });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.message || "Couldn't start checkout.");

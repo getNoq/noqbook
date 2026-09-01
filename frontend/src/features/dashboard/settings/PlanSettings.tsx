@@ -3,7 +3,7 @@ import { fetchTeamMembers } from "../teamsApi";
 import { Check } from "lucide-react";
 import { BRAND } from "../../../lib/theme";
 import { useAuth } from "../../auth/AuthContext";
-import { startSubscription } from "../billingApi";
+import { fetchPlanPrices, startSubscription } from "../billingApi";
 
 const FREE_FEATURES = [
   "Unlimited sales and expense logs",
@@ -35,6 +35,8 @@ export function PlanSettings() {
   const [savingBranding, setSavingBranding] = useState(false);
   const [subscribing, setSubscribing] = useState<"paystack" | "flutterwave" | null>(null);
   const [subscribeError, setSubscribeError] = useState<string | null>(null);
+  const [prices, setPrices] = useState<{ interval: "monthly" | "yearly"; amount: number }[]>([]);
+  const [interval, setInterval] = useState<"monthly" | "yearly">("monthly");
 
   useEffect(() => {
     if (!accessToken) return;
@@ -42,6 +44,7 @@ export function PlanSettings() {
       setTeamPlan(data.team.plan);
       setMyRole(data.myRole);
     }).catch(() => {});
+    fetchPlanPrices(accessToken).then(setPrices).catch(() => {});
   }, [accessToken]);
 
   const handleToggleBranding = async () => {
@@ -64,7 +67,7 @@ export function PlanSettings() {
     setSubscribing(gateway);
     setSubscribeError(null);
     try {
-      const { authorizationUrl } = await startSubscription(accessToken, gateway);
+      const { authorizationUrl } = await startSubscription(accessToken, gateway, interval);
       window.location.href = authorizationUrl;
     } catch (err: any) {
       setSubscribeError(err?.message || "Couldn't start checkout.");
@@ -78,6 +81,8 @@ export function PlanSettings() {
 
   const isBusiness = teamPlan === "business";
   const isFree = teamPlan === "free";
+  const monthlyPrice = prices.find((p) => p.interval === "monthly")?.amount ?? 0;
+  const yearlyPrice = prices.find((p) => p.interval === "yearly")?.amount ?? 0;
 
   return (
     <div className="flex flex-col gap-4">
@@ -116,6 +121,15 @@ export function PlanSettings() {
           <p className="text-sm" style={{ color: BRAND.inkSoft }}>You're all set — manage your subscription from the Billing tab.</p>
         ) : (
           <>
+
+            <div className="flex gap-2 mb-4">
+              <button onClick={() => setInterval("monthly")} className="flex-1 rounded-xl py-2.5 text-sm font-semibold" style={{ background: interval === "monthly" ? BRAND.ink : BRAND.card, color: interval === "monthly" ? BRAND.bg : BRAND.inkSoft, border: `1px solid ${BRAND.line}` }}>
+                Monthly · ₦{monthlyPrice.toLocaleString("en-NG")}
+              </button>
+              <button onClick={() => setInterval("yearly")} className="flex-1 rounded-xl py-2.5 text-sm font-semibold" style={{ background: interval === "yearly" ? BRAND.ink : BRAND.card, color: interval === "yearly" ? BRAND.bg : BRAND.inkSoft, border: `1px solid ${BRAND.line}` }}>
+                Yearly · ₦{yearlyPrice.toLocaleString("en-NG")}
+              </button>
+            </div>
             {subscribeError && <div className="rounded-xl px-4 py-3 mb-3 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>{subscribeError}</div>}
             <button onClick={() => handleSubscribe("paystack")} disabled={!!subscribing} className="inline-block rounded-full px-6 py-3 font-semibold text-sm" style={{ background: BRAND.ink, color: BRAND.bg, opacity: subscribing ? 0.6 : 1 }}>
               {subscribing === "paystack" ? "Redirecting…" : "Subscribe with Paystack"}

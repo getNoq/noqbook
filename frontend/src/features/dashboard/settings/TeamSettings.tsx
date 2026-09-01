@@ -104,7 +104,19 @@ export function TeamSettings() {
         )}
       </div>
 
-      {canManage && (
+      {canManage && data?.team.plan === "free" && (
+        <div className="rounded-3xl p-7" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
+          <h2 className="font-heading text-xl mb-2">Invite someone</h2>
+          <p className="text-sm" style={{ color: BRAND.inkSoft }}>
+            Free plan is limited to 1 member (just you). Upgrade to Business Plan to invite up to 3 people.
+          </p>
+          <a href="/dashboard/settings/plan" className="inline-block mt-3 rounded-full px-5 py-2.5 text-sm font-semibold" style={{ background: BRAND.ink, color: BRAND.bg }}>
+            View Business Plan
+          </a>
+        </div>
+      )}
+
+      {canManage && data?.team.plan === "business" && (
         <div className="rounded-3xl p-7" style={{ background: BRAND.card, border: `1px solid ${BRAND.line}` }}>
           <h2 className="font-heading text-xl mb-4">Invite someone</h2>
           {inviteSent && <div className="rounded-xl px-4 py-3 mb-4 text-sm" style={{ background: BRAND.mint, color: BRAND.green }}>Invite sent.</div>}

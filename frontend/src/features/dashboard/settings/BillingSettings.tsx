@@ -49,6 +49,11 @@ export function BillingSettings() {
                 Via {statusData.subscription.gateway} · renews {statusData.subscription.currentPeriodEnd ? new Date(statusData.subscription.currentPeriodEnd).toLocaleDateString("en-NG") : "—"}
               </p>
             )}
+            {statusData.subscription?.status === "past_due" && statusData.subscription.gracePeriodEndsAt && (
+              <div className="rounded-xl px-4 py-3 mb-4 text-sm" style={{ background: BRAND.peach, color: BRAND.red }}>
+                Your last payment didn't go through. Update your card before {new Date(statusData.subscription.gracePeriodEndsAt).toLocaleDateString("en-NG")} to keep Business Plan access.
+              </div>
+            )}
             {!statusData.isComped && statusData.subscription?.status === "active" && (
               <button onClick={handleCancel} disabled={canceling} className="rounded-full px-5 py-2.5 text-sm font-semibold" style={{ border: `1px solid ${BRAND.line}`, color: BRAND.red }}>
                 {canceling ? "Canceling…" : "Cancel subscription"}
