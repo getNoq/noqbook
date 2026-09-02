@@ -7,6 +7,7 @@ import { renderInvoiceImage } from "../../lib/invoiceImage";
 import { uploadInvoiceAndGetLink } from "../../lib/invoiceClientApi";
 import { useAuth } from "../auth/AuthContext";
 import { recordPayment } from "./invoicesApi";
+import { trackEvent } from "../../lib/analytics";
 
 interface DashboardInvoiceReceiptProps {
   invoice: Invoice;
@@ -46,6 +47,10 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
         a.click();
         URL.revokeObjectURL(url);
       }
+      trackEvent("document_shared", {
+        document_type: "invoice",
+        method: "image",
+      });
     } finally {
       setImageBusy(false);
     }
@@ -56,6 +61,10 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
     try {
       const link = await uploadInvoiceAndGetLink(invoice, accessToken);
       openWhatsApp(shareCaption(invoice, link), invoice.customerPhone);
+      trackEvent("document_shared", {
+        document_type: "invoice",
+        method: "shareLink",
+      });
     } finally {
       setLinkLoading(false);
     }
@@ -64,6 +73,11 @@ export function DashboardInvoiceReceipt({ invoice, onPaymentRecorded, onDone }: 
   const copyLink = async () => {
     const link = await uploadInvoiceAndGetLink(invoice, accessToken);
     await navigator.clipboard.writeText(link);
+    trackEvent("invoice_copied");
+    trackEvent("document_shared", {
+      document_type: "invoice",
+      method: "copyLink",
+    });
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 1800);
   };

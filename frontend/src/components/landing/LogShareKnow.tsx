@@ -1,3 +1,5 @@
+import { trackEvent } from "../../lib/analytics"
+
 interface Feature {
   title: string
   description: string
@@ -61,6 +63,11 @@ export default function LogShareKnow() {
       <div className="mx-auto max-w-4xl text-center mt-2">
         <a
           href="/start"
+          onClick={() =>
+            trackEvent("guest_mode_started", {
+              location: "log_share_know_section",
+            })
+          }
           className="font-heading w-full max-w-[240px] mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
         >
           Try it yourself

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { trackEvent } from '../../lib/analytics'
 
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
@@ -32,6 +33,11 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="/signup"
+            onClick={() =>
+              trackEvent("signup_started", {
+                location: "web_navbar",
+              })
+            }
             className="font-heading rounded-full bg-ink px-6 py-3 text-[16px] tracking-[10%] text-white transition-colors hover:bg-neutral-800"
           >
             Get Started - Free
@@ -60,8 +66,14 @@ export default function Navbar() {
           </ul>
           <a
             href="/signup"
+            onClick={() => {
+              trackEvent("signup_started", {
+                location: "mobile_navbar",
+              })
+              setOpen(false)
+            }}
             className="font-heading mt-5 block rounded-full bg-ink px-6 py-3 text-center text-[18px] tracking-[5%] text-white"
-            onClick={() => setOpen(false)}
+            // onClick={() => setOpen(false)}
           >
             Get Started - Free
           </a>

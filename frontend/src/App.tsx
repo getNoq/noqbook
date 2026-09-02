@@ -29,11 +29,13 @@ import VerifyEmailPage from './pages/auth/VerifyEmailPage'
 import AcceptInvitePage from './pages/AcceptInvitePage'
 import ReportsPage from './pages/ReportsPage'
 import BillingCallbackPage from './pages/settings/BillingCallbackPage'
+import { AnalyticsRouteTracker } from './components/AnalyticsRouteTracker'
 // import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
   return (
     <AuthProvider>
+    <AnalyticsRouteTracker />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackEvent } from "../../lib/analytics";
 
 const FREE_FEATURES = [
   "Unlimited sales and expense logs",
@@ -71,6 +72,11 @@ const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
 
           <a
             href="/signup"
+            onClick={() =>
+              trackEvent("signup_started", {
+                location: "pricing_section",
+              })
+            }
             className="mt-8 block rounded-full tracking-[2%] bg-ink px-5 py-3 text-center text-[18px] font-heading text-white transition-colors hover:bg-neutral-800"
           >
             Start for free

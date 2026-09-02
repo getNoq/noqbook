@@ -1,3 +1,5 @@
+import { trackEvent } from "../../lib/analytics"
+
 interface Stat {
   label: string
   value: string
@@ -41,6 +43,11 @@ export default function PartPayment() {
       <div className="mx-auto max-w-4xl text-center mt-2">
         <a
           href="/start"
+          onClick={() =>
+            trackEvent("guest_mode_started", {
+              location: "part_payment_section",
+            })
+          }
           className="font-heading w-full max-w-[240px] mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
         >
           See how it works

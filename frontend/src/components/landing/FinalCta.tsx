@@ -1,3 +1,5 @@
+import { trackEvent } from "../../lib/analytics";
+
 export default function FinalCta() {
   return (
     <section id="get-started" className="bg-neutral-50 border-t border-black/5 px-5 py-20 md:px-8">
@@ -15,6 +17,11 @@ export default function FinalCta() {
         </p>
         <a
           href="/start"
+          onClick={() =>
+            trackEvent("signup_started", {
+              location: "web_navbar",
+            })
+          }
           className="font-heading mt-8 rounded-full inline-block bg-yolk px-6 py-2 text-[20px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
         >
           Try Yousual free

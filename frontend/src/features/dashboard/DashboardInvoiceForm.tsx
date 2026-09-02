@@ -4,6 +4,7 @@ import { BRAND, PRESET_COLORS } from "../../lib/theme";
 import { normalizeNGPhone } from "../../lib/phone";
 import type { CreateInvoicePayload } from "./invoicesApi";
 import { CustomerAutocomplete } from "./CustomerAutocomplete";
+import { trackEvent } from "../../lib/analytics";
 
 interface DraftItem {
   id: string;
@@ -73,6 +74,7 @@ export function DashboardInvoiceForm({ onCancel, onGenerate }: DashboardInvoiceF
         note: note.trim(),
         brandColor,
       });
+      trackEvent("sale_recorded");
     } catch (err: any) {
       setError(err?.message || "Couldn't record the sale. Try again.");
       setBusy(false);

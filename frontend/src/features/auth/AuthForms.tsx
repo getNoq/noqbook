@@ -11,6 +11,7 @@ import {
   validateBusinessName,
 } from "./validators";
 import { Link, useSearchParams } from "react-router-dom";
+import { trackEvent } from "../../lib/analytics";
 
 // ---------- Shared bits ----------
 
@@ -178,6 +179,7 @@ export function SignUpForm({ onSuccess, onGoToLogin }: { onSuccess?: () => void;
     try {
       await signUp({ email: email.trim(), password, phone: phone.trim(), businessName: businessName.trim() });
       onSuccess?.();
+      trackEvent("signup_completed");
     } catch {
       // authError is already set by AuthContext
     } finally {
@@ -299,6 +301,7 @@ export function LoginForm({
     try {
       await logIn({ email: email.trim(), password });
       onSuccess?.();
+      trackEvent("login_completed");
     } catch {
       // authError is already set by AuthContext
     } finally {

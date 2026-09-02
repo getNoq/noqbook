@@ -1,5 +1,6 @@
 // import { Play } from 'lucide-react'
 import { Link } from 'react-router-dom';
+import { trackEvent } from '../../lib/analytics';
 
 // const CHECKS = ['No card required', 'Works on slow data', 'Naira, by default']
 
@@ -33,11 +34,25 @@ export default function Hero() {
           <div className="mt-6 w-[280px] sm:w-[560px] flex flex-col md:flex-row items-center gap-4 sm:flex-row">
             <Link
               to="/start"
+              onClick={() =>
+                trackEvent("guest_mode_started", {
+                  location: "hero",
+                })
+              }
               className="font-heading w-full rounded-full bg-yolk px-5 py-3 text-[18px] border-2 border-yolk uppercase tracking-[5%] text-ink transition-transform hover:scale-[1.03]"
             >
-             Try Yousual free
+              Try Yousual free
             </Link>
-            <Link to="/signup" className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10">
+
+            <Link
+              to="/signup"
+              onClick={() =>
+                trackEvent("signup_started", {
+                  location: "hero",
+                })
+              }
+              className="font-heading w-full flex justify-center gap-3 rounded-full border-2 border-white/50 px-5 py-3 text-[18px] uppercase tracking-[5%] transition-colors bg-white/10 hover:bg-white/10"
+            >
               {/* <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play size={12} fill="white" />
               </span> */}
