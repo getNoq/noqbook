@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider } from './features/auth/AuthContext'
 import ProtectedRoute from './features/auth/ProtectedRoute'
 import GuestOnlyRoute from './features/auth/GuestOnlyRoute'
@@ -33,6 +33,17 @@ import { AnalyticsRouteTracker } from './components/AnalyticsRouteTracker'
 // import PublicInvoicePage from './pages/PublicInvoicePage'
 
 export default function App() {
+  const location = useLocation();
+
+  const excludedPaths = [
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+  ];
+
+  const shouldShowWhatsApp = !excludedPaths.includes(location.pathname);
+
   return (
     <AuthProvider>
     <AnalyticsRouteTracker />
@@ -66,7 +77,7 @@ export default function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <WhatsAppWidget />
+      {shouldShowWhatsApp && <WhatsAppWidget />}
     </AuthProvider>
   )
 }

@@ -30,7 +30,18 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden md:block">
+        <div className="hidden md:flex gap-2">
+          <a
+            href="/login"
+            onClick={() =>
+              trackEvent("login_started", {
+                location: "web_navbar",
+              })
+            }
+            className="font-heading rounded-full border-2 w-[120px] text-center border-ink px-6 py-3 text-[16px] tracking-[10%] text-ink transition-colors hover:bg-neutral-200"
+          >
+           Login
+          </a>
           <a
             href="/signup"
             onClick={() =>
@@ -64,6 +75,17 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+          <a
+            href="/login"
+            onClick={() =>
+              trackEvent("login_started", {
+                location: "mobile_navbar",
+              })
+            }
+            className="font-heading mt-5 block rounded-full border-2 text-center border-ink px-6 py-3 text-[16px] tracking-[10%] text-ink transition-colors hover:bg-neutral-200"
+          >
+           Login
+          </a>
           <a
             href="/signup"
             onClick={() => {
